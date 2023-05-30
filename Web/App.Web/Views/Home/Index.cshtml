@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Home page";
+}
+
+
+@if (AuthorizationService.AuthorizeAsync(User, "test").Result.Succeeded)
+{
+    <div>
+        <h1>PERMISSION: HomeController</h1>
+    </div>
+}
+
+

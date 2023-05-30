@@ -1,0 +1,166 @@
+﻿<script src="~/assets/js/jquery-3.6.0.min.js"></script>
+<script src="~/assets/js/jquery-ui.js"></script>
+<script src="~/assets/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/js/swiper-bundle.min.js"></script>
+<script src="~/assets/js/jquery.nice-select.js"></script>
+<script src="~/assets/js/jquery.fancybox.min.js"></script>
+<script src="~/assets/js/slick.js"></script>
+<script src="~/assets/js/summernote.min.js"></script>
+
+<script src="~/assets/js/jquery.waypoints.min.js"></script>
+<script src="~/assets/js/counterup.js"></script>
+<script src="~/assets/js/select2.min.js"></script>
+<script src="~/assets/js/viewport.jquery.js"></script>
+<script src="~/assets/js/jquery.nice-number.min.js"></script>
+<script src="~/assets/js/main.js"></script>
+
+<!-- Jquery DataTable Plugin Js -->
+<script type="text/javascript" src="~/assets/DataTable/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="~/assets/DataTable/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="~/assets/DataTable/buttons.flash.min.js"></script>
+<script type="text/javascript" src="~/assets/DataTable/jszip.min.js"></script>
+<script type="text/javascript" src="~/assets/DataTable/pdfmake.min.js"></script>
+<script type="text/javascript" src="~/assets/DataTable/vfs_fonts.js"></script>
+<script type="text/javascript" src="~/assets/DataTable/buttons.html5.min.js"></script>
+<script type="text/javascript" src="~/assets/DataTable/buttons.print2.min.js"></script>
+
+<script src="~/assets/NToast/NToast.js"></script>
+<script src="~/assets/js/bootbox.js"></script>
+<script src="~/assets/sweetalert/lib/sweetalert2.min.js"></script>
+<script src="~/js/site.js"></script>
+
+<script>
+    AlertPopup();
+    var table = $('#tbl');
+
+    table.DataTable({
+        sort: true,
+        responsive: true,
+        dom: 'Bfrtip',
+        fixedColumns: false,
+        //buttons: [
+        //    'excel', 'print'
+        //],
+        buttons: [{
+            extend: 'excel',
+            text: 'Excel'
+        },
+        {
+            extend: 'print',
+            text: 'Print',
+            title: '',
+            customize: function (win) {
+                win.document.body.style.direction = "ltr";
+                $(win.document.body).find('h1').css('font-size', '15pt');
+
+            },
+            //For repeating heading.
+            repeatingHead: {
+                logo: 'https://www.google.co.in/logos/doodles/2018/world-cup-2018-day-22-5384495837478912-s.png',
+                logoPosition: 'center',
+                logoStyle: 'height:150px;width:200px',
+                title: '<h3>@ViewBag.title</h3>'
+            }
+        }
+        ],
+        responsive: true,
+        lengthMenu: [5, 10, 25, 50],
+        pageLength: 25,
+        // Order settings
+        language: {
+            infoEmpty: "عرض 0 إلى صفر من 0",
+            search: "Search:",
+            "info": "Display Page _PAGE_ from _PAGES_",
+            "lengthMenu": "Display _MENU_ Record",
+            "paginate": {
+                "first": "First",
+                "next": "Next",
+                "previous": "Previous",
+                "last": "Last"
+            }
+        }
+    });
+
+    function AlertPopup() {
+
+        var Message = '@TempData["Message"]';
+
+        if (Message == 1) {
+            NToast(
+                "#1ea244",
+                "tl",
+                "Data has been saved",
+                true,
+                "fa fa-save",
+                true,
+                100,
+            )
+        }
+        if (Message == 2) {
+            NToast(
+                "#1ea244",
+                "tl",
+                "Data has been Updated",
+                true,
+                "fa fa-check",
+                true,
+                100,
+            )
+        }
+        if (Message == 3) {
+            NToast(
+                "#1ea244",
+                "tl",
+                "Data has been Deleted",
+                true,
+                "fa fa-trash",
+                true,
+                100,
+            )
+        }
+        if (Message == 4) {
+            NToast(
+                "#e4483d",
+                "tl",
+                "Can't deleted, users assigned!",
+                true,
+                "fa fa-info",
+                true,
+                100,
+            )
+        }
+        if (Message == 5) {
+            NToast(
+                "#e4483d",
+                "tl",
+                "error occurred while processing data.",
+                true,
+                "fa e-fe-access-error",
+                true,
+                100,
+            )
+        }
+        if (Message == 6) {
+            NToast(
+                "#D74323",
+                "tl",
+                "هذا الموظف موجود مسبقا",
+                true,
+                "fa e-fe-access-error",
+                true,
+                100,
+            )
+        }
+        if (Message == 8) {
+            NToast(
+                "#D74323",
+                "tl",
+                "Sorry user Deactivated",
+                true,
+                "fa e-fe-access-error",
+                true,
+                100,
+            )
+        }
+    }
+</script>

@@ -1,0 +1,71 @@
+﻿@model LoginDto
+@{
+    Layout = null;
+    ViewData["Title"] = "Login";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<partial name="_HeaderPartial" />
+
+<body>
+    <div class="eg-preloder">
+    </div>
+    <partial name="_LoginHeader" />
+    <!-- ========== Login Area end============= -->
+    <div class="login-area pt-120 mb-120">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-wrapper">
+                        <div class="form-title">
+                            <h3>Log In Here!</h3>
+                            <span></span>
+                        </div>
+                        <form asp-action="Login">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="Username">Username</label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/user.svg" alt="">
+                                            <input type="text" asp-for="Username" placeholder="Username" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-inner">
+                                        <label asp-for="Password">Password</label>
+                                        <input type="password" asp-for="Password" placeholder="Password" />
+                                        <i class="bi bi-eye-slash" id="togglePassword"></i>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-agreement form-inner d-flex justify-content-between flex-wrap">
+                                        <div class="form-group">
+                                            <input type="checkbox" id="html">
+                                            <label for="html">Remember Me</label>
+                                        </div>
+                                        <a href="#" class="forgot-pass">Forget Password?</a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-inner">
+                                        <button class="primry-btn-2" type="submit">LogIn</button>
+                                    </div>
+                                </div>
+                                <h6>Don’t have an account? <a href="register.html">Sign Up</a></h6>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ========== Login Area end============= -->
+    <!-- ========== Footer Area Start============= -->
+    <partial name="_FooterPartial" />
+    <partial name="_ScriptExtenstions" />
+
+</body>
+</html>

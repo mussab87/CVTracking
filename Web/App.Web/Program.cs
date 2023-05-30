@@ -1,13 +1,29 @@
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddControllersWithViews();
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddMvc();
+
+builder.Services.AddControllersWithViews(config =>
+{
+    var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+    config.Filters.Add(new AuthorizeFilter(policy));
+});
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(60);
+});
+
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
 var app = builder.Build();
 
@@ -18,12 +34,26 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
+//var cacheMaxAgeOneWeek = (60 * 60 * 24 * 7).ToString();
+//app.UseStaticFiles(new StaticFileOptions
+//{
+//    OnPrepareResponse = ctx =>
+//    {
+//        ctx.Context.Response.Headers.Append(
+//             "Cache-Control", $"public, max-age={cacheMaxAgeOneWeek}");
+//    }
+//});
 
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
+
+var Initializer = app.Services.CreateScope().ServiceProvider.GetRequiredService<IDbInitializer>();
+Initializer.Initialize();
 
 app.MapControllerRoute(
     name: "default",

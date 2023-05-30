@@ -1,0 +1,82 @@
+﻿@model IEnumerable<IdentityRole>
+@{
+    ViewBag.Title = "Roles List";
+    int i = 0;
+}
+<partial name="PageBannerStartPartialView" />
+<!-- ========== Dashboard Area end============= -->
+<div class="dashboard-area pt-30 mb-120">
+    <div class="container">
+        <div class="row g-lg-4 gy-5 mb-90">
+            <div class="col-lg-12">
+                <div class="applied-job-area">
+                    <div class="table-wrapper">
+                        <div class="table-title-filter">
+                            <div class="section-title">
+                                <h5>
+                                    All System Roles:
+                                    <a asp-controller="SuperAdmin" asp-action="CreateRole" class="primry-btn-2 w-unset">Add New Role</a>
+                                </h5>
+
+
+
+                            </div>
+                        </div>
+                        <div id="PlaceHolderHereUser"></div>
+                        @if (Model.Any())
+                        {
+                            <table class="eg-table table category-table mb-30" id="tbl">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>
+                                            Role Name
+                                        </th>
+                                        <th>Manage</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var role in Model)
+                                    {
+                                        i++;
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>
+                                                @role.Name
+                                            </td>
+                                            <td>
+                                                <form method="post" asp-controller="SuperAdmin" asp-action="DeleteRole" asp-route-id="@role.Id">
+
+                                                    <a asp-action="EditRole" asp-controller="SuperAdmin"
+                                                       asp-route-id="@role.Id" class="btn btn-info text-white" style="cursor:pointer">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
+
+                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delet? : @role.Name')">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+
+                                                    <button type="button" class="btn" style="background-color: #00A7AC; color:white" data-toggle="ajax-modal" data-target="#addUserr"
+                                                            data-url="@Url.Action($"EditUsersInRole?roleId={@role.Id}")">
+                                                        Add Users
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p><h4 style="text-align:center">No Data to Display</h4></p>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ========== Dashboard Area end============= -->
