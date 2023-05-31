@@ -8,7 +8,8 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        //CreateMap<Order, OrdersVm>().ReverseMap();
+        CreateMap<RootCompany, RootCompanyDto>().ReverseMap();
+        CreateMap<Country, CountriesDto>().ReverseMap();
         //CreateMap<Order, CheckoutOrderCommand>().ReverseMap();
         //CreateMap<Order, UpdateOrderCommand>().ReverseMap();
     }

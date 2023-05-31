@@ -39,6 +39,11 @@
             {
                 <partial name="_MenuSuperAdmin" />
             }
+
+            @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.Admin))
+            {
+                <partial name="_MenuRootCompany" />
+            }
             <!-- #Menu -->
         </div>
     </header>

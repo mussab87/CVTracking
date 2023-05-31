@@ -163,3 +163,99 @@
     </div>
 </div>
 <!-- ========== Login Area end============= -->*@
+
+
+<!-- ========== Dashboard Area end============= -->
+@*<div class="dashboard-area pt-30 mb-120">
+    <div class="container">
+        <div class="row g-lg-4 gy-5 mb-90">
+            <div class="col-lg-12">
+                <div class="applied-job-area">
+                    <div class="table-wrapper">
+
+                        <div class="table-title-filter">
+                            <div class="section-title">
+                                <h5>
+                                    All Root Companies:
+                                    @if (AuthorizationService.AuthorizeAsync(User, "Permission-AddNewRootCompany").Result.Succeeded)
+                                    {
+                                        <a asp-controller="SuperAdmin" asp-action="AddNewRootCompany" class="primry-btn-2 w-unset">Add Root Company</a>
+                                    }
+
+                                </h5>
+                            </div>
+                        </div>
+                        @if (Model.Any())
+                        {
+                            <table class="eg-table table category-table mb-30" id="tbl">
+                                <thead>
+                                    <tr>
+                                        <th hidden>
+                                            Id
+                                        </th>
+                                        <th>#</th>
+                                        <th>
+                                            Company Name
+                                        </th>
+                                        <th>
+                                            City
+                                        </th>
+                                        <th>Address</th>
+                                        <th>Logo</th>
+                                        <th>
+                                            Contact
+                                        </th>
+                                        <th>Comments</th>
+                                        <th>Status</th>
+                                        <th>Manage</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var root in Model)
+                                    {
+                                        i++;
+                                        <tr>
+                                            <td hidden>@root.Id</td>
+                                            <td>@i</td>
+                                            <td>
+                                                @root.RootCompanyName
+                                            </td>
+                                            <td>
+                                                @root.RootCompanyCountryCityId
+                                            </td>
+                                            <td>@root.RootCompanyAddress</td>
+                                            <td>@root.RootCompanyLogo</td>
+                                            <td>@root.RootCompanyContacts</td>
+                                            <td>@root.RootCompanyComments</td>
+                                            <td>
+                                                @if (@root.RootCompanyStatus == true)
+                                                {
+                                                    <text>Active</text>
+                                                }
+
+
+                                                @if (@root.RootCompanyStatus == false)
+                                                {
+                                                    <text>InActive</text>
+                                                }
+
+                                            </td>
+                                            <td>
+                                                <form method="post" asp-controller="SuperAdmin" asp-action="DeleteRootCompany" asp-route-id="@root.Id">
+
+                                                    <a asp-action="EditRootCompany" asp-controller="SuperAdmin"
+                                                       asp-route-id="@root.Id" class="btn btn-info text-white" style="cursor:pointer">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
+
+                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete? : @root.RootCompanyName')">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+
+                                                    @*<a class="btn" style="background-color: #00A7AC; color:white"
+                                            asp-action="ChangeUserPassword" asp-route-id="@root.Id">
+                                            Change Password
+                                            </a>*@
+
+<!-- ========== Dashboard Area end============= -->

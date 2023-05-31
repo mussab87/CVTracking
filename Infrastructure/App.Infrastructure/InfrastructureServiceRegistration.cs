@@ -45,8 +45,9 @@ public static class InfrastructureServiceRegistration
 
 
         services.AddScoped<IDbInitializer, DbInitializer>();
-        //services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
-        //services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
+        services.AddScoped<IRootCompanyRepository, RootCompanyRepository>();
+        services.AddScoped<ICountryRepository, CountryRepository>();
 
         //services.Configure<EmailSettings>(c => configuration.GetSection("EmailSettings"));
         //services.AddTransient<IEmailService, EmailService>();

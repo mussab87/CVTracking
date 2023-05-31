@@ -17,7 +17,11 @@
                             <div class="section-title">
                                 <h5>
                                     All System Users:
-                                    <a asp-controller="SuperAdmin" asp-action="AddNewAccount" class="primry-btn-2 w-unset">Add New User</a>
+                                    @if (AuthorizationService.AuthorizeAsync(User, "Permission-AddNewAccount").Result.Succeeded)
+                                    {
+                                        <a asp-controller="SuperAdmin" asp-action="AddNewAccount" class="primry-btn-2 w-unset">Add New User</a>
+                                    }
+
                                 </h5>
 
 

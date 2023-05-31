@@ -15,60 +15,72 @@
                 <i class="bi bi-x-lg"></i>
             </div>
         </div>
-        <ul class="menu-list">
-            <li class="menu-item-has-children">
-                <a href="#" class="drop-down">Home</a><i class="bi bi-plus dropdown-icon"></i>
-                <ul class="sub-menu">
-                    <li><a href="index.html">Home One</a></li>
-                    <li><a href="index2.html">Home Two</a></li>
-                    <li><a href="index3.html">Home Three</a></li>
-                    <li><a href="index4.html">Home Four</a></li>
-                    <li><a href="index5.html">Home Five</a></li>
-                    <li><a href="index6.html">Home Six</a></li>
-                </ul>
-            </li>
-            <li class="menu-item-has-children">
-                <a href="#" class="drop-down">Find Jobs</a><i class="bi bi-plus dropdown-icon"></i>
-                <ul class="sub-menu">
-                    <li><a href="category.html">Job Category</a></li>
-                    <li><a href="job-listing1.html">Job Listing 01</a></li>
-                    <li><a href="job-listing2.html">Job Listing 02</a></li>
-                    <li><a href="job-details.html">Job Details</a></li>
-                </ul>
-            </li>
-            <li class="menu-item-has-children active">
-                <a href="#" class="drop-down">Pages</a><i class="bi bi-plus dropdown-icon"></i>
-                <ul class="sub-menu">
-                    <li><a href="dashboard.html">Candidate Dashboard</a></li>
-                    <li><a href="job-post.html">Post A Jobs</a></li>
-                    <li><a href="pricing-plan.html">Pricing Plan</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="checkout.html">Checkout</a></li>
-                    <li><a href="error.html">Error</a></li>
-                    <li><a class="active" href="login.html">Login</a></li>
-                    <li><a href="register.html">Register</a></li>
-                </ul>
-            </li>
-            <li class="menu-item-has-children">
-                <a href="#">Company</a><i class="bi bi-plus dropdown-icon"></i>
-                <ul class="sub-menu">
-                    <li><a href="company-listing1.html">Company Listing 01</a></li>
-                    <li><a href="company-listing2.html">Company Listing 02</a></li>
-                    <li><a href="company-details.html">Company Details</a></li>
-                    <li><a href="company-dashboard.html">Company Dashboard</a></li>
-                </ul>
-            </li>
-            <li class="menu-item-has-children">
-                <a href="#">Blog</a><i class="bi bi-plus dropdown-icon"></i>
-                <ul class="sub-menu">
-                    <li><a href="blog-grid.html">Blog Grid</a></li>
-                    <li><a href="blog-standard.html">Blog Standard</a></li>
-                    <li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-                    <li><a href="blog-details.html">Blog Details</a></li>
-                </ul>
-            </li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
+        @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.SuperAdmin))
+        {
+            <ul class="menu-list">
+                <li class="menu-item-has-children">
+                    @if (AuthorizationService.AuthorizeAsync(User, "Permission-Index").Result.Succeeded)
+                    {
+                        <a asp-controller="SuperAdmin" asp-action="Index" class="drop-down">Home</a>
+
+                        <i class="bi bi-plus dropdown-icon"></i>
+                    }
+                </li>
+                <li class="menu-item-has-children">
+                    <a href="#" class="drop-down">User Management</a><i class="bi bi-plus dropdown-icon"></i>
+                    <ul class="sub-menu">
+                        @if (AuthorizationService.AuthorizeAsync(User, "Permission-ListUsers").Result.Succeeded)
+                        {
+                            <li><a asp-controller="SuperAdmin" asp-action="ListUsers">Users List</a></li>
+                        }
+                        @if (AuthorizationService.AuthorizeAsync(User, "Permission-AddNewAccount").Result.Succeeded)
+                        {
+                            <li><a asp-controller="SuperAdmin" asp-action="AddNewAccount">Add New User</a></li>
+                        }
+                    </ul>
+                </li>
+                <li class="menu-item-has-children active">
+                    <a href="#" class="drop-down">System Roles</a><i class="bi bi-plus dropdown-icon"></i>
+                    <ul class="sub-menu">
+                        @if (AuthorizationService.AuthorizeAsync(User, "Permission-ListRoles").Result.Succeeded)
+                        {
+                            <li><a asp-controller="SuperAdmin" asp-action="ListRoles">Roles List</a></li>
+                        }
+                        @if (AuthorizationService.AuthorizeAsync(User, "Permission-CreateRole").Result.Succeeded)
+                        {
+                            <li><a asp-controller="SuperAdmin" asp-action="CreateRole">Add New Role</a></li>
+                        }
+
+                    </ul>
+                </li>
+                <li class="menu-item-has-children">
+                    <a href="#">Company</a><i class="bi bi-plus dropdown-icon"></i>
+                    <ul class="sub-menu">
+                        @if (AuthorizationService.AuthorizeAsync(User, "Permission-RootCompanyList").Result.Succeeded)
+                        {
+                            <li><a asp-controller="SuperAdmin" asp-action="RootCompanyList">Root Companies</a></li>
+                        }
+                        @if (AuthorizationService.AuthorizeAsync(User, "Permission-AddNewRootCompany").Result.Succeeded)
+                        {
+                            <li><a asp-controller="SuperAdmin" asp-action="AddNewRootCompany">Add Root Company</a></li>
+                        }
+
+
+
+                    </ul>
+                </li>
+                <li class="menu-item-has-children">
+                    <a href="#">Blog</a><i class="bi bi-plus dropdown-icon"></i>
+                    <ul class="sub-menu">
+                        <li><a href="blog-grid.html">Blog Grid</a></li>
+                        <li><a href="blog-standard.html">Blog Standard</a></li>
+                        <li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
+                        <li><a href="blog-details.html">Blog Details</a></li>
+                    </ul>
+                </li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        }
         <div class="for-mobile-menu d-lg-none d-block">
             <div class="sign-in-btn mb-25">
                 <a class="primry-btn-1 lg-btn" href="login.html">

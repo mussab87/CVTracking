@@ -15,7 +15,11 @@
                             <div class="section-title">
                                 <h5>
                                     All System Roles:
-                                    <a asp-controller="SuperAdmin" asp-action="CreateRole" class="primry-btn-2 w-unset">Add New Role</a>
+                                    @if (AuthorizationService.AuthorizeAsync(User, "Permission-CreateRole").Result.Succeeded)
+                                    {
+                                        <a asp-controller="SuperAdmin" asp-action="CreateRole" class="primry-btn-2 w-unset">Add New Role</a>
+                                    }
+
                                 </h5>
 
 

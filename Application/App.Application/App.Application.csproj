@@ -13,11 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-    <PackageReference Include="FluentValidation" Version="9.5.3" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.5.3" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.5.2" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization.Policy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
@@ -32,6 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\RootCompany\Commands\AddRootCompany\" />
+    <Folder Include="Features\RootCompany\Commands\DeleteRootCompany\" />
+    <Folder Include="Features\RootCompany\Commands\UpdateRootCompany\" />
     <Folder Include="Features\Users\Commands\AddUser\" />
     <Folder Include="Features\Users\Commands\DeleteUser\" />
     <Folder Include="Features\Users\Commands\UpdateUser\" />

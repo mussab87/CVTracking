@@ -6,6 +6,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
 using System;
+using MediatR;
 
 namespace App.Web.Controllers
 {
@@ -14,7 +15,7 @@ namespace App.Web.Controllers
         public AccountController(UserManager<ApplicationUser> _userManager,
            SignInManager<ApplicationUser> _signInManager,
            RoleManager<IdentityRole> _roleManager,
-           IConfiguration _config) : base(_userManager, _signInManager, _roleManager, _config)
+           IConfiguration _config, IMediator _mediator) : base(_userManager, _signInManager, _roleManager, _config, _mediator)
         { }
 
         [AllowAnonymous]
@@ -58,6 +59,9 @@ namespace App.Web.Controllers
 
                         if (_userManager.IsInRoleAsync(user, Roles.SuperAdmin).Result)
                             return RedirectToAction("Index", "SuperAdmin");
+
+                        if (_userManager.IsInRoleAsync(user, Roles.Admin).Result)
+                            return RedirectToAction("Index", "RootCompany");
                     }
 
                 }

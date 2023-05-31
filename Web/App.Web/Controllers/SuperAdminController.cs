@@ -1,29 +1,33 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 
 namespace App.Web.Controllers
 {
-    [Authorize(Roles.SuperAdmin)]
+    [Authorize(Roles = Roles.SuperAdmin)]
     public class SuperAdminController : BaseController
     {
         public SuperAdminController(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager,
            SignInManager<ApplicationUser> _signInManager,
            Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> _roleManager,
-           IConfiguration _config) : base(_userManager, _signInManager, _roleManager, _config)
+           IConfiguration _config, IMediator _mediator) : base(_userManager, _signInManager, _roleManager, _config, _mediator)
         { }
 
-        public IActionResult Index()
+        [Authorize("Permission-Index")]
+        public async Task<IActionResult> Index()
+
         {
+            var query = new GetRootCompanyQuery();
+            var RootCompany = await _mediator.Send(query);
+
             var SuperAdminCount = new SuperAdminCountDto()
             {
                 RolesCount = _roleManager.Roles.Count(),
-                UserCount = _userManager.Users.Count()
+                UserCount = _userManager.Users.Count(),
+                RootCompanyCount = RootCompany.Count()
             };
             return View(SuperAdminCount);
         }
@@ -31,14 +35,13 @@ namespace App.Web.Controllers
         #region Role Section
         /**************Role Section******************************************/
         [HttpGet]
-        //[Authorize("ListRoles-AdminController")]
+        [Authorize("Permission-ListRoles")]
         public IActionResult ListRoles()
         {
             return View(_roleManager.Roles);
         }
 
-        //[AllowAnonymous]
-        [HttpGet]
+        [Authorize("Permission-CreateRole")]
         public IActionResult CreateRole()
         {
             return View();
@@ -75,6 +78,7 @@ namespace App.Web.Controllers
 
 
         [HttpGet]
+        [Authorize("Permission-EditRole")]
         public async Task<IActionResult> EditRole(string id)
         {
             // Find the role by Role ID
@@ -129,6 +133,7 @@ namespace App.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize("Permission-DeleteRole")]
         public async Task<IActionResult> DeleteRole(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
@@ -174,6 +179,7 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize("Permission-EditUsersInRole")]
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
             ViewBag.roleId = roleId;
@@ -258,11 +264,10 @@ namespace App.Web.Controllers
         /**************End Role Section******************************************/
         #endregion
 
-
         #region User Section
         /**************User Section******************************************/
         [HttpGet]
-        //[Authorize("ListUsers-AdminController")]
+        [Authorize("Permission-ListUsers")]
         public IActionResult ListUsers()
         {
             var users = _userManager.Users;
@@ -273,19 +278,18 @@ namespace App.Web.Controllers
             return View(users);
         }
 
+        [Authorize("Permission-AddNewAccount")]
         public IActionResult AddNewAccount()
         {
             return View();
         }
 
         [HttpPost]
-        //[Authorize]
-        // [AllowAnonymous]
         public async Task<IActionResult> AddNewAccount(AccountDto model)
         {
             if (ModelState.IsValid)
             {
-                var LoggedInuser = await _userManager.GetUserAsync(User);
+                var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
 
                 var user = new ApplicationUser
                 {
@@ -355,7 +359,7 @@ namespace App.Web.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize("Permission-ChangeUserPassword")]
         [HttpGet]
         public async Task<IActionResult> ChangeUserPassword(string id)
         {
@@ -409,9 +413,11 @@ namespace App.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize("Permission-DeleteUser")]
         public async Task<IActionResult> DeleteUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
 
             if (user == null)
             {
@@ -421,6 +427,8 @@ namespace App.Web.Controllers
             else
             {
                 user.UserStatus = false;
+                user.LastModifiedBy = LoggedInuser.UserName;
+                user.LastModifiedDate = DateTime.Now;
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
@@ -437,6 +445,7 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize("Permission-EditUser")]
         public async Task<IActionResult> EditUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -478,6 +487,8 @@ namespace App.Web.Controllers
         {
             var user = await _userManager.FindByIdAsync(model.Id);
 
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+
             if (user == null)
             {
                 ViewBag.ErrorMessage = $"User with Id = {model.Id} cannot be found";
@@ -493,6 +504,8 @@ namespace App.Web.Controllers
             user.LastNameArabic = model.LastNameArabic;
             user.PhoneNumber = model.PhoneNumber;
             user.UserStatus = model.UserStatus;
+            user.LastModifiedBy = LoggedInuser.UserName;
+            user.LastModifiedDate = DateTime.Now;
 
             var result = await _userManager.UpdateAsync(user);
 
@@ -511,6 +524,7 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize("Permission-ManageUserRoles")]
         public async Task<IActionResult> ManageUserRoles(string Id)
         {
             //ViewBag.userId = Id;
@@ -586,6 +600,7 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize("Permission-ManageUserPermission")]
         public async Task<IActionResult> ManageUserPermission(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -606,7 +621,7 @@ namespace App.Web.Controllers
 
             // Loop through each claim we have in our application
             //foreach (Claim claim in ClaimsStore.AllClaims)
-            foreach (Claim claim in GetAllControllerActionsUpdated())
+            foreach (Claim claim in ShardFunctions.GetAllControllerActionsUpdated())
             {
                 UserClaim userClaim = new UserClaim
                 {
@@ -663,42 +678,58 @@ namespace App.Web.Controllers
         }
 
         /**************End User Section******************************************/
-
-
         #endregion
-        #region Get All Controller Action
-        public List<Claim> GetAllControllerActionsUpdated()
+
+        #region RootCompany Section
+        [HttpGet]
+        [Authorize("Permission-RootCompanyList")]
+        public async Task<IActionResult> RootCompanyList()
         {
-            Assembly asm = Assembly.GetExecutingAssembly();
+            var query = new GetRootCompanyQuery();
+            var RootCompany = await _mediator.Send(query);
 
-            var controlleractionlist = asm.GetTypes()
-                .Where(type => typeof(Controller).IsAssignableFrom(type))
-                .SelectMany(type =>
-                    type.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public))
-                .Where(m => !m.GetCustomAttributes(typeof(CompilerGeneratedAttribute),
-                    true).Any())
-                .Select(x => new
-                {
-                    Controller = x.DeclaringType.Name,
-                    Action = x.Name,
-                    ReturnType = x.ReturnType.Name,
-                    Attributes = string.Join(",",
-                        x.GetCustomAttributes().Select(a => a.GetType().Name.Replace("Attribute", "")))
-                })
-                .OrderBy(x => x.Controller).ThenBy(x => x.Action).ToList();
+            return View(RootCompany);
+        }
 
-            var AllClaims = new List<Claim>();
+        [HttpGet]
+        [Authorize("Permission-AddNewRootCompany")]
+        public async Task<IActionResult> AddNewRootCompany()
+        {
+            var query = new GetCountryListQuery();
+            var Cities = await _mediator.Send(query);
+            ViewData["Cities"] = new SelectList(Cities, "Id", "NameEnglish");
+            return View();
+        }
 
-            var query = controlleractionlist.GroupBy(x => x.Action).Select(y => y.FirstOrDefault());
-            foreach (var item in query)
+        [HttpPost]
+        public async Task<IActionResult> AddNewRootCompany(RootCompanyDto rootCompany, IFormFile fileload)
+        {
+
+            if (fileload != null)
             {
-                var ClaimName = "Permission-" + item.Action; //+ "-" + item.Controller;
-                var claim = new Claim(ClaimName, ClaimName);
-                AllClaims.Add(claim);
+                string path = Path.Combine("~/Logo/");
+                //create folder if not exist
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                FileInfo fileInfo = new FileInfo(fileload.FileName);
+
+                string fileName = fileload.FileName.Split(".")[0] + string.Format(@"{0}", Guid.NewGuid()) + fileInfo.Extension;
+
+                string fileNameWithPath = Path.Combine(path, fileName);
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.CreateNew))
+                {
+                    await fileload.CopyToAsync(stream);
+                }
+
             }
-            return AllClaims;
+
+            var query = new GetCountryListQuery();
+            var Cities = await _mediator.Send(query);
+            ViewData["Cities"] = new SelectList(Cities, "Id", "NameEnglish");
+            return View();
         }
         #endregion
-
     }
 }

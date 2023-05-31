@@ -1,0 +1,132 @@
+﻿@model RootCompanyDto
+
+@{
+    ViewBag.Title = "Add New Root Company";
+}
+
+<partial name="PageBannerStartPartialView" />
+
+<!-- ========== Dashboard Area end============= -->
+<div class="dashboard-area company-dashboard pt-120 mb-120">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="my-profile-inner ">
+
+                    <div class="form-wrapper">
+                        <div class="section-title two">
+                            <h5>Root Company</h5>
+                            <div class="dash"></div>
+                        </div>
+                        <form asp-action="AddNewRootCompany" method="post" class="profile-form" enctype="multipart/form-data">
+                            <div class="section-title2">
+                                <h5>Root Company Information:</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="RootCompanyName"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/company-2.svg" alt="">
+                                            <input asp-for="RootCompanyName" type="text" placeholder="Company Name">
+                                        </div>
+                                        <span asp-validation-for="RootCompanyName" class="alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="RootCompanyCountryCityId"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/category-2.svg" alt="">
+                                            <select asp-for="RootCompanyCountryCityId" class="select1" asp-items="@ViewBag.Cities">
+                                                <option value="0">Select City</option>
+                                            </select>
+                                        </div>
+                                        <span asp-validation-for="RootCompanyCountryCityId" class="alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="RootCompanyAddress"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/map-2.svg" alt="">
+                                            <input asp-for="RootCompanyAddress" type="text" placeholder="Root Company Address">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="RootCompanyEmail"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/email-2.svg" alt="">
+                                            <input asp-for="RootCompanyEmail" type="email" placeholder="info@example.com">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="RootCompanyContacts"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/phone-2.svg" alt="">
+                                            <input asp-for="RootCompanyContacts" type="tel" placeholder="Enter Contact Number">
+                                        </div>
+                                        <span asp-validation-for="RootCompanyContacts" class="alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="RootCompanyStatus"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/active-check.svg" alt="">
+                                            <select asp-for="RootCompanyStatus" class="select1">
+                                                <option value="">Select Status</option>
+                                                <option value="True">Active</option>
+                                                <option value="False">Inactive</option>
+                                            </select>
+                                        </div>
+                                        <span asp-validation-for="RootCompanyStatus" class="alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-inner mb-40">
+                                        <label asp-for="RootCompanyComments"></label>
+                                        <textarea asp-for="RootCompanyComments" placeholder="Write Notes Here"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="company-images-area mb-50">
+                                        <div class="row g-lg-4 gy-5">
+                                            <div class="col-lg-6 devaider1 position-relative">
+                                                <div class="company-logo-area">
+                                                    <h5>Root Company Logo: </h5>
+                                                    <input type="file" id="fileload" name="fileload">
+                                                    <div class="drag-area">
+                                                        <p>Upload Logo</p>
+                                                        <button type="button" class="upload-btn"><i class="bi bi-plus-lg"></i></button>
+
+                                                    </div>
+                                                    <span>Maximum File Upload: 1 MB</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-inner">
+                                        <button class="primry-btn-2 lg-btn w-unset" type="submit">Save New Company</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ========== Dashboard Area end============= -->

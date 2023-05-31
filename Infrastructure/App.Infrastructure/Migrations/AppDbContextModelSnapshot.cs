@@ -850,11 +850,17 @@ namespace App.Infrastructure.Migrations
                     b.Property<int?>("RootCompanyCountryCityId")
                         .HasColumnType("int");
 
+                    b.Property<string>("RootCompanyEmail")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RootCompanyLogo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RootCompanyName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("RootCompanyStatus")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
