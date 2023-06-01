@@ -704,31 +704,37 @@ namespace App.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewRootCompany(RootCompanyDto rootCompany, IFormFile fileload)
         {
-
+            string fileName = null;
             if (fileload != null)
-            {
-                string path = Path.Combine("~/Logo/");
-                //create folder if not exist
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
+                fileName = await SaveLogoFile(fileload);
 
-                FileInfo fileInfo = new FileInfo(fileload.FileName);
-
-                string fileName = fileload.FileName.Split(".")[0] + string.Format(@"{0}", Guid.NewGuid()) + fileInfo.Extension;
-
-                string fileNameWithPath = Path.Combine(path, fileName);
-
-                using (var stream = new FileStream(fileNameWithPath, FileMode.CreateNew))
-                {
-                    await fileload.CopyToAsync(stream);
-                }
-
-            }
+            //save new rootCompany
 
             var query = new GetCountryListQuery();
             var Cities = await _mediator.Send(query);
             ViewData["Cities"] = new SelectList(Cities, "Id", "NameEnglish");
             return View();
+        }
+
+        static async Task<string> SaveLogoFile(IFormFile fileload)
+        {
+            string path = Path.Combine("~/Logo/");
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            FileInfo fileInfo = new FileInfo(fileload.FileName);
+
+            string fileName = fileload.FileName.Split(".")[0] + string.Format(@"{0}", Guid.NewGuid()) + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.CreateNew))
+            {
+                await fileload.CopyToAsync(stream);
+            }
+
+            return fileNameWithPath;
         }
         #endregion
     }
