@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using Azure.Core;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +15,7 @@ namespace App.Web.Controllers
         public SuperAdminController(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager,
            SignInManager<ApplicationUser> _signInManager,
            Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> _roleManager,
-           IConfiguration _config, IMediator _mediator) : base(_userManager, _signInManager, _roleManager, _config, _mediator)
+           IConfiguration _config, IMediator _mediator, IMapper _mapper) : base(_userManager, _signInManager, _roleManager, _config, _mediator, _mapper)
         { }
 
         [Authorize("Permission-Index")]
@@ -621,7 +623,7 @@ namespace App.Web.Controllers
 
             // Loop through each claim we have in our application
             //foreach (Claim claim in ClaimsStore.AllClaims)
-            foreach (Claim claim in ShardFunctions.GetAllControllerActionsUpdated())
+            foreach (Claim claim in GetAllClaimsPermissions.GetAllControllerActionsUpdated())
             {
                 UserClaim userClaim = new UserClaim
                 {
@@ -696,8 +698,8 @@ namespace App.Web.Controllers
         public async Task<IActionResult> AddNewRootCompany()
         {
             var query = new GetCountryListQuery();
-            var Cities = await _mediator.Send(query);
-            ViewData["Cities"] = new SelectList(Cities, "Id", "NameEnglish");
+            var Countries = await _mediator.Send(query);
+            ViewData["Countries"] = new SelectList(Countries, "Id", "NameEnglish");
             return View();
         }
 
@@ -735,6 +737,42 @@ namespace App.Web.Controllers
             }
 
             return fileNameWithPath;
+        }
+        #endregion
+
+        #region Country
+        [HttpGet]
+        [Authorize("Permission-CountryList")]
+        public async Task<IActionResult> CountryList()
+        {
+            var query = new GetCountryListQuery();
+            var Countries = await _mediator.Send(query);
+            return View(Countries);
+        }
+
+        [HttpGet]
+        [Authorize("Permission-AddCountry")]
+        public async Task<IActionResult> AddCountry()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCountry(CountriesDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            model.CreatedById = LoggedInuser.Id;
+            model.CreatedDate = DateTime.Now;
+
+            var CountryId = await _mediator.Send(_mapper.Map<AddCountryRequest>(model));
+            TempData["Message"] = 1;
+            return View(model);
+            
         }
         #endregion
     }

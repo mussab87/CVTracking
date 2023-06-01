@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ namespace App.Web.Controllers
         public RootCompanyController(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager,
            SignInManager<ApplicationUser> _signInManager,
            Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> _roleManager,
-           IConfiguration _config, IMediator _mediator) : base(_userManager, _signInManager, _roleManager, _config, _mediator)
+           IConfiguration _config, IMediator _mediator, IMapper _mapper) : base(_userManager, _signInManager, _roleManager, _config, _mediator, _mapper)
         { }
 
         [Authorize("Permission-Index")]

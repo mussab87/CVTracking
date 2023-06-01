@@ -264,11 +264,24 @@ function getDetails() {
 //Manage UserPermissions******************************************
 
 $('#permissionbtn').click(function (event) {
-    debugger;
+
     var url = $(this).data('url');
     var decodedUrl = decodeURIComponent(url);
     $.get(decodedUrl).done(function (data) {
         $('#addPermission').modal('show');
+    })
+})
+
+//*******************************************************//Manage UserPermissions******************************************
+
+//Manage City******************************************
+
+$('#countrybtn').click(function (event) {
+    debugger;
+    var url = $(this).data('url');
+    var decodedUrl = decodeURIComponent(url);
+    $.get(decodedUrl).done(function (data) {
+        $('#AddCountry').modal('show');
     })
 })
 

@@ -39,9 +39,12 @@
                                         <label asp-for="RootCompanyCountryCityId"></label>
                                         <div class="input-area">
                                             <img src="~/assets/images/icon/category-2.svg" alt="">
-                                            <select asp-for="RootCompanyCountryCityId" class="select1" asp-items="@ViewBag.Cities">
+                                            <select asp-for="RootCompanyCountryCityId" class="select1" asp-items="@ViewBag.Countries">
                                                 <option value="0">Select City</option>
                                             </select>
+                                            <a asp-action="CountryList" class="primry-btn-1 lg-btn w-unset" type="button">
+                                                Add 
+                                            </a>
                                         </div>
                                         <span asp-validation-for="RootCompanyCountryCityId" class="alert-danger"></span>
                                     </div>

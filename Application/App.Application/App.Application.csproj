@@ -32,6 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Country\Commands\DeleteCountry\" />
+    <Folder Include="Features\Country\Commands\UpdateCountry\" />
     <Folder Include="Features\RootCompany\Commands\AddRootCompany\" />
     <Folder Include="Features\RootCompany\Commands\DeleteRootCompany\" />
     <Folder Include="Features\RootCompany\Commands\UpdateRootCompany\" />
