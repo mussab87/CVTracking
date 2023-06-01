@@ -1,6 +1,4 @@
-﻿using EllipticCurve.Utils;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace App.Infrastructure.AppDatabase { }
 

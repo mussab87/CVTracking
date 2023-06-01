@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 
-namespace App.Application.Features.RootCompany.Queries.GetcountryList { }
+namespace App.Application.Features.Country.Queries.GetCountriesList { }
 public class GetCountryListQueryHandler : IRequestHandler<GetCountryListQuery, List<CountriesDto>>
 {
     private readonly ICountryRepository _countryRepository;

@@ -17,12 +17,14 @@ public class DbInitializer : IDbInitializer
         _userManager = userManager;
     }
 
-    public void Initialize()
+    public void InitializeAsync()
     {
         if (_roleManager.FindByNameAsync(Roles.SuperAdmin).Result == null)
         {
             _roleManager.CreateAsync(new IdentityRole(Roles.SuperAdmin)).GetAwaiter().GetResult();
             _roleManager.CreateAsync(new IdentityRole(Roles.Admin)).GetAwaiter().GetResult();
+            _roleManager.CreateAsync(new IdentityRole(Roles.ForeignAgent)).GetAwaiter().GetResult();
+            _roleManager.CreateAsync(new IdentityRole(Roles.LocalAgent)).GetAwaiter().GetResult();
         }
         else { return; }
 
@@ -33,18 +35,18 @@ public class DbInitializer : IDbInitializer
             EmailConfirmed = true,
             PhoneNumber = "111111111111",
             FirstName = "admin",
-            LastName = "test"
+            LastName = "test",
+            UserStatus = true,
+            CreatedBy = "System Super Admin",
+            CreatedDate = DateTime.Now
         };
 
         _userManager.CreateAsync(adminUser, "Admin@123456").GetAwaiter().GetResult();
         _userManager.AddToRoleAsync(adminUser, Roles.SuperAdmin).GetAwaiter().GetResult();
 
-        var temp1 = _userManager.AddClaimsAsync(adminUser, new Claim[] {
-                new Claim(JwtClaimTypes.Name,adminUser.FirstName+" "+ adminUser.LastName),
-                new Claim(JwtClaimTypes.GivenName,adminUser.FirstName),
-                new Claim(JwtClaimTypes.FamilyName,adminUser.LastName),
-                new Claim(JwtClaimTypes.Role,Roles.Admin),
-            }).Result;
+        var userNew =  _userManager.FindByIdAsync(adminUser.Id).Result;
+        var allPermissions = GetAllClaimsPermissions.GetAllControllerActionsUpdated();
+        var tmp = _userManager.AddClaimsAsync(userNew, allPermissions).Result;
 
         ApplicationUser customerUser = new ApplicationUser()
         {
@@ -53,11 +55,26 @@ public class DbInitializer : IDbInitializer
             EmailConfirmed = true,
             PhoneNumber = "111111111111",
             FirstName = "user",
-            LastName = "test"
+            LastName = "test",
+            UserStatus = true,
+            CreatedBy = "System Super Admin",
+            CreatedDate = DateTime.Now
         };
 
         _userManager.CreateAsync(customerUser, "Admin@123456").GetAwaiter().GetResult();
         _userManager.AddToRoleAsync(customerUser, Roles.Admin).GetAwaiter().GetResult();
+
+        //Add permissions into superAdmin user
+        // Get all the user existing claims and delete them
+        //var claims = await _userManager.GetClaimsAsync(adminUser);
+        //if(claims != null)
+        //     await _userManager.RemoveClaimsAsync(adminUser, claims);
+
+        //// Add all the claims that are selected on the UI
+        //var allPermissions = GetAllClaimsPermissions.GetAllControllerActionsUpdated();
+        //await _userManager.AddClaimsAsync(adminUser, allPermissions);        
     }
+
+    
 }
 

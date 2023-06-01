@@ -7,15 +7,16 @@ using Microsoft.AspNetCore.Identity;
 using System.Data;
 using System;
 using MediatR;
+using AutoMapper;
 
 namespace App.Web.Controllers
 {
     public class AccountController : BaseController
     {
-        public AccountController(UserManager<ApplicationUser> _userManager,
-           SignInManager<ApplicationUser> _signInManager,
-           RoleManager<IdentityRole> _roleManager,
-           IConfiguration _config, IMediator _mediator) : base(_userManager, _signInManager, _roleManager, _config, _mediator)
+        public AccountController(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager,
+            SignInManager<ApplicationUser> _signInManager,
+            Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> _roleManager,
+            IConfiguration _config, IMediator _mediator, IMapper _mapper) : base(_userManager, _signInManager, _roleManager, _config, _mediator, _mapper)
         { }
 
         [AllowAnonymous]

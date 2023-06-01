@@ -55,7 +55,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 var Initializer = app.Services.CreateScope().ServiceProvider.GetRequiredService<IDbInitializer>();
-Initializer.Initialize();
+Initializer.InitializeAsync();
 
 app.MapControllerRoute(
     name: "default",
