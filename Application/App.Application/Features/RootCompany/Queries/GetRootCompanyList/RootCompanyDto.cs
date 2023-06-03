@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
-namespace App.Helper.Dto { }
+namespace App.Application.Features.RootCompany.Queries.GetRootCompanyList { }
 public class RootCompanyDto
 {
     public int? Id { get; protected set; }
@@ -22,6 +22,7 @@ public class RootCompanyDto
     [Required(ErrorMessage = "Root Company Country Field Required")]
     [Display(Name = "Root Company Country")]
     public int? RootCompanyCountryId { get; set; }
+    public Country RootCompanyCountry { get; set; }
 
     [Display(Name = "Root Company Address")]
     public string? RootCompanyAddress { get; set; }
@@ -43,6 +44,5 @@ public class RootCompanyDto
     [Required(ErrorMessage = "Root Company Status Field Required")]
     [Display(Name = "Root Company Status")]
     public bool? RootCompanyStatus { get; set; }
-
 }
 

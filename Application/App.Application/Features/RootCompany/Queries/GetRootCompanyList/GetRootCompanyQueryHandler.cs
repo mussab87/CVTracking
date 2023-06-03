@@ -17,7 +17,7 @@ public class GetRootCompanyQueryHandler : IRequestHandler<GetRootCompanyQuery, L
     public async Task<List<RootCompanyDto>> Handle(GetRootCompanyQuery request,
             CancellationToken cancellationToken)
     {
-        var rootCompanyList = await _rootCompany.GetAllAsync();
+        var rootCompanyList = await _rootCompany.GetAsync(null, null, "RootCompanyCountry", true);
         return _mapper.Map<List<RootCompanyDto>>(rootCompanyList);
     }
 }
