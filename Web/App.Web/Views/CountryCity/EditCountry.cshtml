@@ -1,7 +1,7 @@
-﻿@model CountriesDto
+﻿@model UpdateCountryRequest
 
 @{
-    ViewBag.Title = "Create Country";
+    ViewBag.Title = "Update Country";
 }
 
 <partial name="PageBannerStartPartialView" />
@@ -11,13 +11,16 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="form-wrapper">
-                    <form asp-action="AddCountry" method="post">
+                    <form asp-action="EditCountry" method="post">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="section-title2">
-                                    <h5>Country Information:</h5>
+                                    <h5>Update Country Information:</h5>
                                 </div>
                             </div>
+                            <input type="hidden" asp-for="Id" value="@Model.Id" />
+                            <input type="hidden" asp-for="CreatedById" />
+                            <input type="hidden" asp-for="CreatedDate" />
 
                             <div class="col-md-6">
                                 <div class="form-inner mb-25">
@@ -26,7 +29,7 @@
                                         <img src="~/assets/images/icon/user-2.svg" alt="">
                                         <input type="text" asp-for="NameEnglish" placeholder="Name English">
                                     </div>
-                                    <span asp-validation-for="NameEnglish" class="text-danger"></span>
+                                    <span asp-validation-for="NameEnglish" class="alert-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -36,7 +39,7 @@
                                         <img src="~/assets/images/icon/user-2.svg" alt="">
                                         <input type="text" asp-for="NameArabic" placeholder="Name Arabic">
                                     </div>
-                                   
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -53,13 +56,13 @@
                                     <span asp-validation-for="Status" class="alert-danger"></span>
                                 </div>
                             </div>
-                            
+
 
                             <div class="col-md-12">
                                 <div class="form-inner">
-                                    <button class="primry-btn-2 lg-btn w-unset" type="submit" title="Save">Save New Country</button>
+                                    <button class="primry-btn-2 lg-btn w-unset" type="submit" title="Save">Update Changes</button>
                                     |
-                                    <a asp-action="ListRoles" class="btn bg-warning waves-effect" type="button" title="Back">
+                                    <a asp-action="CountryList" class="btn bg-warning waves-effect" type="button" title="Back">
                                         Back
                                     </a>
                                 </div>

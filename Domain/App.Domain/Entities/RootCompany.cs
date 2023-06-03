@@ -6,9 +6,9 @@ namespace App.Domain.Entities { }
 public class RootCompany : EntityBase
 {
     public string RootCompanyName { get; set; }
-    public int? RootCompanyCountryCityId { get; set; }
-    [ForeignKey("RootCompanyCountryCityId")]
-    public City RootCompanyCountryCity { get; set; }
+    public int? RootCompanyCountryId { get; set; }
+    [ForeignKey("RootCompanyCountryId")]
+    public Country RootCompanyCountry { get; set; }
     public string RootCompanyAddress { get; set; }
     public string RootCompanyEmail { get; set; }
     public string RootCompanyLogo { get; set; }

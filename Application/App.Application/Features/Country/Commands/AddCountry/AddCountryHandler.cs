@@ -14,7 +14,7 @@ public class AddCountryHandler : IRequestHandler<AddCountryRequest, int>
     {
         _countryRepository = unitOfWork;
         this.mapper = mapper;
-        
+
     }
 
     public async Task<int> Handle(AddCountryRequest request, CancellationToken cancellationToken)

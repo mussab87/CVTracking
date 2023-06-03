@@ -2,14 +2,14 @@
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace App.Application.Features.Country.Commands.AddCountry { }
+namespace App.Application.Features.Country.Commands.UpdateCountry { }
 
-public class AddCountryRequest : IRequest<int>
+public class UpdateCountryRequest : IRequest
 {
-    public int Id { get; protected set; }
+    public int Id { get; set; }
     [Required(ErrorMessage = "Name English Field Required")]
     [Display(Name = "Country Name English")]
-    public required string NameEnglish { get; set; }
+    public string NameEnglish { get; set; }
 
     [Display(Name = "Country Name Arabic")]
     public string? NameArabic { get; set; }
@@ -19,5 +19,7 @@ public class AddCountryRequest : IRequest<int>
 
     public string? CreatedById { get; set; }
     public DateTime? CreatedDate { get; set; }
+    public string? LastModifiedById { get; set; }
+    public DateTime? LastModifiedDate { get; set; }
 }
 

@@ -44,7 +44,7 @@ public class DbInitializer : IDbInitializer
         _userManager.CreateAsync(adminUser, "Admin@123456").GetAwaiter().GetResult();
         _userManager.AddToRoleAsync(adminUser, Roles.SuperAdmin).GetAwaiter().GetResult();
 
-        var userNew =  _userManager.FindByIdAsync(adminUser.Id).Result;
+        var userNew = _userManager.FindByIdAsync(adminUser.Id).Result;
         var allPermissions = GetAllClaimsPermissions.GetAllControllerActionsUpdated();
         var tmp = _userManager.AddClaimsAsync(userNew, allPermissions).Result;
 
@@ -75,6 +75,6 @@ public class DbInitializer : IDbInitializer
         //await _userManager.AddClaimsAsync(adminUser, allPermissions);        
     }
 
-    
+
 }
 

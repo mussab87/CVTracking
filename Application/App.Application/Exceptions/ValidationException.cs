@@ -2,15 +2,15 @@
 
 namespace App.Application.Exceptions { }
 
-public class ValidationException : ApplicationException
+public class ValidationExceptionn : Exception
 {
-    public ValidationException()
+    public ValidationExceptionn()
         : base("One or more validation failures have occurred.")
     {
         Errors = new Dictionary<string, string[]>();
     }
 
-    public ValidationException(IEnumerable<ValidationFailure> failures)
+    public ValidationExceptionn(IEnumerable<ValidationFailure> failures)
         : this()
     {
         Errors = failures

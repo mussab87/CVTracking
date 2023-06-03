@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Diagnostics.Metrics;
 using System.Security.Claims;
 
 namespace App.Web.Controllers
@@ -740,40 +742,5 @@ namespace App.Web.Controllers
         }
         #endregion
 
-        #region Country
-        [HttpGet]
-        [Authorize("Permission-CountryList")]
-        public async Task<IActionResult> CountryList()
-        {
-            var query = new GetCountryListQuery();
-            var Countries = await _mediator.Send(query);
-            return View(Countries);
-        }
-
-        [HttpGet]
-        [Authorize("Permission-AddCountry")]
-        public async Task<IActionResult> AddCountry()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddCountry(CountriesDto model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
-            model.CreatedById = LoggedInuser.Id;
-            model.CreatedDate = DateTime.Now;
-
-            var CountryId = await _mediator.Send(_mapper.Map<AddCountryRequest>(model));
-            TempData["Message"] = 1;
-            return View(model);
-            
-        }
-        #endregion
     }
 }

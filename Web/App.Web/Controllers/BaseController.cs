@@ -12,12 +12,12 @@ namespace App.Web.Controllers
         protected readonly SignInManager<ApplicationUser> _signInManager;
         protected readonly RoleManager<IdentityRole> _roleManager;
         protected readonly IConfiguration _config;
-        protected readonly IMediator _mediator;
+        public readonly IMediator _mediator;
         protected IMapper _mapper;
 
-        public BaseController(UserManager<ApplicationUser> userManager, 
-                                SignInManager<ApplicationUser> signInManager, 
-                                RoleManager<IdentityRole> roleManager, 
+        public BaseController(UserManager<ApplicationUser> userManager,
+                                SignInManager<ApplicationUser> signInManager,
+                                RoleManager<IdentityRole> roleManager,
                                 IConfiguration config, IMediator mediator,
                                 IMapper mapper)
         {

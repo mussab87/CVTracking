@@ -1,0 +1,92 @@
+﻿@model UpdateCityRequest
+
+@{
+    ViewBag.Title = "Update Country";
+}
+
+<partial name="PageBannerStartPartialView" />
+<!-- ========== Login Area end============= -->
+<div class="job-post-area pt-120 mb-120">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-wrapper">
+                    <form asp-action="EditCity" method="post">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="section-title2">
+                                    <h5>Update Country Information:</h5>
+                                </div>
+                            </div>
+                            <input type="hidden" asp-for="Id" value="@Model.Id" />
+                            <input type="hidden" asp-for="CreatedById" />
+                            <input type="hidden" asp-for="CreatedDate" />
+
+                            <div class="col-md-6">
+                                <div class="form-inner mb-25">
+                                    <label asp-for="CountryCityId"></label>
+                                    <div class="input-area">
+                                        <img src="~/assets/images/icon/category-2.svg" alt="">
+                                        <select asp-for="CountryCityId" class="select1" asp-items="@ViewBag.Countries">
+                                            <option value="0">Select City</option>
+                                        </select>
+                                        <a asp-action="CountryList" asp-controller="CountryCity" class="primry-btn-1 lg-btn w-unset" type="button">
+                                            Add
+                                        </a>
+                                    </div>
+                                    <span asp-validation-for="CountryCityId" class="alert-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-inner mb-25">
+                                    <label asp-for="NameEnglish"></label>
+                                    <div class="input-area">
+                                        <img src="~/assets/images/icon/user-2.svg" alt="">
+                                        <input type="text" asp-for="NameEnglish" placeholder="Name English">
+                                    </div>
+                                    <span asp-validation-for="NameEnglish" class="alert-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-inner mb-25">
+                                    <label asp-for="NameArabic"></label>
+                                    <div class="input-area">
+                                        <img src="~/assets/images/icon/user-2.svg" alt="">
+                                        <input type="text" asp-for="NameArabic" placeholder="Name Arabic">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-inner mb-25">
+                                    <label asp-for="Status"></label>
+                                    <div class="input-area">
+                                        <img src="~/assets/images/icon/active-check.svg" alt="">
+                                        <select asp-for="Status" class="select1">
+                                            <option value="">Select Status</option>
+                                            <option value="True">Active</option>
+                                            <option value="False">Inactive</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="Status" class="alert-danger"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <div class="form-inner">
+                                    <button class="primry-btn-2 lg-btn w-unset" type="submit" title="Save">Update Changes</button>
+                                    |
+                                    <a asp-action="CountryList" class="btn bg-warning waves-effect" type="button" title="Back">
+                                        Back
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ========== Login Area end============= -->

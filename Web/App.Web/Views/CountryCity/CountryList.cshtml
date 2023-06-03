@@ -1,0 +1,165 @@
+﻿@model IEnumerable<CountriesDto>
+
+@{
+    ViewBag.Title = "Country List";
+    int i = 0;
+}
+
+@*<partial name="PageBannerStartPartialView" />*@
+
+<!-- ========== Dashboard Area end============= -->
+<div class="dashboard-area country-dashboard pt-120 mb-120">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-wrapper2">
+                    <div class="title-and-btn">
+                        <div class="title">
+                            <h4>All Countries:</h4>
+                        </div>
+                        <div class="job-post-btn">
+                            @if (AuthorizationService.AuthorizeAsync(User, "Permission-AddCountry").Result.Succeeded)
+                            {
+
+                                <a asp-controller="CountryCity" asp-action="AddCountry" class="primry-btn-2">Add Country</a>
+
+                            }
+
+                            @*@if (AuthorizationService.AuthorizeAsync(User, "Permission-AddCity").Result.Succeeded)
+                            {
+                            <a asp-controller="CountryCity" asp-action="AddCity" class="primry-btn-2">Add City</a>
+                            }*@
+                        </div>
+
+
+                    </div>
+                    @* <div class="table-filter-area mb-30">
+                    <form>
+                    <div class="form-wrap style-2 style-3">
+                    <div class="form-inner">
+                    <div class="input-area">
+                    <img src="~/assets/images/icon/search-2.svg" alt="">
+                    <input type="text" id="jobtitle" name="jobtitle" placeholder="Search by job title">
+                    </div>
+                    </div>
+                    <button class="primry-btn-1" type="submit">Search</button>
+                    </div>
+
+                    <div class="form-wrap style-3">
+                    <div class="form-inner">
+                    <div class="input-area">
+                    <img src="~/assets/images/icon/calender2.svg" alt="">
+                    <input type="text" id="datepicker11" placeholder="Search by date">
+                    </div>
+                    </div>
+                    </div>
+                    <div class="form-wrap">
+                    <div class="form-inner">
+                    <p>Show er page</p>
+                    <div class="select-area">
+                    <select class="select1">
+                    <option>05</option>
+                    <option>10</option>
+                    <option>15</option>
+                    <option>20</option>
+                    </select>
+                    </div>
+                    </div>
+                    </div>
+
+
+                    </form>
+                    </div>*@
+                    @if (Model.Any())
+                    {
+                        <table class="eg-table table job-list-table mb-0" id="tbl">
+                            <thead>
+                                <tr>
+                                    <th hidden>
+                                        Id
+                                    </th>
+                                    <th>#</th>
+                                    <th>
+                                        Country Name English
+                                    </th>
+                                    <th>
+                                        Country Name Arabic
+                                    </th>
+                                    <th>Status</th>
+
+                                    <th>Manage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var country in Model)
+                                {
+                                    i++;
+                                    <tr>
+                                        <td hidden>@country.Id</td>
+                                        <td>@i</td>
+                                        <td>
+                                            @country.NameEnglish
+                                        </td>
+                                        <td>
+                                            @country.NameArabic
+                                        </td>
+
+                                        <td>
+                                            @if (country.Status == true)
+                                            {
+                                                <text>Active</text>
+                                            }
+
+
+                                            @if (country.Status == false)
+                                            {
+                                                <text>InActive</text>
+                                            }
+
+                                        </td>
+                                        <td>
+                                            <form method="post" asp-controller="CountryCity" asp-action="DeleteCountry" asp-route-id="@country.Id">
+
+                                                <a asp-action="EditCountry" asp-controller="CountryCity"
+                                                   asp-route-id="@country.Id" class="btn btn-info text-white" style="cursor:pointer">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete? : @country.NameEnglish')">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p><h4 style="text-align:center">No Data to Display</h4></p>
+                    }
+                    @* <div class="pagination-table-info">
+                    <div class="table-info">
+                    <span>06 Results Showing In 20 Jobs</span>
+                    </div>
+                    <div class="pagination-area">
+                    <nav aria-label="...">
+                    <ul class="pagination">
+                    <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1"></a>
+                    </li>
+                    <li class="page-item active" aria-current="page"><a class="page-link" href="#">01</a></li>
+                    <li class="page-item"><a class="page-link" href="#">02</a></li>
+                    <li class="page-item"><a class="page-link" href="#">03</a></li>
+                    <li class="page-item"><a class="page-link" href="#"></a></li>
+                    </ul>
+                    </nav>
+                    </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ========== Dashboard Area end============= -->

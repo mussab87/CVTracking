@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230603110522_008")]
+    partial class _008
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -847,7 +850,7 @@ namespace App.Infrastructure.Migrations
                     b.Property<string>("RootCompanyContacts")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RootCompanyCountryId")
+                    b.Property<int?>("RootCompanyCountryCityId")
                         .HasColumnType("int");
 
                     b.Property<string>("RootCompanyEmail")
@@ -868,7 +871,7 @@ namespace App.Infrastructure.Migrations
 
                     b.HasIndex("LastModifiedById");
 
-                    b.HasIndex("RootCompanyCountryId");
+                    b.HasIndex("RootCompanyCountryCityId");
 
                     b.ToTable("RootCompanies", (string)null);
                 });
@@ -1338,15 +1341,15 @@ namespace App.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("LastModifiedById");
 
-                    b.HasOne("Country", "RootCompanyCountry")
+                    b.HasOne("City", "RootCompanyCountryCity")
                         .WithMany()
-                        .HasForeignKey("RootCompanyCountryId");
+                        .HasForeignKey("RootCompanyCountryCityId");
 
                     b.Navigation("CreatedBy");
 
                     b.Navigation("LastModifiedBy");
 
-                    b.Navigation("RootCompanyCountry");
+                    b.Navigation("RootCompanyCountryCity");
                 });
 
             modelBuilder.Entity("RootCompanyForeignAgent", b =>

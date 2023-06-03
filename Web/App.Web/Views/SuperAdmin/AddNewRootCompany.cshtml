@@ -36,17 +36,17 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-inner mb-25">
-                                        <label asp-for="RootCompanyCountryCityId"></label>
+                                        <label asp-for="RootCompanyCountryId"></label>
                                         <div class="input-area">
                                             <img src="~/assets/images/icon/category-2.svg" alt="">
-                                            <select asp-for="RootCompanyCountryCityId" class="select1" asp-items="@ViewBag.Countries">
-                                                <option value="0">Select City</option>
+                                            <select asp-for="RootCompanyCountryId" class="select1" asp-items="@ViewBag.Countries">
+                                                <option value="0">Select Country</option>
                                             </select>
-                                            <a asp-action="CountryList" class="primry-btn-1 lg-btn w-unset" type="button">
-                                                Add 
+                                            <a asp-action="CountryList" asp-controller="CountryCity" class="primry-btn-1 lg-btn w-unset" type="button">
+                                                Add
                                             </a>
                                         </div>
-                                        <span asp-validation-for="RootCompanyCountryCityId" class="alert-danger"></span>
+                                        <span asp-validation-for="RootCompanyCountryId" class="alert-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

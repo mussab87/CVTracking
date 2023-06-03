@@ -1,0 +1,116 @@
+﻿@model IEnumerable<CityDto>
+
+@{
+    ViewBag.Title = "Country List";
+    int i = 0;
+}
+
+@*<partial name="PageBannerStartPartialView" />*@
+
+<!-- ========== Dashboard Area end============= -->
+<div class="dashboard-area country-dashboard pt-120 mb-120">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-wrapper2">
+                    <div class="title-and-btn">
+                        <div class="title">
+                            <h4>All Cities:</h4>
+                        </div>
+                        @if (AuthorizationService.AuthorizeAsync(User, "Permission-AddCountry").Result.Succeeded)
+                        {
+                            <div class="job-post-btn">
+                                <a asp-controller="CountryCity" asp-action="AddCity" class="primry-btn-2">Add City</a>
+                            </div>
+                        }
+
+
+                    </div>
+
+                    @if (Model.Any())
+                    {
+                        <table class="eg-table table job-list-table mb-0" id="tbl">
+                            <thead>
+                                <tr>
+                                    <th hidden>
+                                        Id
+                                    </th>
+                                    <th>#</th>
+                                    <th>
+                                        City Name English
+                                    </th>
+                                    <th>
+                                        City Name Arabic
+                                    </th>
+                                    <th>
+                                        Country Name English
+                                    </th>
+                                    <th>
+                                        Country Name Arabic
+                                    </th>
+                                    <th>Status</th>
+
+                                    <th>Manage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var city in Model)
+                                {
+                                    i++;
+                                    <tr>
+                                        <td hidden>@city.Id</td>
+                                        <td>@i</td>
+                                        <td>
+                                            @city.NameEnglish
+                                        </td>
+                                        <td>
+                                            @city.NameArabic
+                                        </td>
+                                        <td>
+                                            @city.CountryCity.NameEnglish
+                                        </td>
+                                        <td>
+                                            @city.CountryCity.NameArabic
+                                        </td>
+                                        <td>
+                                            @if (city.Status == true)
+                                            {
+                                                <text>Active</text>
+                                            }
+
+
+                                            @if (city.Status == false)
+                                            {
+                                                <text>InActive</text>
+                                            }
+
+                                        </td>
+                                        <td>
+                                            <form method="post" asp-controller="CountryCity" asp-action="DeleteCity" asp-route-id="@city.Id">
+
+                                                <a asp-action="EditCity" asp-controller="CountryCity"
+                                                   asp-route-id="@city.Id" class="btn btn-info text-white" style="cursor:pointer">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete? : @city.NameEnglish')">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p><h4 style="text-align:center">No Data to Display</h4></p>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ========== Dashboard Area end============= -->

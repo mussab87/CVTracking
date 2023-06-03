@@ -19,9 +19,9 @@ public class RootCompanyDto
     [Display(Name = "Root Company Name")]
     public string? RootCompanyName { get; set; }
 
-    [Required(ErrorMessage = "Root Company City Field Required")]
-    [Display(Name = "Root Company City")]
-    public int? RootCompanyCountryCityId { get; set; }
+    [Required(ErrorMessage = "Root Company Country Field Required")]
+    [Display(Name = "Root Company Country")]
+    public int? RootCompanyCountryId { get; set; }
 
     [Display(Name = "Root Company Address")]
     public string? RootCompanyAddress { get; set; }
