@@ -178,7 +178,17 @@
                                             @root.RootCompanyCountry.NameEnglish
                                         </td>
                                         <td>@root.RootCompanyAddress</td>
-                                        <td>@root.RootCompanyLogo</td>
+                                        <td>
+                                            @if (root.RootCompanyLogo != null)
+                                            {
+                                                <img src="@root.RootCompanyLogo" style="width: 60px;height: 70px;">
+                                            }
+                                            else
+                                            {
+                                                <text>Not Uploaded</text>
+                                            }
+                                            
+                                            </td>
                                         <td>@root.RootCompanyContacts</td>
                                         <td>@root.RootCompanyComments</td>
                                         <td>
@@ -205,11 +215,6 @@
                                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete? : @root.RootCompanyName')">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
-
-                                                @*<a class="btn" style="background-color: #00A7AC; color:white"
-                                        asp-action="ChangeUserPassword" asp-route-id="@root.Id">
-                                        Change Password
-                                        </a>*@
                                             </form>
                                         </td>
                                     </tr>

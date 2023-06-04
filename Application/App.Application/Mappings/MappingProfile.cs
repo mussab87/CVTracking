@@ -15,9 +15,14 @@ public class MappingProfile : Profile
         CreateMap<Country, UpdateCountryRequest>().ReverseMap();
         CreateMap<UpdateCountryRequest, CountriesDto>().ReverseMap();
 
+        CreateMap<City, CityDto>().ReverseMap();
         CreateMap<City, AddCityRequest>().ReverseMap();
         CreateMap<City, UpdateCityRequest>().ReverseMap();
-        CreateMap<City, CityDto>().ReverseMap();
         CreateMap<UpdateCityRequest, CityDto>().ReverseMap();
+
+        CreateMap<RootCompany, RootCompanyDto>().ReverseMap();
+        CreateMap<RootCompany, AddRootCompanyRequest>().ReverseMap();
+        CreateMap<RootCompany, UpdateRootCompanyRequest>().ReverseMap();
+        CreateMap<UpdateRootCompanyRequest, RootCompanyDto>().ReverseMap();
     }
 }

@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Diagnostics.Metrics;
 using System.Security.Claims;
 
 namespace App.Web.Controllers
@@ -702,27 +699,37 @@ namespace App.Web.Controllers
             var query = new GetCountryListQuery();
             var Countries = await _mediator.Send(query);
             ViewData["Countries"] = new SelectList(Countries, "Id", "NameEnglish");
+
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewRootCompany(RootCompanyDto rootCompany, IFormFile fileload)
+        public async Task<IActionResult> AddNewRootCompany(AddRootCompanyRequest model, IFormFile fileload)
         {
             string fileName = null;
             if (fileload != null)
                 fileName = await SaveLogoFile(fileload);
 
             //save new rootCompany
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            model.CreatedById = LoggedInuser.Id;
+            model.CreatedDate = DateTime.Now;
+            if(fileName is not null)
+                model.RootCompanyLogo = fileName;
+
+            var newRootCompany = await _mediator.Send(model);
+            TempData["Message"] = 1;
 
             var query = new GetCountryListQuery();
-            var Cities = await _mediator.Send(query);
-            ViewData["Cities"] = new SelectList(Cities, "Id", "NameEnglish");
+            var Countries = await _mediator.Send(query);
+            ViewData["Countries"] = new SelectList(Countries, "Id", "NameEnglish");
+
             return View();
         }
 
         static async Task<string> SaveLogoFile(IFormFile fileload)
         {
-            string path = Path.Combine("~/Logo/");
+            string path = Path.Combine("wwwroot/Logo/");
             //create folder if not exist
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
@@ -738,7 +745,60 @@ namespace App.Web.Controllers
                 await fileload.CopyToAsync(stream);
             }
 
-            return fileNameWithPath;
+            return fileNameWithPath.Replace("wwwroot", "..");
+        }
+
+        [HttpGet]
+        [Authorize("Permission-EditRootCompany")]
+        public async Task<IActionResult> EditRootCompany(int id)
+        {
+            var queryGetRootCompanyList = new GetRootCompanyQuery();
+            var RootCompanyList = await _mediator.Send(queryGetRootCompanyList);
+
+            var queryCountries = new GetCountryListQuery();
+            var Countries = await _mediator.Send(queryCountries);
+            ViewData["Countries"] = new SelectList(Countries, "Id", "NameEnglish");
+
+            return View(_mapper.Map<UpdateRootCompanyRequest>(RootCompanyList.FirstOrDefault(i => i.Id == id)));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRootCompany(UpdateRootCompanyRequest model, IFormFile fileload)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            //check file changed at first step
+            string fileName = null;
+            if (fileload != null)
+                fileName = await SaveLogoFile(fileload);
+
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            model.CreatedById = LoggedInuser.Id;
+            model.LastModifiedDate = DateTime.Now;
+
+            await _mediator.Send(model);
+            TempData["Message"] = 1;
+
+            return RedirectToAction(nameof(RootCompanyList));
+
+        }
+
+        [HttpPost]
+        [Authorize("Permission-DeleteRootCompany")]
+        public async Task<IActionResult> DeleteRootCompany(int id)
+        {
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+
+            var command = new DeleteRootCompanyRequest() { Id = id };
+            await _mediator.Send(command);
+
+            TempData["Message"] = 1;
+
+            return RedirectToAction(nameof(RootCompanyList));
+
         }
         #endregion
 

@@ -1,12 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MediatR;
+using System.ComponentModel.DataAnnotations;
 
-namespace App.Application.Features.RootCompany.Queries.GetRootCompanyList { }
-public class RootCompanyDto
+namespace App.Application.Features.Country.Commands.UpdateRootCompany { }
+
+public class UpdateRootCompanyRequest : IRequest
 {
-    public int? Id { get; protected set; }
-    public string? CreatedBy { get; set; }
+    public int Id { get; set; }
+    public string CreatedById { get; set; }
     public DateTime? CreatedDate { get; set; }
-    public string? LastModifiedBy { get; set; }
+    public string LastModifiedById { get; set; }
     public DateTime? LastModifiedDate { get; set; }
 
     [Required(ErrorMessage = "Root Company Name Field Required")]
@@ -17,7 +19,6 @@ public class RootCompanyDto
     [Required(ErrorMessage = "Root Company Country Field Required")]
     [Display(Name = "Root Company Country")]
     public int? RootCompanyCountryId { get; set; }
-    public Country RootCompanyCountry { get; set; }
 
     [Display(Name = "Root Company Address")]
     public string? RootCompanyAddress { get; set; }
@@ -25,16 +26,15 @@ public class RootCompanyDto
     [Display(Name = "Root Company Email")]
     public string? RootCompanyEmail { get; set; }
 
-    //[Required(ErrorMessage = "Root Company Logo Field Required")]
     [Display(Name = "Root Company Logo")]
     public string? RootCompanyLogo { get; set; }
 
     [Required(ErrorMessage = "Root Company Contact Field Required")]
     [Display(Name = "Root Company Contact")]
-    public string? RootCompanyContacts { get; set; }
+    public string RootCompanyContacts { get; set; }
 
     [Display(Name = "Root Company Note")]
-    public string? RootCompanyComments { get; set; }
+    public string RootCompanyComments { get; set; }
 
     [Required(ErrorMessage = "Root Company Status Field Required")]
     [Display(Name = "Root Company Status")]

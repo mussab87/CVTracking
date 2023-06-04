@@ -137,7 +137,7 @@ namespace App.Web.Controllers
             var CountryId = await _mediator.Send(model);
             TempData["Message"] = 1;
 
-            return View(model);
+            return RedirectToAction(nameof(CityList));
 
         }
 

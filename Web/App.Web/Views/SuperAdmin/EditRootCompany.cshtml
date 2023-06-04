@@ -1,7 +1,7 @@
-﻿@model AddRootCompanyRequest
+﻿@model UpdateRootCompanyRequest
 
 @{
-    ViewBag.Title = "Add New Root Company";
+    ViewBag.Title = "Update Root Company";
 }
 
 <partial name="PageBannerStartPartialView" />
@@ -19,7 +19,7 @@
                             <h5>Root Company</h5>
                             <div class="dash"></div>
                         </div>
-                        <form asp-action="AddNewRootCompany" method="post" class="profile-form" enctype="multipart/form-data">
+                        <form asp-action="EditRootCompany" method="post" class="profile-form" enctype="multipart/form-data">
                             <div class="section-title2">
                                 <h5>Root Company Information:</h5>
                             </div>
@@ -108,8 +108,12 @@
                                                     <div class="drag-area">
                                                         <p>Upload Logo</p>
                                                         <button type="button" class="upload-btn"><i class="bi bi-plus-lg"></i></button>
-
+                                                            
                                                     </div>
+                                                    <span>Old Logo</span>
+                                                    <input type="hidden" asp-for="RootCompanyLogo" />
+                                                    <img src="@Model.RootCompanyLogo.Replace("../", "../../")" style="width: 130px;height: 120px;">
+
                                                     <span>Maximum File Upload: 1 MB</span>
                                                 </div>
                                             </div>
@@ -117,6 +121,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                
 
                                 <div class="col-md-12">
                                     <div class="form-inner">
