@@ -96,6 +96,10 @@
                                                        asp-action="ChangeUserPassword" asp-route-id="@account.Id">
                                                         Change Password
                                                     </a>
+
+                                                    <a asp-controller="SuperAdmin" asp-action="AddUserToRootCompany" asp-route-Id="@account.Id" class="btn" style="background-color: #00A7AC; color:white">
+                                                        Add to Root Company
+                                                    </a>
                                                 </form>
                                             </td>
                                         </tr>

@@ -62,7 +62,7 @@ namespace App.Web.Controllers
                             return RedirectToAction("Index", "SuperAdmin");
 
                         if (_userManager.IsInRoleAsync(user, Roles.Admin).Result)
-                            return RedirectToAction("Index", "RootCompany");
+                            return RedirectToAction("RootCompany", "RootCompany");
                     }
 
                 }

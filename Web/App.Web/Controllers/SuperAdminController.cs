@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace App.Web.Controllers
 {
@@ -678,6 +681,46 @@ namespace App.Web.Controllers
 
         }
 
+        [HttpGet]
+        [Authorize("Permission-GetAllRootCompany")]
+        public async Task<IActionResult> AddUserToRootCompany(string Id)
+        {
+            if (Id == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {Id} cannot be found";
+                return View("NotFound");
+            }
+
+            var selectedUser = await _userManager.FindByIdAsync(Id);
+
+            var query = new GetRootCompanyQuery();
+            var RootCompany = await _mediator.Send(query);
+
+            ViewData["RootCompany"] = new SelectList(RootCompany, "Id", "RootCompanyName");
+
+            AddUserToRootCompanyRequest userRootCompanyDto = new AddUserToRootCompanyRequest()
+            { ApplicationUserId = Id, applicationUser = selectedUser };
+
+            return View(userRootCompanyDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddUserToRootCompany(AddUserToRootCompanyRequest userRootCompanyDto)
+        {
+            if (userRootCompanyDto.ApplicationUserId == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {userRootCompanyDto.ApplicationUserId} cannot be found";
+                return View("NotFound");
+            }
+
+            var query = new AddUserToRootCompanyRequest()
+            { ApplicationUserId = userRootCompanyDto.ApplicationUserId, RootCompanyId = userRootCompanyDto.RootCompanyId };
+            var Countries = await _mediator.Send(query);
+
+            TempData["Message"] = 1;
+            return RedirectToAction(nameof(ListUsers));
+        }
+
         /**************End User Section******************************************/
         #endregion
 
@@ -708,14 +751,16 @@ namespace App.Web.Controllers
         {
             string fileName = null;
             if (fileload != null)
+            {
                 fileName = await SaveLogoFile(fileload);
+                model.RootCompanyLogo = fileName;
+            }
 
             //save new rootCompany
             var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
             model.CreatedById = LoggedInuser.Id;
             model.CreatedDate = DateTime.Now;
-            if(fileName is not null)
-                model.RootCompanyLogo = fileName;
+
 
             var newRootCompany = await _mediator.Send(model);
             TempData["Message"] = 1;
@@ -773,11 +818,15 @@ namespace App.Web.Controllers
             //check file changed at first step
             string fileName = null;
             if (fileload != null)
+            {
                 fileName = await SaveLogoFile(fileload);
+                model.RootCompanyLogo = fileName;
+            }
 
             var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
             model.CreatedById = LoggedInuser.Id;
             model.LastModifiedDate = DateTime.Now;
+
 
             await _mediator.Send(model);
             TempData["Message"] = 1;

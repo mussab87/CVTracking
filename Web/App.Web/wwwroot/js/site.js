@@ -286,3 +286,18 @@ $('#countrybtn').click(function (event) {
 })
 
 //*******************************************************//Manage UserPermissions******************************************
+
+
+//************************************Add User into RootCompany******************************************
+
+function addToRoot(accountId) {
+    alert("here");
+    debugger;
+    var url = "/SuperAdmin/GetAllRootCompany?Id=" + accountId;
+
+    $.get(url).done(function (data) {
+        $('#AddUserToRootCompany').modal('show');
+    })
+}
+
+//*******************************************************//end******************************************

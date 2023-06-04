@@ -98,7 +98,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <div class="company-images-area mb-50">
                                         <div class="row g-lg-4 gy-5">
                                             <div class="col-lg-6 devaider1 position-relative">
@@ -108,13 +108,19 @@
                                                     <div class="drag-area">
                                                         <p>Upload Logo</p>
                                                         <button type="button" class="upload-btn"><i class="bi bi-plus-lg"></i></button>
-                                                            
-                                                    </div>
-                                                    <span>Old Logo</span>
-                                                    <input type="hidden" asp-for="RootCompanyLogo" />
-                                                    <img src="@Model.RootCompanyLogo.Replace("../", "../../")" style="width: 130px;height: 120px;">
 
+                                                    </div>
                                                     <span>Maximum File Upload: 1 MB</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="company-cover-photo-area">
+                                                    <h5>Old Logo Photo: </h5>
+                                                    <div class="drag-area" id="dragArea2" style="width: 150px;">
+                                                        <img src="@Model.RootCompanyLogo.Replace("../", "../../")" style="width: 130px;height: 120px;">
+                                                        <input type="hidden" asp-for="RootCompanyLogo" />
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -122,11 +128,11 @@
                                     </div>
                                 </div>
 
-                                
+
 
                                 <div class="col-md-12">
                                     <div class="form-inner">
-                                        <button class="primry-btn-2 lg-btn w-unset" type="submit">Save New Company</button>
+                                        <button class="primry-btn-2 lg-btn w-unset" type="submit">Update Changes</button>
                                     </div>
                                 </div>
 

@@ -16,8 +16,8 @@ namespace App.Web.Controllers
            IConfiguration _config, IMediator _mediator, IMapper _mapper) : base(_userManager, _signInManager, _roleManager, _config, _mediator, _mapper)
         { }
 
-        [Authorize("Permission-Index")]
-        public IActionResult Index()
+        [Authorize("Permission-RootCompany")]
+        public IActionResult RootCompany()
         {
             var SuperAdminCount = new SuperAdminCountDto()
             {
