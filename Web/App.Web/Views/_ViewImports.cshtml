@@ -9,3 +9,5 @@
 @using Microsoft.AspNetCore.Http;
 @inject Microsoft.Extensions.Configuration.IConfiguration config;
 @inject UserManager<ApplicationUser> _userManager;
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor

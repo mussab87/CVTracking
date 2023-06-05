@@ -86,6 +86,8 @@ namespace App.Web.Controllers
             //await _context.SaveChangesAsync(User?.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             await _signInManager.SignOutAsync();
+            HttpContext.Session.Remove("ComplexObject");
+            HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
     }

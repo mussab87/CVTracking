@@ -682,7 +682,7 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize("Permission-GetAllRootCompany")]
+        [Authorize("Permission-AddUserToRootCompany")]
         public async Task<IActionResult> AddUserToRootCompany(string Id)
         {
             if (Id == null)
@@ -729,10 +729,10 @@ namespace App.Web.Controllers
         [Authorize("Permission-RootCompanyList")]
         public async Task<IActionResult> RootCompanyList()
         {
-            var query = new GetRootCompanyQuery();
-            var RootCompany = await _mediator.Send(query);
+            var query = new GetUserRootCompanyListQuery();
+            var UserRootCompany = await _mediator.Send(query);
 
-            return View(RootCompany);
+            return View(UserRootCompany);
         }
 
         [HttpGet]

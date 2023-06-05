@@ -49,6 +49,7 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<IRootCompanyRepository, RootCompanyRepository>();
         services.AddScoped<ICountryRepository, CountryRepository>();
         services.AddScoped<ICityRepository, CityRepository>();
+        services.AddScoped<IUserRootCompanyRepository, UserRootCompanyRepository>();
 
         //services.Configure<EmailSettings>(c => configuration.GetSection("EmailSettings"));
         //services.AddTransient<IEmailService, EmailService>();

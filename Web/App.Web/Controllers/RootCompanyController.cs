@@ -24,6 +24,10 @@ namespace App.Web.Controllers
                 RolesCount = _roleManager.Roles.Count(),
                 UserCount = _userManager.Users.Count()
             };
+
+            var objComplex = new UserRoleDto() { IsSelected = true, UserName = "../Logo/marker2d3ec6ea7-01f6-4be6-a7c9-49c0dbdea081.png" };
+            HttpContext.Session.SetObject("ComplexObject", objComplex);
+
             return View(SuperAdminCount);
         }
 
@@ -34,10 +38,7 @@ namespace App.Web.Controllers
         public IActionResult ListUsers()
         {
             var users = _userManager.Users;
-            //var users = userManager.Users
-            //    .Include(a => a.UserJobTitle)
-            //    .ThenInclude(g => g.JobTitle)
-            //    .ToListAsync().Result;
+            
             return View(users);
         }
 
