@@ -790,7 +790,7 @@ namespace App.Web.Controllers
                 await fileload.CopyToAsync(stream);
             }
 
-            return fileNameWithPath.Replace("wwwroot", "..");
+            return fileNameWithPath.Replace("wwwroot", "../../");
         }
 
         [HttpGet]
@@ -824,7 +824,7 @@ namespace App.Web.Controllers
             }
 
             var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
-            model.CreatedById = LoggedInuser.Id;
+            model.LastModifiedById = LoggedInuser.Id;
             model.LastModifiedDate = DateTime.Now;
 
 

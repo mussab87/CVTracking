@@ -1,4 +1,4 @@
-﻿@model SuperAdminCountDto
+﻿@model RootCompanyCountDto
 @{
     ViewData["Title"] = "Home page";
 }
@@ -19,7 +19,7 @@
         <div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-3 cf justify-content-center">
             @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.Admin))
             {
-                @if (AuthorizationService.AuthorizeAsync(User, "Permission-ListUsers").Result.Succeeded)
+                @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-ListUsers").Result.Succeeded)
                 {
                     <div class="col">
                         <div class="single-category">

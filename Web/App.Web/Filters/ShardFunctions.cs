@@ -38,6 +38,15 @@ public static class ShardFunctions
         var query = controlleractionlist.GroupBy(x => x.Action).Select(y => y.FirstOrDefault());
         foreach (var item in query)
         {
+            if (item.Controller == "RootCompanyController")
+            {
+                var ClaimNameRoot = "RootCompany" + "-" + item.Action; //+ "-" + item.Controller;
+                var claimRoot = new Claim(ClaimNameRoot, ClaimNameRoot);
+                AllClaims.Add(claimRoot);
+
+                continue;
+            }
+
             var ClaimName = "Permission-" + item.Action; //+ "-" + item.Controller;
             var claim = new Claim(ClaimName, ClaimName);
             AllClaims.Add(claim);

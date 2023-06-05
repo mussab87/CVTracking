@@ -1,13 +1,16 @@
 ﻿<!-- ========== Inner Banner Start============= -->
 @{
     string controller = null;
+    string action = null;
     if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.SuperAdmin))
     {
         controller = "SuperAdmin";
+        action = "Index";
     }
     if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.Admin))
     {
         controller = "RootCompany";
+        action = "RootCompany";
     }
 
 }
@@ -20,7 +23,7 @@
                     <span></span>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a asp-controller=@controller asp-action="Index">Home</a></li>
+                            <li class="breadcrumb-item"><a asp-controller=@controller asp-action="@action">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
                         </ol>
                     </nav>

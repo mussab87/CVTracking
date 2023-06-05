@@ -24,5 +24,10 @@ public class MappingProfile : Profile
         CreateMap<RootCompany, AddRootCompanyRequest>().ReverseMap();
         CreateMap<RootCompany, UpdateRootCompanyRequest>().ReverseMap();
         CreateMap<UpdateRootCompanyRequest, RootCompanyDto>().ReverseMap();
+
+        CreateMap<ForeignAgent, ForegnAgentDto>().ReverseMap();
+        CreateMap<ForeignAgent, AddForeignAgentRequest>().ReverseMap();
+        CreateMap<ForeignAgent, UpdateForeignAgentRequest>().ReverseMap();
+        CreateMap<UpdateForeignAgentRequest, ForegnAgentDto>().ReverseMap();
     }
 }

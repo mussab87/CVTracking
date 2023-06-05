@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+﻿using App.Application.Features.RootCompany.Queries.GetRootCompanyByUserId;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 
 namespace App.Web.Controllers
@@ -16,44 +18,58 @@ namespace App.Web.Controllers
            IConfiguration _config, IMediator _mediator, IMapper _mapper) : base(_userManager, _signInManager, _roleManager, _config, _mediator, _mapper)
         { }
 
-        [Authorize("Permission-RootCompany")]
-        public IActionResult RootCompany()
+        [Authorize("RootCompany-RootCompany")]
+        public async Task<IActionResult> RootCompany()
         {
-            var SuperAdminCount = new SuperAdminCountDto()
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            //get user root company 
+            var query = new GetRootCompanyByUserIdQuery() { userId = LoggedInuser.Id };
+            var UserRootCompany = await _mediator.Send(query);
+
+            var RootCompanyCount = new RootCompanyCountDto()
             {
-                RolesCount = _roleManager.Roles.Count(),
-                UserCount = _userManager.Users.Count()
+                UserCount = _userManager.Users.Where(u => u.RootCompanyId == UserRootCompany.Id).ToList().Count()
             };
 
-            var objComplex = new UserRoleDto() { IsSelected = true, UserName = "../Logo/marker2d3ec6ea7-01f6-4be6-a7c9-49c0dbdea081.png" };
-            HttpContext.Session.SetObject("ComplexObject", objComplex);
+            HttpContext.Session.SetObject("RootCompany", UserRootCompany);
 
-            return View(SuperAdminCount);
+            return View(RootCompanyCount);
         }
 
         #region User Section
         /**************User Section******************************************/
         [HttpGet]
-        [Authorize("Permission-ListUsers")]
+        [Authorize("RootCompany-ListUsers")]
         public IActionResult ListUsers()
         {
-            var users = _userManager.Users;
-            
-            return View(users);
+            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
+                return RedirectToAction("Logout", "Account");
+
+            var userRootCompany = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+            return View(_userManager.Users.Where(u => u.RootCompanyId == userRootCompany));
+
         }
 
-        [Authorize("Permission-AddNewAccount")]
+        [Authorize("RootCompany-AddNewAccount")]
         public IActionResult AddNewAccount()
         {
+            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
+                return RedirectToAction("Logout", "Account");
+
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> AddNewAccount(AccountDto model)
         {
+            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
+                return RedirectToAction("Logout", "Account");
+
             if (ModelState.IsValid)
             {
                 var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+
+                var userRootCompany = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
 
                 var user = new ApplicationUser
                 {
@@ -66,7 +82,8 @@ namespace App.Web.Controllers
                     PhoneNumber = model.PhoneNumber,
                     UserStatus = model.UserStatus,
                     CreatedDate = DateTime.Now,
-                    CreatedBy = LoggedInuser.UserName
+                    CreatedBy = LoggedInuser.UserName,
+                    RootCompanyId = userRootCompany
                 };
 
                 // Store user data in AspNetUsers database table
@@ -123,10 +140,13 @@ namespace App.Web.Controllers
             }
         }
 
-        [Authorize("Permission-ChangeUserPassword")]
+        [Authorize("RootCompany-ChangeUserPassword")]
         [HttpGet]
         public async Task<IActionResult> ChangeUserPassword(string id)
         {
+            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
+                return RedirectToAction("Logout", "Account");
+
             var user = await _userManager.FindByIdAsync(id);
             ChangePasswordDto model = new ChangePasswordDto
             {
@@ -177,7 +197,7 @@ namespace App.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize("Permission-DeleteUser")]
+        [Authorize("RootCompany-DeleteUser")]
         public async Task<IActionResult> DeleteUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -209,9 +229,12 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize("Permission-EditUser")]
+        [Authorize("RootCompany-EditUser")]
         public async Task<IActionResult> EditUser(string id)
         {
+            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
+                return RedirectToAction("Logout", "Account");
+
             var user = await _userManager.FindByIdAsync(id);
 
             if (user == null)
@@ -288,10 +311,11 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize("Permission-ManageUserRoles")]
+        [Authorize("RootCompany-ManageUserRoles")]
         public async Task<IActionResult> ManageUserRoles(string Id)
         {
-            //ViewBag.userId = Id;
+            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
+                return RedirectToAction("Logout", "Account");
 
             var user = await _userManager.FindByIdAsync(Id);
 
@@ -364,9 +388,12 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize("Permission-ManageUserPermission")]
+        [Authorize("RootCompany-ManageUserPermission")]
         public async Task<IActionResult> ManageUserPermission(string userId)
         {
+            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
+                return RedirectToAction("Logout", "Account");
+
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
@@ -385,7 +412,7 @@ namespace App.Web.Controllers
 
             // Loop through each claim we have in our application
             //foreach (Claim claim in ClaimsStore.AllClaims)
-            foreach (Claim claim in ShardFunctions.GetAllControllerActionsUpdated())
+            foreach (Claim claim in GetAllClaimsPermissions.GetAllControllerActionsUpdated())
             {
                 UserClaim userClaim = new UserClaim
                 {
@@ -442,6 +469,143 @@ namespace App.Web.Controllers
         }
 
         /**************End User Section******************************************/
+        #endregion
+
+        #region ForegnAgent Section
+        [HttpGet]
+        [Authorize("RootCompany-ForegnAgentList")]
+        public async Task<IActionResult> ForegnAgentList()
+        {
+            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
+                return RedirectToAction("Logout", "Account");
+
+            var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+
+            var query = new GetForeignAgentListQuery() { rootCompanyId = (int)userRootCompanyId };
+            var ForeignAgentListByRootCompany = await _mediator.Send(query);
+
+            return View(ForeignAgentListByRootCompany);
+        }
+
+        [HttpGet]
+        [Authorize("RootCompany-AddNewForegnAgent")]
+        public async Task<IActionResult> AddNewForegnAgent()
+        {
+            var query = new GetCityListQuery();
+            var Cities = await _mediator.Send(query);
+            ViewData["Cities"] = new SelectList(Cities, "Id", "NameEnglish");
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewForegnAgent(AddForeignAgentRequest model, IFormFile fileload)
+        {
+            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
+                return RedirectToAction("Logout", "Account");
+
+            var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+
+            string fileName = null;
+            if (fileload != null)
+            {
+                fileName = await SaveLogoFile(fileload);
+                model.ForeignAgentLogo = fileName;
+            }
+
+            //save new rootCompany
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            model.CreatedById = LoggedInuser.Id;
+            model.CreatedDate = DateTime.Now;
+            model.RootCompanyId = (int)userRootCompanyId;
+
+            var newForeignAgent = await _mediator.Send(model);
+            TempData["Message"] = 1;
+
+            var query = new GetCityListQuery();
+            var Cities = await _mediator.Send(query);
+            ViewData["Cities"] = new SelectList(Cities, "Id", "NameEnglish");
+
+            return View();
+        }
+
+        static async Task<string> SaveLogoFile(IFormFile fileload)
+        {
+            string path = Path.Combine("wwwroot/ForeignLogo/");
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            FileInfo fileInfo = new FileInfo(fileload.FileName);
+
+            string fileName = fileload.FileName.Split(".")[0] + string.Format(@"{0}", Guid.NewGuid()) + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.CreateNew))
+            {
+                await fileload.CopyToAsync(stream);
+            }
+
+            return fileNameWithPath.Replace("wwwroot", "../../");
+        }
+
+        [HttpGet]
+        [Authorize("RootCompany-EditForegnAgent")]
+        public async Task<IActionResult> EditForegnAgent(int id)
+        {
+            var foreignAgentQuery = new GetForeignAgentByIdQuery() { ForeignAgentId = id };
+            var foreignAgent = await _mediator.Send(foreignAgentQuery);
+
+            var query = new GetCityListQuery();
+            var Cities = await _mediator.Send(query);
+            ViewData["Cities"] = new SelectList(Cities, "Id", "NameEnglish");
+
+            return View(_mapper.Map<UpdateForeignAgentRequest>(foreignAgent));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditForegnAgent(UpdateForeignAgentRequest model, IFormFile fileload)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            //check file changed at first step
+            string fileName = null;
+            if (fileload != null)
+            {
+                fileName = await SaveLogoFile(fileload);
+                model.ForeignAgentLogo = fileName;
+            }
+
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            model.LastModifiedById = LoggedInuser.Id;
+            model.LastModifiedDate = DateTime.Now;
+
+
+            await _mediator.Send(model);
+            TempData["Message"] = 1;
+
+            return RedirectToAction(nameof(ForegnAgentList));
+
+        }
+
+        [HttpPost]
+        [Authorize("RootCompany-DeleteForegnAgent")]
+        public async Task<IActionResult> DeleteForegnAgent(int id)
+        {
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+
+            var command = new DeleteRootCompanyRequest() { Id = id };
+            await _mediator.Send(command);
+
+            TempData["Message"] = 1;
+
+            return RedirectToAction(nameof(ForegnAgentList));
+
+        }
         #endregion
     }
 }

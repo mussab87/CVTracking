@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
 @{
     string logo = null;
-    if (HttpContextAccessor.HttpContext.Session.GetObject<UserRoleDto>("ComplexObject") != null)
+    if (HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") != null)
     {
-        logo = HttpContextAccessor.HttpContext.Session.GetObject<UserRoleDto>("ComplexObject").UserName;
+        logo = HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").RootCompanyLogo;
     }
 }
 <html lang="en">
@@ -15,17 +15,17 @@
     <!-- ========== header============= -->
     <header class="header-area style-1">
         <div class="header-main-logo d-lg-block d-none">
-            
+
             @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.SuperAdmin))
             {
-                <a href="index.html"><img alt="image" src="~/assets/images/header1-logo.svg"></a>
+                <a asp-controller="SuperAdmin" asp-action="Index"><img alt="image" src="~/assets/images/header1-logo.svg"></a>
             }
 
             @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.Admin))
             {
-                <a href="index.html"><img alt="image" style="width:100px; height: 90px" src="@logo"></a>
+                <a asp-controller="RootCompany" asp-action="RootCompany"><img alt="image" style="width:100px; height: 90px" src="@logo"></a>
             }
-            
+
         </div>
 
         <div class="menu-topbar-area">

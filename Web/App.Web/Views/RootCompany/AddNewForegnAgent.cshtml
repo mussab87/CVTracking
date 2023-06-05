@@ -1,0 +1,121 @@
+﻿@model AddForeignAgentRequest
+
+@{
+    ViewBag.Title = "Add New Foreign Agent";
+}
+
+<partial name="PageBannerStartPartialView" />
+
+<!-- ========== Dashboard Area end============= -->
+<div class="dashboard-area company-dashboard pt-120 mb-120">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="my-profile-inner ">
+
+                    <div class="form-wrapper">
+                        <div class="section-title two">
+                            <h5>Foreign Agent</h5>
+                            <div class="dash"></div>
+                        </div>
+                        <form asp-action="AddNewForegnAgent" method="post" class="profile-form" enctype="multipart/form-data">
+                            <div class="section-title2">
+                                <h5>Foreign Agent Information:</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="ForeignAgentName"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/company-2.svg" alt="">
+                                            <input asp-for="ForeignAgentName" type="text" placeholder="Foreign Agent Name">
+                                        </div>
+                                        <span asp-validation-for="ForeignAgentName" class="alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="ForeignAgentLicenseNumber"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/company-2.svg" alt="">
+                                            <input asp-for="ForeignAgentLicenseNumber" type="text" placeholder="Foreign Agent License Number">
+                                        </div>
+                                        <span asp-validation-for="ForeignAgentLicenseNumber" class="alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="ForeignAgentCountryCityId"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/category-2.svg" alt="">
+                                            <select asp-for="ForeignAgentCountryCityId" class="select1" asp-items="@ViewBag.Cities">
+                                                <option value="0">Select Country</option>
+                                            </select>
+                                            <a asp-action="CountryList" asp-controller="CountryCity" class="primry-btn-1 lg-btn w-unset" type="button">
+                                                Add
+                                            </a>
+                                        </div>
+                                        <span asp-validation-for="ForeignAgentCountryCityId" class="alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="ForeignAgentAddress"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/map-2.svg" alt="">
+                                            <input asp-for="ForeignAgentAddress" type="text" placeholder="Foreign Agent Address">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="ForeignAgentContacts"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/phone-2.svg" alt="">
+                                            <input asp-for="ForeignAgentContacts" type="text" placeholder="Foreign Agent Contacts">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-inner mb-40">
+                                        <label asp-for="ForeignAgentComments"></label>
+                                        <textarea asp-for="ForeignAgentComments" placeholder="Write Notes Here"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="company-images-area mb-50">
+                                        <div class="row g-lg-4 gy-5">
+                                            <div class="col-lg-6 devaider1 position-relative">
+                                                <div class="company-logo-area">
+                                                    <h5>Foreign Agent Logo: </h5>
+                                                    <input type="file" id="fileload" name="fileload">
+                                                    <div class="drag-area">
+                                                        <p>Upload Logo</p>
+                                                        <button type="button" class="upload-btn"><i class="bi bi-plus-lg"></i></button>
+
+                                                    </div>
+                                                    <span>Maximum File Upload: 1 MB</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-inner">
+                                        <button class="primry-btn-2 lg-btn w-unset" type="submit">Save New Foreign Agent</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ========== Dashboard Area end============= -->

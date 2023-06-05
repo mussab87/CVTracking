@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.Infrastructure.Repositories.IUserRootCompany { }
 
-    public class UserRootCompanyRepository : RepositoryBase<RootCompany>, IUserRootCompanyRepository
+public class UserRootCompanyRepository : RepositoryBase<RootCompany>, IUserRootCompanyRepository
 {
     public UserRootCompanyRepository(AppDbContext dbContext) : base(dbContext)
     {
@@ -15,7 +15,7 @@ namespace App.Infrastructure.Repositories.IUserRootCompany { }
         await _dbContext.AddAsync(query);
         await _dbContext.SaveChangesAsync();
 
-        
+
 
         return await _dbContext.SaveChangesAsync();
     }
@@ -25,7 +25,6 @@ namespace App.Infrastructure.Repositories.IUserRootCompany { }
         return await _dbContext.RootCompanyUsers
                         .Where(u => u.RootCompanyId == rootCompanyId)
                         .Include(u => u.ApplicationUser).Select(u => u.ApplicationUser)
-                        
                         .ToListAsync();
     }
 }

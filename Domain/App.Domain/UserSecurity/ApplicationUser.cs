@@ -18,5 +18,7 @@ public class ApplicationUser : IdentityUser
     public DateTime CreatedDate { get; set; }
     public string LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
+
+    public int? RootCompanyId { get; set; }
 }
 
