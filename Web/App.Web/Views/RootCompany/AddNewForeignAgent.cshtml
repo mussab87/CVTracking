@@ -1,7 +1,7 @@
-﻿@model UpdateForeignAgentRequest
+﻿@model AddForeignAgentRequest
 
 @{
-    ViewBag.Title = "Update Foreign Agent";
+    ViewBag.Title = "Add New Foreign Agent";
 }
 
 <partial name="PageBannerStartPartialView" />
@@ -19,7 +19,7 @@
                             <h5>Foreign Agent</h5>
                             <div class="dash"></div>
                         </div>
-                        <form asp-action="EditForegnAgent" method="post" class="profile-form" enctype="multipart/form-data">
+                        <form asp-action="AddNewForeignAgent" method="post" class="profile-form" enctype="multipart/form-data">
                             <div class="section-title2">
                                 <h5>Foreign Agent Information:</h5>
                             </div>
@@ -50,9 +50,9 @@
                                         <div class="input-area">
                                             <img src="~/assets/images/icon/category-2.svg" alt="">
                                             <select asp-for="ForeignAgentCountryCityId" class="select1" asp-items="@ViewBag.Cities">
-                                                <option value="0">Select Country</option>
+                                                <option value="">Select Country</option>
                                             </select>
-                                            <a asp-action="CountryList" asp-controller="CountryCity" class="primry-btn-1 lg-btn w-unset" type="button">
+                                            <a asp-action="CityList" asp-controller="CountryCity" class="primry-btn-1 lg-btn w-unset" type="button">
                                                 Add
                                             </a>
                                         </div>
@@ -84,7 +84,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <div class="company-images-area mb-50">
                                         <div class="row g-lg-4 gy-5">
                                             <div class="col-lg-6 devaider1 position-relative">
@@ -100,23 +100,13 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-6">
-                                                <div class="company-cover-photo-area">
-                                                    <h5>Old Logo Photo: </h5>
-                                                    <div class="drag-area" id="dragArea2" style="width: 150px;">
-                                                        <img src="@Model.ForeignAgentLogo" style="width: 130px;height: 120px;">
-                                                        <input type="hidden" asp-for="ForeignAgentLogo" />
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="form-inner">
-                                        <button class="primry-btn-2 lg-btn w-unset" type="submit">Update Changes</button>
+                                        <button class="primry-btn-2 lg-btn w-unset" type="submit">Save New Foreign Agent</button>
                                     </div>
                                 </div>
 

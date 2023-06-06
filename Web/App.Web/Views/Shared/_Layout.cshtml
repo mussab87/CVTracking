@@ -61,6 +61,11 @@
             {
                 <partial name="_MenuRootCompany" />
             }
+
+            @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.ForeignAgent))
+            {
+                <partial name="_MenuForeignAgent" />
+            }
             <!-- #Menu -->
         </div>
     </header>

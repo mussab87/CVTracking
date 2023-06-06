@@ -47,6 +47,15 @@ public static class GetAllClaimsPermissions
                 continue;
             }
 
+            if (item.Controller == "ForeignAgentController")
+            {
+                var ClaimNameRoot = "ForeignAgent" + "-" + item.Action; //+ "-" + item.Controller;
+                var claimRoot = new Claim(ClaimNameRoot, ClaimNameRoot);
+                AllClaims.Add(claimRoot);
+
+                continue;
+            }
+
             var ClaimName = "Permission-" + item.Action; //+ "-" + item.Controller;
             var claim = new Claim(ClaimName, ClaimName);
             AllClaims.Add(claim);

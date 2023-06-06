@@ -13,7 +13,7 @@
                     <div class="dashboard-menu">
                         <ul>
                             <li>
-                                <a class="active" href="/RootCompany/ForegnAgentList">
+                                <a class="active" href="/RootCompany/ForeignAgentList">
                                     <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M7.125 6H1.125C0.50475 6 0 5.49525 0 4.875V1.125C0 0.50475 0.50475 0 1.125 0H7.125C7.74525 0 8.25 0.50475 8.25 1.125V4.875C8.25 5.49525 7.74525 6 7.125 6ZM1.125 0.75C0.91875 0.75 0.75 0.918 0.75 1.125V4.875C0.75 5.082 0.91875 5.25 1.125 5.25H7.125C7.33125 5.25 7.5 5.082 7.5 4.875V1.125C7.5 0.918 7.33125 0.75 7.125 0.75H1.125Z" />
                                         <path d="M7.125 17.9998H1.125C0.50475 17.9998 0 17.495 0 16.8748V8.62476C0 8.00451 0.50475 7.49976 1.125 7.49976H7.125C7.74525 7.49976 8.25 8.00451 8.25 8.62476V16.8748C8.25 17.495 7.74525 17.9998 7.125 17.9998ZM1.125 8.24976C0.91875 8.24976 0.75 8.41776 0.75 8.62476V16.8748C0.75 17.0818 0.91875 17.2498 1.125 17.2498H7.125C7.33125 17.2498 7.5 17.0818 7.5 16.8748V8.62476C7.5 8.41776 7.33125 8.24976 7.125 8.24976H1.125Z" />
@@ -92,50 +92,50 @@
                         <div class="title">
                             <h4>All Foreign Agents:</h4>
                         </div>
-                        @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-AddNewForegnAgent").Result.Succeeded)
+                        @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-AddNewForeignAgent").Result.Succeeded)
                         {
                             <div class="job-post-btn">
-                                <a asp-controller="RootCompany" asp-action="AddNewForegnAgent" class="primry-btn-2">Add New Foreign Agent</a>
+                                <a asp-controller="RootCompany" asp-action="AddNewForeignAgent" class="primry-btn-2">Add New Foreign Agent</a>
                             </div>
                         }
 
                     </div>
                     @*<div class="table-filter-area mb-30">
-                        <form>
-                            <div class="form-wrap style-2 style-3">
-                                <div class="form-inner">
-                                    <div class="input-area">
-                                        <img src="~/assets/images/icon/search-2.svg" alt="">
-                                        <input type="text" id="jobtitle" name="jobtitle" placeholder="Search by job title">
-                                    </div>
-                                </div>
-                                <button class="primry-btn-1" type="submit">Search</button>
-                            </div>
+                    <form>
+                    <div class="form-wrap style-2 style-3">
+                    <div class="form-inner">
+                    <div class="input-area">
+                    <img src="~/assets/images/icon/search-2.svg" alt="">
+                    <input type="text" id="jobtitle" name="jobtitle" placeholder="Search by job title">
+                    </div>
+                    </div>
+                    <button class="primry-btn-1" type="submit">Search</button>
+                    </div>
 
-                            <div class="form-wrap style-3">
-                                <div class="form-inner">
-                                    <div class="input-area">
-                                        <img src="~/assets/images/icon/calender2.svg" alt="">
-                                        <input type="text" id="datepicker11" placeholder="Search by date">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-wrap">
-                                <div class="form-inner">
-                                    <p>Show er page</p>
-                                    <div class="select-area">
-                                        <select class="select1">
-                                            <option>05</option>
-                                            <option>10</option>
-                                            <option>15</option>
-                                            <option>20</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="form-wrap style-3">
+                    <div class="form-inner">
+                    <div class="input-area">
+                    <img src="~/assets/images/icon/calender2.svg" alt="">
+                    <input type="text" id="datepicker11" placeholder="Search by date">
+                    </div>
+                    </div>
+                    </div>
+                    <div class="form-wrap">
+                    <div class="form-inner">
+                    <p>Show er page</p>
+                    <div class="select-area">
+                    <select class="select1">
+                    <option>05</option>
+                    <option>10</option>
+                    <option>15</option>
+                    <option>20</option>
+                    </select>
+                    </div>
+                    </div>
+                    </div>
 
 
-                        </form>
+                    </form>
                     </div>*@
                     <div id="PlaceForeignrHere"></div>
                     @if (Model.Any())
@@ -231,34 +231,34 @@
                                                     <tbody>
 
                                                         @foreach (var user in foreign.ForeignAgentUsers)
-                                                            {
-                                                                <tr>
-                                                                    <td hidden>@user.Id</td>
-                                                                    <td>@user.FirstName @user.LastName</td>
-                                                                    <td>@user.UserStatus</td>
-                                                                    <td>
+                                                        {
+                                                            <tr>
+                                                                <td hidden>@user.Id</td>
+                                                                <td>@user.FirstName @user.LastName</td>
+                                                                <td>@user.UserStatus</td>
+                                                                <td>
                                                                     <a asp-action="EditUser" asp-controller="RootCompany"
-                                                                       asp-route-id="@user.Id" 
-                                                                       class="btn btn-info text-white" 
+                                                                       asp-route-id="@user.Id"
+                                                                       class="btn btn-info text-white"
                                                                        style="cursor:pointer">
-                                                                       <i class="bi bi-pencil-square"></i>
+                                                                        <i class="bi bi-pencil-square"></i>
                                                                     </a>
-                                                                    </td>
-                                                                </tr>
-                                                            }
+                                                                </td>
+                                                            </tr>
+                                                        }
                                                     </tbody>
                                                 </table>
                                             }
                                             else
                                             {
-                                                <text>No Users In this Root Company</text>
+                                                <text>No Users</text>
                                             }
                                         </td>
 
                                         <td>
                                             @*<form method="post" asp-controller="RootCompany" asp-action="DeleteRootCompany" asp-route-id="@foreign.Id">*@
 
-                                            <a asp-action="EditForegnAgent" asp-controller="RootCompany"
+                                            <a asp-action="EditForeignAgent" asp-controller="RootCompany"
                                                asp-route-id="@foreign.Id" class="btn btn-info text-white" style="cursor:pointer">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
@@ -267,18 +267,15 @@
                                                 <div class="col-md-12 pt-10">
                                                     <div class="form-inner">
                                                         <button id="userForeignAgentbtn" class="primry-btn-1 lg-btn w-unset" type="button"
-                                                        data-toggle="ajax-modal"
-                                                        data-target="#foreignaddUser"
-                                                        data-url="@Url.Action($"ForeignAgentAddUsers?foreignId={foreign.Id}")">
-                                                            Add Users 
+                                                                data-toggle="ajax-modal"
+                                                                data-target="#foreignaddUser"
+                                                                data-url="@Url.Action($"ForeignAgentAddUsers?foreignId={foreign.Id}")">
+                                                            Add Users
                                                         </button>
                                                     </div>
                                                 </div>
                                             }
-                                            @*<button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete? : @root.RootCompany.RootCompanyName')">
-                                    <i class="bi bi-trash"></i>
-                                    </button>*@
-                                            @*</form>*@
+
                                         </td>
                                     </tr>
                                 }

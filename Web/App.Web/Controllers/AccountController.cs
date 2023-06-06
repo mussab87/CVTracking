@@ -63,6 +63,9 @@ namespace App.Web.Controllers
 
                         if (_userManager.IsInRoleAsync(user, Roles.Admin).Result)
                             return RedirectToAction("RootCompany", "RootCompany");
+
+                        if (_userManager.IsInRoleAsync(user, Roles.ForeignAgent).Result)
+                            return RedirectToAction("ForeignAgentHome", "ForeignAgent");
                     }
 
                 }
