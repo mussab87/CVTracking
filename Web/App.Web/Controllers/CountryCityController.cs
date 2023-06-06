@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace App.Web.Controllers
 {
-    [Authorize(Roles = Roles.SuperAdmin)]
+    [Authorize]
     public class CountryCityController : BaseController
     {
         public CountryCityController(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager,

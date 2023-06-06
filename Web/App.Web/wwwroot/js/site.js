@@ -276,28 +276,50 @@ $('#permissionbtn').click(function (event) {
 
 //Manage City******************************************
 
-$('#countrybtn').click(function (event) {
-    debugger;
-    var url = $(this).data('url');
-    var decodedUrl = decodeURIComponent(url);
-    $.get(decodedUrl).done(function (data) {
-        $('#AddCountry').modal('show');
-    })
-})
+//$('#countrybtn').click(function (event) {
+//    debugger;
+//    var url = $(this).data('url');
+//    var decodedUrl = decodeURIComponent(url);
+//    $.get(decodedUrl).done(function (data) {
+//        $('#AddCountry').modal('show');
+//    })
+//})
 
 //*******************************************************//Manage UserPermissions******************************************
 
 
 //************************************Add User into RootCompany******************************************
 
-function addToRoot(accountId) {
-    alert("here");
-    debugger;
-    var url = "/SuperAdmin/GetAllRootCompany?Id=" + accountId;
+//function addToRoot(accountId) {
+//    alert("here");
+//    debugger;
+//    var url = "/SuperAdmin/GetAllRootCompany?Id=" + accountId;
 
-    $.get(url).done(function (data) {
-        $('#AddUserToRootCompany').modal('show');
-    })
-}
+//    $.get(url).done(function (data) {
+//        $('#AddUserToRootCompany').modal('show');
+//    })
+//}
 
 //*******************************************************//end******************************************
+
+    //Manage UserForignAgent******************************************
+    $(function () {
+        
+            var placeHolderElement = $('#PlaceForeignrHere');
+
+            $('button[data-toggle="ajax-modal"').click(function (event) {
+                //get url action from data-url from the button tag
+                var url = $(this).data('url');
+                var decodedUrl = decodeURIComponent(url);
+
+                $.get(decodedUrl).done(function (data) {
+                    placeHolderElement.html(data);
+                    placeHolderElement.find('.modal').modal('show');
+                })
+            })
+        
+    })
+
+//*******************************************************//Manage UserPermissions******************************************
+
+

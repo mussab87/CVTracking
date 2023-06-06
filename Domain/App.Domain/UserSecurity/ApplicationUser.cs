@@ -20,5 +20,7 @@ public class ApplicationUser : IdentityUser
     public DateTime? LastModifiedDate { get; set; }
 
     public int? RootCompanyId { get; set; }
+    public int? ForeignAgentId { get; set; }
+    public int? LocalAgentId { get; set; }
 }
 

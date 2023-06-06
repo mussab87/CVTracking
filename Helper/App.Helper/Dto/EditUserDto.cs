@@ -49,5 +49,6 @@ public class EditUserDto
 
     public IList<string> Roles { get; set; }
 
+
 }
 

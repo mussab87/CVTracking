@@ -484,7 +484,111 @@ namespace App.Web.Controllers
             var query = new GetForeignAgentListQuery() { rootCompanyId = (int)userRootCompanyId };
             var ForeignAgentListByRootCompany = await _mediator.Send(query);
 
+            //get all users inside selected rootCompany           
+            var rootCompanyUsers = _userManager.Users.Where(u => u.RootCompanyId == userRootCompanyId);
+
+            //forloop inside users for check foreignAgent
+            foreach (var user in rootCompanyUsers)
+            {
+                foreach (var foreign in ForeignAgentListByRootCompany)
+                {
+                    if (user.ForeignAgentId == foreign.Id)
+                        foreign.ForeignAgentUsers.Add(user);
+                }
+                
+            }
+
             return View(ForeignAgentListByRootCompany);
+        }
+
+        [HttpGet]
+        [Authorize("RootCompany-ForeignAgentAddUsers")]
+        public async Task<IActionResult> ForeignAgentAddUsers(int foreignId)
+        {
+            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
+                return RedirectToAction("Logout", "Account");
+
+            var foreignAgentQuery = new GetForeignAgentByIdQuery() { ForeignAgentId = foreignId };
+            var foreignAgent = await _mediator.Send(foreignAgentQuery);
+
+            if (foreignAgent == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {foreignId} cannot be found";
+                return View("NotFound");
+            }
+
+            //get all users inside selected rootCompany
+            var userRootCompany = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+            var rootCompanyUsers = _userManager.Users.Where(u => u.RootCompanyId == userRootCompany);
+
+            UserAgentDto model = new()
+            {
+                foreignAgentId = foreignId
+            };
+
+            // Loop through each user
+            foreach (var user in rootCompanyUsers)
+            {
+                UserAgent userForeign = new()
+                {
+                    UserId = user.Id,
+                    userName = user.FirstName + user.LastName
+                };
+
+                // If the user has assigned into selected foreignCompany, set IsSelected property to true, so the checkbox
+                // next to the user is checked on the UI
+                if (rootCompanyUsers.Any(c => c.ForeignAgentId == foreignId))
+                {
+                    userForeign.IsSelected = true;
+                }
+
+                model.usersAgents.Add(userForeign);
+            }
+
+            return PartialView("_ForeignAgentAddUsers", model);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForeignAgentAddUsers(UserAgentDto model)
+        {
+            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
+                return RedirectToAction("Logout", "Account");
+
+
+            //get all users inside selected rootCompany
+            var userRootCompany = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+            var rootCompanyUsers = _userManager.Users.Where(u => u.RootCompanyId == userRootCompany 
+                                        && u.ForeignAgentId == model.foreignAgentId).ToList();
+
+            //remove existing ForeignCompany Users
+            if (rootCompanyUsers.Count() > 0)
+            {
+                foreach (var item in rootCompanyUsers)
+                {
+                    var user = await _userManager.FindByIdAsync(item.Id);
+                    user.ForeignAgentId = null;
+                    await _userManager.UpdateAsync(user);
+                }
+            }
+
+            foreach (var userSelected in model.usersAgents)
+            {
+                var user = await _userManager.FindByIdAsync(userSelected.UserId);
+
+                user.ForeignAgentId = model.foreignAgentId;
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    TempData["Message"] = 1;
+                    return RedirectToAction(nameof(ForegnAgentList));
+                }
+            }
+            
+            TempData["Message"] = 5;
+            return View(model);
         }
 
         [HttpGet]
@@ -501,6 +605,15 @@ namespace App.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewForegnAgent(AddForeignAgentRequest model, IFormFile fileload)
         {
+            if (!ModelState.IsValid)
+            {
+                await GetCities();
+                return View(model);
+
+            }
+
+            //if(model.ForeignAgentCountryCityId ==)
+
             if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
                 return RedirectToAction("Logout", "Account");
 
@@ -522,11 +635,18 @@ namespace App.Web.Controllers
             var newForeignAgent = await _mediator.Send(model);
             TempData["Message"] = 1;
 
+            await GetCities();
+
+            return View();
+
+            
+        }
+
+        async Task GetCities()
+        {
             var query = new GetCityListQuery();
             var Cities = await _mediator.Send(query);
             ViewData["Cities"] = new SelectList(Cities, "Id", "NameEnglish");
-
-            return View();
         }
 
         static async Task<string> SaveLogoFile(IFormFile fileload)
@@ -557,9 +677,7 @@ namespace App.Web.Controllers
             var foreignAgentQuery = new GetForeignAgentByIdQuery() { ForeignAgentId = id };
             var foreignAgent = await _mediator.Send(foreignAgentQuery);
 
-            var query = new GetCityListQuery();
-            var Cities = await _mediator.Send(query);
-            ViewData["Cities"] = new SelectList(Cities, "Id", "NameEnglish");
+            await GetCities();
 
             return View(_mapper.Map<UpdateForeignAgentRequest>(foreignAgent));
         }
@@ -569,6 +687,7 @@ namespace App.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                await GetCities();
                 return View(model);
             }
 
@@ -584,28 +703,26 @@ namespace App.Web.Controllers
             model.LastModifiedById = LoggedInuser.Id;
             model.LastModifiedDate = DateTime.Now;
 
-
             await _mediator.Send(model);
             TempData["Message"] = 1;
 
             return RedirectToAction(nameof(ForegnAgentList));
-
         }
 
-        [HttpPost]
-        [Authorize("RootCompany-DeleteForegnAgent")]
-        public async Task<IActionResult> DeleteForegnAgent(int id)
-        {
-            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+        //[HttpPost]
+        //[Authorize("RootCompany-DeleteForegnAgent")]
+        //public async Task<IActionResult> DeleteForegnAgent(int id)
+        //{
+        //    var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
 
-            var command = new DeleteRootCompanyRequest() { Id = id };
-            await _mediator.Send(command);
+        //    var command = new DeleteRootCompanyRequest() { Id = id };
+        //    await _mediator.Send(command);
 
-            TempData["Message"] = 1;
+        //    TempData["Message"] = 1;
 
-            return RedirectToAction(nameof(ForegnAgentList));
+        //    return RedirectToAction(nameof(ForegnAgentList));
 
-        }
+        //}
         #endregion
     }
 }

@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace App.Application.Features.ForeignAgent.ForeignAgentDtos { }
+﻿namespace App.Application.Features.ForeignAgent.ForeignAgentDtos { }
 
 public class ForegnAgentDto
 {
+    public ForegnAgentDto()
+    {
+        ForeignAgentUsers = new List<ApplicationUser>();
+    }
     public int Id { get; set; }
     public string CreatedById { get; set; }
     public DateTime CreatedDate { get; set; }
@@ -18,5 +20,7 @@ public class ForegnAgentDto
     public string ForeignAgentLogo { get; set; }
     public string ForeignAgentContacts { get; set; }
     public string ForeignAgentComments { get; set; }
+
+    public List<ApplicationUser> ForeignAgentUsers { get; set; }
 }
 

@@ -16,7 +16,7 @@
                         <div class="table-title-filter">
                             <div class="section-title">
                                 <h5>
-                                    All System Users:
+                                     Users List:
                                     @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-AddNewAccount").Result.Succeeded)
                                     {
                                         <a asp-controller="RootCompany" asp-action="AddNewAccount" class="primry-btn-2 w-unset">Add New User</a>

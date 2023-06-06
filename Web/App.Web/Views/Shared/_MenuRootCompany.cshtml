@@ -1,7 +1,7 @@
 ﻿@{
     ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
 
-    string logo = null;
+    string logo = null;    
     if (HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") != null)
     {
         logo = HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").RootCompanyLogo;
@@ -56,9 +56,19 @@
                         {
                             <li><a asp-controller="RootCompany" asp-action="LocalAgentList">Local Companies</a></li>
                         }
-
-
-
+                    </ul>
+                </li>
+                <li class="menu-item-has-children">
+                    <a href="#">System Settings</a><i class="bi bi-plus dropdown-icon"></i>
+                    <ul class="sub-menu">
+                        @if (AuthorizationService.AuthorizeAsync(User, "Permission-CountryList").Result.Succeeded)
+                        {
+                            <li><a asp-controller="CountryCity" asp-action="CountryList">CountryList</a></li>
+                        }
+                        @if (AuthorizationService.AuthorizeAsync(User, "Permission-CityList").Result.Succeeded)
+                        {
+                            <li><a asp-controller="CountryCity" asp-action="CityList">Cities</a></li>
+                        }
                     </ul>
                 </li>
             </ul>
