@@ -2,9 +2,9 @@
     ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
 
     string logo = null;
-    if (HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") != null)
+    if (HttpContextAccessor.HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent") != null)
     {
-        logo = HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").RootCompanyLogo;
+        logo = HttpContextAccessor.HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent").ForeignAgentLogo;
     }
 }
 
@@ -25,7 +25,7 @@
         {
             <ul class="menu-list">
                 <li class="menu-item-has-children">
-                    @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-RootCompany").Result.Succeeded)
+                    @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-ForeignAgentHome").Result.Succeeded)
                     {
                         <a asp-controller="ForeignAgent" asp-action="ForeignAgentHome" class="drop-down">Home</a>
 
@@ -37,7 +37,7 @@
                     <ul class="sub-menu">
                         @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-AllCVList").Result.Succeeded)
                         {
-                            <li><a asp-controller="ForeignAgent" asp-action="AllCVList">Users List</a></li>
+                            <li><a asp-controller="ForeignAgent" asp-action="AllCVList">CVs List</a></li>
                         }
                         @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-AddNewCV").Result.Succeeded)
                         {

@@ -33,15 +33,13 @@ namespace App.Web.Controllers
             return View(ForeignAgentCount);
         }
 
-        #region ForeignAgent Section
+        #region ForeignAgent CV Section
         [HttpGet]
-        [Authorize("ForeignAgent-ForeignAgentList")]
-        public async Task<IActionResult> ForeignAgentList()
+        [Authorize("ForeignAgent-AllCVList")]
+        public async Task<IActionResult> AllCVList()
         {
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
             var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+            var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("RootCompany");
 
             var query = new GetForeignAgentListQuery() { rootCompanyId = (int)userRootCompanyId };
             var ForeignAgentListByRootCompany = await _mediator.Send(query);
@@ -61,147 +59,6 @@ namespace App.Web.Controllers
             }
 
             return View(ForeignAgentListByRootCompany);
-        }
-
-        [HttpGet]
-        [Authorize("ForeignAgent-ForeignAgentAddUsers")]
-        public async Task<IActionResult> ForeignAgentAddUsers(int foreignId)
-        {
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
-            var foreignAgentQuery = new GetForeignAgentByIdQuery() { ForeignAgentId = foreignId };
-            var foreignAgent = await _mediator.Send(foreignAgentQuery);
-
-            if (foreignAgent == null)
-            {
-                ViewBag.ErrorMessage = $"User with Id = {foreignId} cannot be found";
-                return View("NotFound");
-            }
-
-            //get all users inside selected rootCompany
-            var userRootCompany = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
-            var rootCompanyUsers = _userManager.Users.Where(u => u.RootCompanyId == userRootCompany);
-
-            UserAgentDto model = new()
-            {
-                foreignAgentId = foreignId
-            };
-
-            // Loop through each user
-            foreach (var user in rootCompanyUsers)
-            {
-                UserAgent userForeign = new()
-                {
-                    UserId = user.Id,
-                    userName = user.FirstName + user.LastName
-                };
-
-                // If the user has assigned into selected foreignCompany, set IsSelected property to true, so the checkbox
-                // next to the user is checked on the UI
-                if (rootCompanyUsers.Any(c => c.ForeignAgentId == foreignId))
-                {
-                    userForeign.IsSelected = true;
-                }
-
-                model.usersAgents.Add(userForeign);
-            }
-
-            return PartialView("_ForeignAgentAddUsers", model);
-
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ForeignAgentAddUsers(UserAgentDto model)
-        {
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
-
-            //get all users inside selected rootCompany
-            var userRootCompany = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
-            var rootCompanyUsers = _userManager.Users.Where(u => u.RootCompanyId == userRootCompany
-                                        && u.ForeignAgentId == model.foreignAgentId).ToList();
-
-            //remove existing ForeignCompany Users
-            if (rootCompanyUsers.Count() > 0)
-            {
-                foreach (var item in rootCompanyUsers)
-                {
-                    var user = await _userManager.FindByIdAsync(item.Id);
-                    user.ForeignAgentId = null;
-                    await _userManager.UpdateAsync(user);
-                }
-            }
-
-            foreach (var userSelected in model.usersAgents)
-            {
-                var user = await _userManager.FindByIdAsync(userSelected.UserId);
-
-                user.ForeignAgentId = model.foreignAgentId;
-
-                var result = await _userManager.UpdateAsync(user);
-
-                if (result.Succeeded)
-                {
-                    TempData["Message"] = 1;
-                    return RedirectToAction(nameof(ForeignAgentList));
-                }
-            }
-
-            TempData["Message"] = 5;
-            return View(model);
-        }
-
-        [HttpGet]
-        [Authorize("ForeignAgent-AddNewForeignAgent")]
-        public async Task<IActionResult> AddNewForeignAgent()
-        {
-            var query = new GetCityListQuery();
-            var Cities = await _mediator.Send(query);
-            ViewData["Cities"] = new SelectList(Cities, "Id", "NameEnglish");
-
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddNewForeignAgent(AddForeignAgentRequest model, IFormFile fileload)
-        {
-            if (!ModelState.IsValid)
-            {
-                await GetCities();
-                return View(model);
-
-            }
-
-            //if(model.ForeignAgentCountryCityId ==)
-
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
-            var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
-
-            string fileName = null;
-            if (fileload != null)
-            {
-                fileName = await SaveLogoFile(fileload);
-                model.ForeignAgentLogo = fileName;
-            }
-
-            //save new rootCompany
-            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
-            model.CreatedById = LoggedInuser.Id;
-            model.CreatedDate = DateTime.Now;
-            model.RootCompanyId = (int)userRootCompanyId;
-
-            var newForeignAgent = await _mediator.Send(model);
-            TempData["Message"] = 1;
-
-            await GetCities();
-
-            return View();
-
-
         }
 
         async Task GetCities()
@@ -232,59 +89,6 @@ namespace App.Web.Controllers
             return fileNameWithPath.Replace("wwwroot", "../../");
         }
 
-        [HttpGet]
-        [Authorize("ForeignAgent-EditForeignAgent")]
-        public async Task<IActionResult> EditForeignAgent(int id)
-        {
-            var foreignAgentQuery = new GetForeignAgentByIdQuery() { ForeignAgentId = id };
-            var foreignAgent = await _mediator.Send(foreignAgentQuery);
-
-            await GetCities();
-
-            return View(_mapper.Map<UpdateForeignAgentRequest>(foreignAgent));
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditForeignAgent(UpdateForeignAgentRequest model, IFormFile fileload)
-        {
-            if (!ModelState.IsValid)
-            {
-                await GetCities();
-                return View(model);
-            }
-
-            //check file changed at first step
-            string fileName = null;
-            if (fileload != null)
-            {
-                fileName = await SaveLogoFile(fileload);
-                model.ForeignAgentLogo = fileName;
-            }
-
-            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
-            model.LastModifiedById = LoggedInuser.Id;
-            model.LastModifiedDate = DateTime.Now;
-
-            await _mediator.Send(model);
-            TempData["Message"] = 1;
-
-            return RedirectToAction(nameof(ForeignAgentList));
-        }
-
-        //[HttpPost]
-        //[Authorize("ForeignAgent-DeleteForeignAgent")]
-        //public async Task<IActionResult> DeleteForeignAgent(int id)
-        //{
-        //    var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
-
-        //    var command = new DeleteRootCompanyRequest() { Id = id };
-        //    await _mediator.Send(command);
-
-        //    TempData["Message"] = 1;
-
-        //    return RedirectToAction(nameof(ForeignAgentList));
-
-        //}
         #endregion
     }
 }

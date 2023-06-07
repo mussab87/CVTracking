@@ -17,6 +17,11 @@ builder.Services.AddControllersWithViews(config =>
                     .RequireAuthenticatedUser()
                     .Build();
     config.Filters.Add(new AuthorizeFilter(policy));
+
+    //add custom filter before executing some of controller
+
+    config.Filters.Add(new CustomControllerFilter(
+                    new string[] { "RootCompanyController", "ForeignAgentController" }));
 });
 
 builder.Services.AddSession(options =>

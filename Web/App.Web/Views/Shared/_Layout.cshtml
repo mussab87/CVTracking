@@ -1,9 +1,16 @@
 ﻿<!DOCTYPE html>
 @{
     string logo = null;
-    if (HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") != null)
+    if (HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") != null
+    && signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.Admin))
     {
         logo = HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").RootCompanyLogo;
+    }
+
+    if (HttpContextAccessor.HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent") != null
+    && signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.ForeignAgent))
+    {
+        logo = HttpContextAccessor.HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent").ForeignAgentLogo;
     }
 }
 <html lang="en">
@@ -24,6 +31,11 @@
             @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.Admin))
             {
                 <a asp-controller="RootCompany" asp-action="RootCompany"><img alt="image" style="width:100px; height: 90px" src="@logo"></a>
+            }
+
+            @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.ForeignAgent))
+            {
+                <a asp-controller="ForeignAgent" asp-action="ForeignAgentHome"><img alt="image" style="width:100px; height: 90px" src="@logo"></a>
             }
 
         </div>

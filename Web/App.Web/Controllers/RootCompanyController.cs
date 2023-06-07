@@ -21,15 +21,9 @@ namespace App.Web.Controllers
         [Authorize("RootCompany-RootCompany")]
         public async Task<IActionResult> RootCompany()
         {
-            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
-            //get user root company 
-            var query = new GetRootCompanyByUserIdQuery() { userId = LoggedInuser.Id };
-            var UserRootCompany = await _mediator.Send(query);
+            //var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
 
-            //set session for rootCompany
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                HttpContext.Session.SetObject("RootCompany", UserRootCompany);
-
+            var UserRootCompany = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany");
             //get ForeignAgentsCount
             var ForeignCount = new GetForeignAgentListQuery() { rootCompanyId = (int)UserRootCompany.Id };
             var ForeignAgentListByRootCompany = await _mediator.Send(ForeignCount);
@@ -40,8 +34,6 @@ namespace App.Web.Controllers
                 FoeignAgentCount = ForeignAgentListByRootCompany.Count()
             };
 
-
-
             return View(RootCompanyCount);
         }
 
@@ -51,9 +43,6 @@ namespace App.Web.Controllers
         [Authorize("RootCompany-ListUsers")]
         public IActionResult ListUsers()
         {
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
             var userRootCompany = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
             return View(_userManager.Users.Where(u => u.RootCompanyId == userRootCompany));
 
@@ -62,18 +51,12 @@ namespace App.Web.Controllers
         [Authorize("RootCompany-AddNewAccount")]
         public IActionResult AddNewAccount()
         {
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> AddNewAccount(AccountDto model)
         {
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
             if (ModelState.IsValid)
             {
                 var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
@@ -153,9 +136,6 @@ namespace App.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ChangeUserPassword(string id)
         {
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
             var user = await _userManager.FindByIdAsync(id);
             ChangePasswordDto model = new ChangePasswordDto
             {
@@ -241,9 +221,6 @@ namespace App.Web.Controllers
         [Authorize("RootCompany-EditUser")]
         public async Task<IActionResult> EditUser(string id)
         {
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
             var user = await _userManager.FindByIdAsync(id);
 
             if (user == null)
@@ -323,9 +300,6 @@ namespace App.Web.Controllers
         [Authorize("RootCompany-ManageUserRoles")]
         public async Task<IActionResult> ManageUserRoles(string Id)
         {
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
             var user = await _userManager.FindByIdAsync(Id);
 
             if (user == null)
@@ -400,9 +374,6 @@ namespace App.Web.Controllers
         [Authorize("RootCompany-ManageUserPermission")]
         public async Task<IActionResult> ManageUserPermission(string userId)
         {
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
@@ -485,9 +456,6 @@ namespace App.Web.Controllers
         [Authorize("RootCompany-ForeignAgentList")]
         public async Task<IActionResult> ForeignAgentList()
         {
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
             var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
 
             var query = new GetForeignAgentListQuery() { rootCompanyId = (int)userRootCompanyId };
@@ -514,9 +482,6 @@ namespace App.Web.Controllers
         [Authorize("RootCompany-ForeignAgentAddUsers")]
         public async Task<IActionResult> ForeignAgentAddUsers(int foreignId)
         {
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
             var foreignAgentQuery = new GetForeignAgentByIdQuery() { ForeignAgentId = foreignId };
             var foreignAgent = await _mediator.Send(foreignAgentQuery);
 
@@ -561,9 +526,6 @@ namespace App.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ForeignAgentAddUsers(UserAgentDto model)
         {
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
 
             //get all users inside selected rootCompany
             var userRootCompany = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
@@ -623,9 +585,6 @@ namespace App.Web.Controllers
 
             //if(model.ForeignAgentCountryCityId ==)
 
-            if (HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") is null)
-                return RedirectToAction("Logout", "Account");
-
             var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
 
             string fileName = null;
@@ -676,7 +635,7 @@ namespace App.Web.Controllers
                 await fileload.CopyToAsync(stream);
             }
 
-            return fileNameWithPath.Replace("wwwroot", "../../");
+            return fileNameWithPath.Replace("wwwroot", "../..");
         }
 
         [HttpGet]

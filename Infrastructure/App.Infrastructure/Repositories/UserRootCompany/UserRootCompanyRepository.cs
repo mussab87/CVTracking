@@ -13,9 +13,9 @@ public class UserRootCompanyRepository : RepositoryBase<RootCompany>, IUserRootC
     {
         var query = new RootCompanyUsers { ApplicationUserId = applicationUserId, RootCompanyId = rootCompanyId };
         await _dbContext.AddAsync(query);
-        await _dbContext.SaveChangesAsync();
-
-
+        //update user table by rootCompanyId 
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == applicationUserId);
+        user.RootCompanyId = rootCompanyId;
 
         return await _dbContext.SaveChangesAsync();
     }

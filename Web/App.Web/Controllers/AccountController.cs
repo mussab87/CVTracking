@@ -8,6 +8,8 @@ using System.Data;
 using System;
 using MediatR;
 using AutoMapper;
+using App.Application.Features.RootCompany.Queries.GetRootCompanyByUserId;
+using App.Application.Features.RootCompany.Queries.GetRootCompanyById;
 
 namespace App.Web.Controllers
 {
@@ -62,10 +64,19 @@ namespace App.Web.Controllers
                             return RedirectToAction("Index", "SuperAdmin");
 
                         if (_userManager.IsInRoleAsync(user, Roles.Admin).Result)
+                        {
+                            await SetRootCompanyForeignAgentSession(user);
+
                             return RedirectToAction("RootCompany", "RootCompany");
+                        }
+
 
                         if (_userManager.IsInRoleAsync(user, Roles.ForeignAgent).Result)
+                        {
+                            await SetRootCompanyForeignAgentSession(user, "foreignAgent");
                             return RedirectToAction("ForeignAgentHome", "ForeignAgent");
+                        }
+
                     }
 
                 }
@@ -74,6 +85,25 @@ namespace App.Web.Controllers
 
             // If we got this far, something failed, redisplay form
             return LocalRedirect(returnUrl);
+        }
+
+        private async Task SetRootCompanyForeignAgentSession(ApplicationUser user, string foreignAgent = null)
+        {
+            //get user root company 
+            var query = new GetRootCompanyByIdQuery() { RootCompanyId = (int)user.RootCompanyId };
+            var UserRootCompany = await _mediator.Send(query);
+
+            //set session for rootCompany
+            HttpContext.Session.SetObject("RootCompany", UserRootCompany);
+
+            //set session for ForeginAgent 
+            if (foreignAgent is not null)
+            {
+                var queryForeignAgent = new GetForeignAgentByIdQuery() { ForeignAgentId = (int)user.ForeignAgentId };
+                var UserForeignAgent = await _mediator.Send(queryForeignAgent);
+
+                HttpContext.Session.SetObject("ForeignAgent", UserForeignAgent);
+            }
         }
 
         public async Task<IActionResult> Logout(string returnUrl = null)
@@ -87,10 +117,12 @@ namespace App.Web.Controllers
 
             //await _context.UserTransaction.AddAsync(userLoggedIn);
             //await _context.SaveChangesAsync(User?.FindFirst(ClaimTypes.NameIdentifier).Value);
+            HttpContext.Session.Remove("RootCompany");
+            HttpContext.Session.Remove("ForeignAgent");
+            HttpContext.Session.Clear();
 
             await _signInManager.SignOutAsync();
-            HttpContext.Session.Remove("ComplexObject");
-            HttpContext.Session.Clear();
+
             return RedirectToAction("Login");
         }
     }
