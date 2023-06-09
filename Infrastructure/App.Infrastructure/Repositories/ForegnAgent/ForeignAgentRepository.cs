@@ -14,6 +14,21 @@ public class ForeignAgentRepository : RepositoryBase<ForeignAgent>, IForeignAgen
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task<List<HRPool>> GetAllForeignAgentCvList(int ForeignAgentId)
+    {
+        var query = await _dbContext.HRPools
+                    .Include(c => c.ForeignAgent)
+                    .Include(c => c.CV)
+                    .Include(c => c.CV.Nationality)
+                    .Include(c => c.CV.Religion)
+                    .Include(c => c.CV.PlaceOfBirth)
+                    .Include(c => c.CV.MartialStatus)
+                    .Include(c => c.CVStatus)
+                    .Where(c => c.ForeignAgent.Id == ForeignAgentId).ToListAsync();
+
+        return query;
+    }
+
     public async Task<List<ForeignAgent>> GetForeignAgentByRootCompanyId(int rootCompanyId)
     {
         var query = await _dbContext.RootCompanyForeignAgents

@@ -33,6 +33,8 @@ public class AppDbContext : AuditIdentityDbContext
     public DbSet<CVAttachment> CVAttachments { get; set; }
     public DbSet<Attachment> Attachments { get; set; }
     public DbSet<CVStatus> CVStatuses { get; set; }
+    public DbSet<Religion> Religions { get; set; }
+    public DbSet<MartialStatus> MartialStatus { get; set; }
     public DbSet<ForeignAgent> ForeignAgents { get; set; }
     public DbSet<HRPool> HRPools { get; set; }
     public DbSet<LocalAgent> LocalAgents { get; set; }

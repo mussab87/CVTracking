@@ -29,5 +29,7 @@ public class MappingProfile : Profile
         CreateMap<ForeignAgent, AddForeignAgentRequest>().ReverseMap();
         CreateMap<ForeignAgent, UpdateForeignAgentRequest>().ReverseMap();
         CreateMap<UpdateForeignAgentRequest, ForegnAgentDto>().ReverseMap();
+
+        CreateMap<ForeignAgentHRPoolDto, HRPool>().ReverseMap();
     }
 }

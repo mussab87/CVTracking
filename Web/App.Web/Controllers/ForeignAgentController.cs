@@ -35,33 +35,84 @@ namespace App.Web.Controllers
 
         #region ForeignAgent CV Section
         [HttpGet]
-        [Authorize("ForeignAgent-AllCVList")]
-        public async Task<IActionResult> AllCVList()
+        [Authorize("ForeignAgent-ForeignAgentAllCVList")]
+        public async Task<IActionResult> ForeignAgentAllCVList()
         {
             var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
             var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("RootCompany");
 
-            var query = new GetForeignAgentListQuery() { rootCompanyId = (int)userRootCompanyId };
-            var ForeignAgentListByRootCompany = await _mediator.Send(query);
+            //get all CV for the ForeignAgent
+            var query = new GetAllCvListQuery() { ForeignAgentId = (int)userForeignAgentId.Id };
+            var ForeignAgentCvList = await _mediator.Send(query);
 
-            //get all users inside selected rootCompany           
-            var rootCompanyUsers = _userManager.Users.Where(u => u.RootCompanyId == userRootCompanyId);
-
-            //forloop inside users for check foreignAgent
-            foreach (var user in rootCompanyUsers)
-            {
-                foreach (var foreign in ForeignAgentListByRootCompany)
-                {
-                    if (user.ForeignAgentId == foreign.Id)
-                        foreign.ForeignAgentUsers.Add(user);
-                }
-
-            }
-
-            return View(ForeignAgentListByRootCompany);
+            return View(ForeignAgentCvList);
         }
 
-        async Task GetCities()
+        [HttpGet]
+        [Authorize("ForeignAgent-ForeignAgentSelectedApplicants")]
+        public async Task<IActionResult> ForeignAgentSelectedApplicants()
+        {
+            var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+            var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("RootCompany");
+
+            //get all CV for the ForeignAgent
+            var query = new GetAllCvListQuery() { ForeignAgentId = (int)userForeignAgentId.Id };
+            var ForeignAgentCvList = await _mediator.Send(query);
+
+            return View(ForeignAgentCvList.Where(s => s.CVStatus.Status == "Selected"));
+        }
+
+        [HttpGet]
+        [Authorize("ForeignAgent-ForeignAgentPostToAdminApplicants")]
+        public async Task<IActionResult> ForeignAgentPostToAdminApplicants()
+        {
+            var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+            var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("RootCompany");
+
+            //get all CV for the ForeignAgent
+            var query = new GetAllCvListQuery() { ForeignAgentId = (int)userForeignAgentId.Id };
+            var ForeignAgentCvList = await _mediator.Send(query);
+
+            return View(ForeignAgentCvList.Where(s => s.CVStatus.Status == "Post to Admin"));
+        }
+
+        [HttpGet]
+        [Authorize("ForeignAgent-ForeignAgentInCompleteCV")]
+        public async Task<IActionResult> ForeignAgentInCompleteCV()
+        {
+            var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+            var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("RootCompany");
+
+            //get all CV for the ForeignAgent
+            var query = new GetAllCvListQuery() { ForeignAgentId = (int)userForeignAgentId.Id };
+            var ForeignAgentCvList = await _mediator.Send(query);
+
+            return View(ForeignAgentCvList.Where(s => s.CVStatus.Status == "InComplete"));
+        }
+
+        [HttpGet]
+        [Authorize("ForeignAgent-ForeignAgentBackoutCV")]
+        public async Task<IActionResult> ForeignAgentBackoutCV()
+        {
+            var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+            var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("RootCompany");
+
+            //get all CV for the ForeignAgent
+            var query = new GetAllCvListQuery() { ForeignAgentId = (int)userForeignAgentId.Id };
+            var ForeignAgentCvList = await _mediator.Send(query);
+
+            return View(ForeignAgentCvList.Where(s => s.CVStatus.Status == "Backout"));
+        }
+
+        [HttpGet]
+        [Authorize("ForeignAgent-ForeignAgentAddNewCV")]
+        public async Task<IActionResult> ForeignAgentAddNewCV()
+        {
+            await GetDropDownList();
+            return View();
+        }
+
+        async Task GetDropDownList()
         {
             var query = new GetCityListQuery();
             var Cities = await _mediator.Send(query);

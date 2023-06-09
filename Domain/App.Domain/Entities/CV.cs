@@ -6,6 +6,8 @@ namespace App.Domain.Entities { }
 public class CV : EntityBase
 {
     public string CvReferenceNumber { get; set; }
+    public string CandidateNameEnglish { get; set; }
+    public string CandidateNameArabic { get; set; }
     public string CandidateSalary { get; set; }
     public int? ContractPeriod { get; set; }
 
@@ -22,12 +24,16 @@ public class CV : EntityBase
     public int? NationalityId { get; set; }
     [ForeignKey("NationalityId")]
     public Country Nationality { get; set; }
-    public string Religion { get; set; }
+    public int? ReligionId { get; set; }
+    [ForeignKey("ReligionId")]
+    public Religion Religion { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public int? PlaceOfBirthId { get; set; }
     [ForeignKey("PlaceOfBirthId")]
     public City PlaceOfBirth { get; set; }
-    public int? MartialStatus { get; set; }
+    public int? MartialStatusId { get; set; }
+    [ForeignKey("MartialStatusId")]
+    public MartialStatus MartialStatus { get; set; }
     public string NoOfChildren { get; set; }
     public int? Weight { get; set; }
     public int? Height { get; set; }

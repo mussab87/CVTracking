@@ -35,9 +35,9 @@
                 <li class="menu-item-has-children">
                     <a href="#" class="drop-down">CV Portal</a><i class="bi bi-plus dropdown-icon"></i>
                     <ul class="sub-menu">
-                        @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-AllCVList").Result.Succeeded)
+                        @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-ForeignAgentAllCVList").Result.Succeeded)
                         {
-                            <li><a asp-controller="ForeignAgent" asp-action="AllCVList">CVs List</a></li>
+                            <li><a asp-controller="ForeignAgent" asp-action="ForeignAgentAllCVList">CV Portal</a></li>
                         }
                         @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-AddNewCV").Result.Succeeded)
                         {

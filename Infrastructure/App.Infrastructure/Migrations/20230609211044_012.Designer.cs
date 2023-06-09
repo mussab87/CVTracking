@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230609211044_012")]
+    partial class _012
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,12 +260,6 @@ namespace App.Infrastructure.Migrations
                     b.Property<bool?>("ArabicLanguage")
                         .HasColumnType("bit");
 
-                    b.Property<string>("CandidateNameArabic")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CandidateNameEnglish")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CandidateSalary")
                         .HasColumnType("nvarchar(max)");
 
@@ -337,8 +334,6 @@ namespace App.Infrastructure.Migrations
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("LastModifiedById");
-
-                    b.HasIndex("MartialStatusId");
 
                     b.HasIndex("NationalityId");
 
@@ -678,18 +673,6 @@ namespace App.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CreatedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("MartialStatusArabic")
                         .HasColumnType("nvarchar(max)");
 
@@ -700,10 +683,6 @@ namespace App.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("LastModifiedById");
 
                     b.ToTable("MartialStatus", (string)null);
                 });
@@ -896,18 +875,6 @@ namespace App.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CreatedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("ReligionArabic")
                         .HasColumnType("nvarchar(max)");
 
@@ -918,10 +885,6 @@ namespace App.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("LastModifiedById");
 
                     b.ToTable("Religions", (string)null);
                 });
@@ -1191,10 +1154,6 @@ namespace App.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("LastModifiedById");
 
-                    b.HasOne("MartialStatus", "MartialStatus")
-                        .WithMany()
-                        .HasForeignKey("MartialStatusId");
-
                     b.HasOne("Country", "Nationality")
                         .WithMany()
                         .HasForeignKey("NationalityId");
@@ -1202,6 +1161,10 @@ namespace App.Infrastructure.Migrations
                     b.HasOne("City", "PlaceOfBirth")
                         .WithMany()
                         .HasForeignKey("PlaceOfBirthId");
+
+                    b.HasOne("MartialStatus", "MartialStatus")
+                        .WithMany()
+                        .HasForeignKey("ReligionId");
 
                     b.HasOne("Religion", "Religion")
                         .WithMany()
@@ -1377,21 +1340,6 @@ namespace App.Infrastructure.Migrations
                     b.Navigation("LocalAgentCountryCity");
                 });
 
-            modelBuilder.Entity("MartialStatus", b =>
-                {
-                    b.HasOne("ApplicationUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("ApplicationUser", "LastModifiedBy")
-                        .WithMany()
-                        .HasForeignKey("LastModifiedById");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("LastModifiedBy");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1464,21 +1412,6 @@ namespace App.Infrastructure.Migrations
                     b.Navigation("CV");
 
                     b.Navigation("CountryOfEmployment");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("LastModifiedBy");
-                });
-
-            modelBuilder.Entity("Religion", b =>
-                {
-                    b.HasOne("ApplicationUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("ApplicationUser", "LastModifiedBy")
-                        .WithMany()
-                        .HasForeignKey("LastModifiedById");
 
                     b.Navigation("CreatedBy");
 
