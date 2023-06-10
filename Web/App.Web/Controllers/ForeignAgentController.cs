@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text.Json;
 
 namespace App.Web.Controllers
 {
@@ -114,9 +115,30 @@ namespace App.Web.Controllers
 
         async Task GetDropDownList()
         {
-            var query = new GetCityListQuery();
-            var Cities = await _mediator.Send(query);
+            //Countries
+            var country = new GetCountryListQuery();
+            var Countries = await _mediator.Send(country);
+            ViewData["Countries"] = new SelectList(Countries, "Id", "NameEnglish");
+            ViewBag.Country = JsonSerializer.Serialize(Countries.Select(c => new
+            {
+                Id = c.Id,
+                country = c.NameEnglish
+            }).ToList());
+
+            //Cities
+            var city = new GetCityListQuery();
+            var Cities = await _mediator.Send(city);
             ViewData["Cities"] = new SelectList(Cities, "Id", "NameEnglish");
+
+            //Religions
+            var religion = new GetReligionListQuery();
+            var religions = await _mediator.Send(religion);
+            ViewData["Religion"] = new SelectList(religions, "Id", "ReligionEnglish");
+
+            //MartialStatus
+            var martialStatus = new GetMartialStatusListQuery();
+            var martials = await _mediator.Send(martialStatus);
+            ViewData["martialStatus"] = new SelectList(martials, "Id", "MartialStatusEnglish");
         }
 
         static async Task<string> SaveLogoFile(IFormFile fileload)

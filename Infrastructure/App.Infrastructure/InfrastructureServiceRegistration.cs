@@ -51,6 +51,12 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<ICityRepository, CityRepository>();
         services.AddScoped<IUserRootCompanyRepository, UserRootCompanyRepository>();
         services.AddScoped<IForeignAgentRepository, ForeignAgentRepository>();
+        services.AddScoped<ICVRepository, CVRepository>();
+        services.AddScoped<ICVStatusRepository, CVStatusRepository>();
+        services.AddScoped<IAttachmentRepository, AttachmentRepository>();
+        services.AddScoped<IPreviousEmploymentsRepository, PreviousEmploymentsRepository>();
+        services.AddScoped<IReligionRepository, ReligionRepository>();
+        services.AddScoped<IMartialStatusRepository, MartialStatusRepository>();
 
         //services.Configure<EmailSettings>(c => configuration.GetSection("EmailSettings"));
         //services.AddTransient<IEmailService, EmailService>();

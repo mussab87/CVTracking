@@ -31,5 +31,9 @@ public class MappingProfile : Profile
         CreateMap<UpdateForeignAgentRequest, ForegnAgentDto>().ReverseMap();
 
         CreateMap<ForeignAgentHRPoolDto, HRPool>().ReverseMap();
+
+        CreateMap<Religion, ReligionDto>().ReverseMap();
+
+        CreateMap<MartialStatus, MartialStatusDto>().ReverseMap();
     }
 }

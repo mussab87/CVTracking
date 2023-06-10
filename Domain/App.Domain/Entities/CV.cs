@@ -8,6 +8,8 @@ public class CV : EntityBase
     public string CvReferenceNumber { get; set; }
     public string CandidateNameEnglish { get; set; }
     public string CandidateNameArabic { get; set; }
+
+    public string Designation { get; set; }
     public string CandidateSalary { get; set; }
     public int? ContractPeriod { get; set; }
 
@@ -32,6 +34,8 @@ public class CV : EntityBase
     [ForeignKey("PlaceOfBirthId")]
     public City PlaceOfBirth { get; set; }
     public int? MartialStatusId { get; set; }
+
+    public int Gender { get; set; }
     [ForeignKey("MartialStatusId")]
     public MartialStatus MartialStatus { get; set; }
     public string NoOfChildren { get; set; }

@@ -52,6 +52,7 @@
     --------------------------------------------- */
 
     $('.select1').niceSelect();
+    /*$('.select4').niceSelect();*/
 
 
 
@@ -155,7 +156,18 @@
     // Odometer Counter
 
 
-
+    jQuery('#cv_DateOfBirth').datepicker({
+        format: 'dd-mm-yyyy',
+        startDate: '+1d'
+    });
+    jQuery('#cv_PassportDateOfIssue').datepicker({
+        format: 'dd-mm-yyyy',
+        startDate: '+1d'
+    });
+    jQuery('#cv_PassportDateOfExpiry').datepicker({
+        format: 'dd-mm-yyyy',
+        startDate: '+1d'
+    });
     jQuery('#datepicker5').datepicker({
         format: 'dd-mm-yyyy',
         startDate: '+1d'
@@ -1012,75 +1024,68 @@
 
     });
     // Workingarea Row
+    var count = 0;
     $('body').on('click', '.add-experiences-row', function () {
+        count = count + 1;
+
         var newRow = '';
         newRow += '<div class="row addexperiences">';
         newRow += '<div class="col-lg-12">';
         newRow += '<div class="info-title">';
-        newRow += '<h6>Add Your Experiences:</h6>';
+        newRow += '<h6>Add Candidate Previous Employment:</h6>';
         newRow += '<div class="dash"></div>';
         newRow += '</div>';
         newRow += '</div>';
         newRow += '<div class="col-md-6">';
         newRow += '<div class="form-inner mb-25">';
-        newRow += '<label for="companies">Company Name*</label>';
+        newRow += '<label>Period</label>';
         newRow += '<div class="input-area">';
-        newRow += '<img src="assets/images/icon/company-2.svg " alt="">';
-        newRow += '<input type="text" id="companies" name="companies" placeholder="Egenslab">';
+        newRow += '<img src="../../assets/images/icon/hight.svg" alt="">';
+        newRow += '<input asp-for="previousEmployment[' + count.toString() + '].Period" placeholder="Period">';
         newRow += '</div>';
         newRow += '</div>';
         newRow += '</div>';
         newRow += '<div class="col-md-6">';
         newRow += '<div class="form-inner mb-25">';
-        newRow += '<label for="desigation">Designation*</label>';
+        newRow += '<label>Country Of Employment</label>';
         newRow += '<div class="input-area">';
-        newRow += '<img src="assets/images/icon/designation-2.svg" alt="">';
-        newRow += '<select class="select1">';
-        newRow += '<option value="0">Back-end developer</option>';
-        newRow += '<option value="1">Front-end developer</option>';
-        newRow += '<option value="2">Full-stack developer</option>';
+        newRow += '<img src="../../assets/images/icon/nid.svg" alt="">';
+        newRow += '<select class="select4" id="previousEmployment[' + count.toString() + '].CountryOfEmploymentId" name="previousEmployment[' + count.toString() + '].CountryOfEmploymentId">';
+        newRow += '<option value="0">Select Country of Employment</option>';
         newRow += '</select>';
         newRow += '</div>';
         newRow += '</div>';
         newRow += '</div>';
         newRow += '<div class="col-md-6">';
         newRow += '<div class="form-inner mb-25">';
-        newRow += '<label for="datepicker6">Starting Period*</label>';
+        newRow += '<label>Position</label>';
         newRow += '<div class="input-area">';
-        newRow += '<img src="assets/images/icon/calender2.svg" alt="">';
-        newRow += '<input type="text" id="datepicker6" name="stp" placeholder="DD/MM/YY">';
+        newRow += '<img src="../../assets/images/icon/designation-2.svg" alt="">';
+        newRow += '<input asp-for="previousEmployment[' + count.toString() + '].Position" placeholder="Position">';
         newRow += '</div>';
-        newRow += '</div>';
-        newRow += '</div>';
-        newRow += '<div class="col-md-6">';
-        newRow += '<div class="form-inner mb-30">';
-        newRow += '<label for="datepicker7">Ending Period*</label>';
-        newRow += '<div class="input-area">';
-        newRow += '<img src="assets/images/icon/calender2.svg" alt="">';
-        newRow += '<input type="text" id="datepicker7" name="ep" placeholder="DD/MM/YY">';
-        newRow += '</div>';
-        newRow += '</div>';
-        newRow += '</div>';
-        newRow += '<div class="col-md-12">';
-        newRow += '<div class="form-agreement form-inner d-flex justify-content-between flex-wrap p-0">';
-        newRow += '<div class="form-group two">';
-        newRow += '<input type="checkbox" id="html">';
-        newRow += '<label for="html">Continuing Working Here</label>';
-        newRow += '</div>';
-        newRow += '</div>';
-        newRow += '</div>';
-        newRow += '<div class="col-md-12">';
-        newRow += '<div class="form-inner mb-20">';
-        newRow += '<label for="description">Description*</label>';
-        newRow += '<textarea name="description" id="description" placeholder="Something Write Yourself...."></textarea>';
         newRow += '</div>';
         newRow += '</div>';
         newRow += '<div class="add-row">';
         newRow += '<button type="button" class="remove-experiences-row remove">Remove Experiences Area</button>'
         newRow += "</div>";
         newRow += '</div>';
+        newRow += '</div>';
         $('.experiences-row').append(newRow);
-        $('.select1').niceSelect();
+
+
+        debugger;
+        var country = JSON.parse($("#countrylist").val());
+
+        var element = 'previousEmployment[' + count.toString() + '].CountryOfEmploymentId';
+
+        var select = document.getElementById(element);
+
+        $.each(country, function (index, i) {
+            const option = new Option(i.country, i.Id);
+            select.add(option, undefined);
+        });
+
+        $('.select4').niceSelect();
     });
 
     // Experiences Row
@@ -1127,6 +1132,7 @@
     })
     $('body').on('click', '.remove-experiences-row', function () {
         $(this).parents('.addexperiences').remove();
+        count = count - 1;
     })
     $('body').on('click', '.remove-work-area-row', function () {
         $(this).parents('.addworkarea').remove();
@@ -1189,3 +1195,19 @@
     });
 
 }(jQuery));
+
+
+function calculateAge() {
+    var dateofbirth = $("#cv_DateOfBirth").val();
+
+    // Convert the birthdate string to a Date object
+    const birthdate = new Date(dateofbirth);
+
+    // Calculate the difference between the birthdate and today's date
+    const ageDiffMs = Date.now() - birthdate.getTime();
+
+    // Convert the age difference from milliseconds to years (using an average of 365.25 days per year)
+    const age = Math.floor(ageDiffMs / (1000 * 60 * 60 * 24 * 365.25));
+
+    $("#cv_Age").val(age)
+}
