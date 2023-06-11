@@ -110,7 +110,35 @@ namespace App.Web.Controllers
         public async Task<IActionResult> ForeignAgentAddNewCV()
         {
             await GetDropDownList();
-            return View();
+
+            //configure reference number - first 2 digit from ForeignAgent name + 0000100
+            var userForeignAgent = HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent");
+            var twoDigitFromName = userForeignAgent.ForeignAgentName.ToUpper().Substring(0, 2);
+
+            //get last cv reference number for add plus one into the number
+            var query = new GetAllCvListQuery() { ForeignAgentId = (int)userForeignAgent.Id };
+            var ForeignAgentCvList = await _mediator.Send(query);
+            string refNo = null;
+            if (ForeignAgentCvList.Count > 0)
+            {
+                var lastCvRefNo = ForeignAgentCvList.OrderBy(r => r.CV.Id).Last().CV.CvReferenceNumber;
+                var removeTwoDigit = lastCvRefNo.Substring(2, 9);
+                refNo = twoDigitFromName + (Convert.ToInt64(removeTwoDigit) + 1).ToString();
+            }
+            else
+            {
+                refNo = twoDigitFromName + "0000100";
+            }
+            AddAddNewForeignCvRequest model = new() { cv = new CVDto() { CvReferenceNumber = refNo } };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForeignAgentAddNewCV(AddAddNewForeignCvRequest model,
+                                                        IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto)
+        {
+            await GetDropDownList();
+            return View(model);
         }
 
         async Task GetDropDownList()

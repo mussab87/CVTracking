@@ -1211,3 +1211,23 @@ function calculateAge() {
 
     $("#cv_Age").val(age)
 }
+
+function checkUncheckEnglish() {
+    var checkbox = document.getElementById("EnglishLanguage");
+
+    if (checkbox.checked) {
+        $("#cv_EnglishLanguage").val("true");
+    } else {
+        $("#cv_EnglishLanguage").val("false");
+    }
+}
+
+function checkUncheckArabic() {
+    var checkbox = document.getElementById("ArabicLanguage");
+
+    if (checkbox.checked) {
+        $("#cv_ArabicLanguage").val("true");
+    } else {
+        $("#cv_ArabicLanguage").val("false");
+    }
+}
