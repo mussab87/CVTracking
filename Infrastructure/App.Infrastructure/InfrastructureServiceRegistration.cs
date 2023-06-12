@@ -57,6 +57,8 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<IPreviousEmploymentsRepository, PreviousEmploymentsRepository>();
         services.AddScoped<IReligionRepository, ReligionRepository>();
         services.AddScoped<IMartialStatusRepository, MartialStatusRepository>();
+        services.AddScoped<ICVHRPool, CVHRPool>();
+        services.AddScoped<ICVAttachmentRepository, CVAttachmentRepository>();
 
         //services.Configure<EmailSettings>(c => configuration.GetSection("EmailSettings"));
         //services.AddTransient<IEmailService, EmailService>();

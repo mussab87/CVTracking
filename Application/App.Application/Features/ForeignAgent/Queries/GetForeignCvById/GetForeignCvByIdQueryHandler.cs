@@ -18,9 +18,25 @@ public class GetForeignCvByIdQueryHandler : IRequestHandler<GetForeignCvByIdQuer
     public async Task<ForeignAgentHRPoolDto> Handle(GetForeignCvByIdQuery request,
             CancellationToken cancellationToken)
     {
-        var foregnAgentCvs = await _unitOfWork.GetForeignCvById(request.cvId);
-        
-        //get cv attachments list & prevous employment list 
-        return _mapper.Map<ForeignAgentHRPoolDto>(foregnAgentCvs);
+        var foregnAgentCv = await _unitOfWork.GetForeignCvById(request.cvId);
+
+        //get cv attachments list & prevous employment list
+        var Cvattachments = await _unitOfWork.GetCvAttachmentByCvId(request.cvId);
+
+        //get cv prevous employment
+        var cvPreviousEmployment = await _unitOfWork.GetCvPreviousEmploymentByCvId(request.cvId);
+
+        //add attachments & PreviousEmployment into foregnAgentCv
+
+        ForeignAgentHRPoolDto foreignAgentHRPoolDto = new();
+        foreignAgentHRPoolDto.ForeignAgent = foregnAgentCv.ForeignAgent;
+        foreignAgentHRPoolDto.CV = foregnAgentCv.CV;
+        foreignAgentHRPoolDto.CVStatus = foregnAgentCv.CVStatus;
+        foreignAgentHRPoolDto.cvAttachments = Cvattachments;
+        foreignAgentHRPoolDto.previousEmployment = cvPreviousEmployment;
+        foreignAgentHRPoolDto.cvHRpool = foregnAgentCv;
+
+
+        return foreignAgentHRPoolDto;
     }
 }

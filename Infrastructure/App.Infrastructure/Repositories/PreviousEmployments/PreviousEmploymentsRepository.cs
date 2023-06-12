@@ -23,6 +23,10 @@ public class PreviousEmploymentsRepository : RepositoryBase<PreviousEmployment>,
             previousEmployments.Add(cvAttachment);
         }
         if (previousEmployments.Count > 0)
+        {
             await _dbContext.PreviousEmployments.AddRangeAsync(previousEmployments);
+            _dbContext.SaveChangesAsync();
+        }
+
     }
 }

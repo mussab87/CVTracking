@@ -1,8 +1,8 @@
 ﻿using MediatR;
 
-namespace App.Application.Features.ForeignAgent.Commands.AddNewForeignCv { }
+namespace App.Application.Features.ForeignAgent.Commands.UpdateForeignCv { }
 
-public class AddAddNewForeignCvRequest : IRequest<int>
+public class UpdateForeignCvRequest : IRequest<int>
 {
     public CVDto cv { get; set; }
 
@@ -19,6 +19,7 @@ public class AddAddNewForeignCvRequest : IRequest<int>
     public string foreignAgentUserId { get; set; }
 
     public int HRPoolId { get; set; }
+
 
 }
 

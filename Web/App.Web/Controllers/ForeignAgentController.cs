@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.Json;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace App.Web.Controllers
 {
@@ -109,23 +110,38 @@ namespace App.Web.Controllers
         [Authorize("ForeignAgent-ForeignAgentAddNewCV")]
         public async Task<IActionResult> ForeignAgentAddNewCV(int id)
         {
+
+            await GetDropDownList();
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            //configure reference number - first 2 digit from ForeignAgent name + 0000100
+            var userForeignAgent = HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent");
+
             //add new cv
             if (id == 0)
             {
-                await GetDropDownList();
-                var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
-                //configure reference number - first 2 digit from ForeignAgent name + 0000100
-                var userForeignAgent = HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent");
                 var twoDigitFromName = userForeignAgent.ForeignAgentName.ToUpper().Substring(0, 2);
 
                 //get last cv reference number for & make plus one into the number
                 string refNo = await GetCVRefNumber(userForeignAgent, twoDigitFromName);
-                AddAddNewForeignCvRequest model = new() { cv = new CVDto() { CvReferenceNumber = refNo }, foreignAgentId = userForeignAgent.Id, foreignAgentUserId = LoggedInuser.Id };
+                AddAddNewForeignCvRequest model = new()
+                {
+                    cv = new CVDto()
+                    {
+                        CvReferenceNumber = refNo
+                    },
+                    foreignAgentId = userForeignAgent.Id,
+                    foreignAgentUserId = LoggedInuser.Id
+                };
                 return View(model);
             }
 
-            //update exist cv
-            return View(model);
+            //get exist cv info by CVId
+            var queryGetCVById = new GetForeignCvByIdQuery() { cvId = id };
+            var GetCVById = await _mediator.Send(queryGetCVById);
+
+            var existCvAttachments = await getCVAttachments(GetCVById);
+            AddAddNewForeignCvRequest model2 = FillExistForeignCv(LoggedInuser, userForeignAgent, GetCVById, existCvAttachments);
+            return View(model2);
         }
 
         [HttpPost]
@@ -134,13 +150,47 @@ namespace App.Web.Controllers
         {
             if (model.cv.Id == null)
             {
-                await addNewCv(model, personalphoto, posterphoto, passportphoto);
+                await addNewCv(model, personalphoto, posterphoto, passportphoto, true);
+                await GetDropDownList();
+                return View(model);
             }
+
+
+            //update exist cv data
+            await addNewCv(model, personalphoto, posterphoto, passportphoto, false);
+
             await GetDropDownList();
             return View(model);
         }
 
-        async Task addNewCv(AddAddNewForeignCvRequest model, IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto)
+        private AddAddNewForeignCvRequest FillExistForeignCv(ApplicationUser LoggedInuser, ForegnAgentDto userForeignAgent, ForeignAgentHRPoolDto GetCVById, List<Attachment> existCvAttachments)
+        {
+            return new()
+            {
+                cv = _mapper.Map<CVDto>(GetCVById.CV),
+                cvAttachments = existCvAttachments,
+                cvHRpool = GetCVById.cvHRpool,
+                previousEmployment = GetCVById.previousEmployment.Count > 0 ? GetCVById.previousEmployment : null,
+                cvStatusId = GetCVById.CVStatus.Id,
+                foreignAgentId = userForeignAgent.Id,
+                foreignAgentUserId = LoggedInuser.Id,
+                HRPoolId = GetCVById.cvHRpool.Id
+            };
+        }
+
+        private async Task<List<Attachment>> getCVAttachments(ForeignAgentHRPoolDto GetCVById)
+        {
+            var cvAttachments = new List<Attachment>();
+            if (GetCVById.cvAttachments.Count > 0)
+            {
+                foreach (var att in GetCVById.cvAttachments)
+                {
+                    cvAttachments.Add(att.Attachment);
+                }
+            }
+            return cvAttachments;
+        }
+        async Task addNewCv(AddAddNewForeignCvRequest model, IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto, bool actionType)
         {
             //add cv status
             if (personalphoto == null || posterphoto == null || passportphoto == null || model.cv.CandidateNameEnglish == null)
@@ -155,18 +205,34 @@ namespace App.Web.Controllers
             model.cv.CreatedById = model.foreignAgentUserId;
             model.cv.CreatedDate = DateTime.Now;
 
-            var command = new AddAddNewForeignCvRequest()
+            if (actionType)
             {
-                cv = model.cv,
-                cvAttachments = attachmentsList,
-                foreignAgentId = model.foreignAgentId,
-                foreignAgentUserId = model.foreignAgentUserId,
-                cvStatusId = model.cvStatusId,
-                previousEmployment = model.previousEmployment
-            };
-
-            var newCv = await _mediator.Send(command);
-            model.cv.Id = newCv;
+                var command = new AddAddNewForeignCvRequest()
+                {
+                    cv = model.cv,
+                    cvAttachments = attachmentsList,
+                    foreignAgentId = model.foreignAgentId,
+                    foreignAgentUserId = model.foreignAgentUserId,
+                    cvStatusId = model.cvStatusId,
+                    previousEmployment = model.previousEmployment
+                };
+                var newCv = await _mediator.Send(command);
+                model.cv.Id = newCv;
+            }
+            else
+            {
+                var command = new UpdateForeignCvRequest()
+                {
+                    cv = model.cv,
+                    cvAttachments = attachmentsList,
+                    foreignAgentId = model.foreignAgentId,
+                    foreignAgentUserId = model.foreignAgentUserId,
+                    cvStatusId = model.cvStatusId,
+                    previousEmployment = model.previousEmployment,
+                    HRPoolId = model.HRPoolId
+                };
+                var newCv = await _mediator.Send(command);
+            }
         }
 
         private async Task<string> GetCVRefNumber(ForegnAgentDto userForeignAgent, string twoDigitFromName)
@@ -187,7 +253,7 @@ namespace App.Web.Controllers
 
             return refNo;
         }
-        
+
         async Task GetDropDownList()
         {
             //Countries
@@ -219,35 +285,35 @@ namespace App.Web.Controllers
         static async Task<List<Attachment>> SaveAttachments(IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto, string foreignAgentUserId)
         {
             List<Attachment> attachments = new();
-            
+
             if (personalphoto != null)
+            {
+                string path = Path.Combine("wwwroot/ForeignAttachment/");
+                //create folder if not exist
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                FileInfo fileInfo = new FileInfo(personalphoto.FileName);
+
+                string fileName = personalphoto.FileName.Split(".")[0] + string.Format(@"{0}", Guid.NewGuid()) + fileInfo.Extension;
+
+                string fileNameWithPath = Path.Combine(path, fileName);
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.CreateNew))
                 {
-                    string path = Path.Combine("wwwroot/ForeignAttachment/");
-                    //create folder if not exist
-                    if (!Directory.Exists(path))
-                        Directory.CreateDirectory(path);
-
-                    FileInfo fileInfo = new FileInfo(personalphoto.FileName);
-
-                    string fileName = personalphoto.FileName.Split(".")[0] + string.Format(@"{0}", Guid.NewGuid()) + fileInfo.Extension;
-
-                    string fileNameWithPath = Path.Combine(path, fileName);
-
-                    using (var stream = new FileStream(fileNameWithPath, FileMode.CreateNew))
-                    {
-                        await personalphoto.CopyToAsync(stream);
-                    }
-
-                    var nameOfFile = fileNameWithPath.Replace("wwwroot", "../..");
-
-                    Attachment attachment = new();
-                    attachment.CreatedById = foreignAgentUserId;
-                    attachment.CreatedDate = DateTime.Now;
-                    attachment.AttachmentTypeId = (int) cvAttachmentType.PersonalPhoto;
-                    attachment.Path = nameOfFile;
-
-                    attachments.Add(attachment);
+                    await personalphoto.CopyToAsync(stream);
                 }
+
+                var nameOfFile = fileNameWithPath.Replace("wwwroot", "../..");
+
+                Attachment attachment = new();
+                attachment.CreatedById = foreignAgentUserId;
+                attachment.CreatedDate = DateTime.Now;
+                attachment.AttachmentTypeId = (int)cvAttachmentType.PersonalPhoto;
+                attachment.Path = nameOfFile;
+
+                attachments.Add(attachment);
+            }
 
             if (posterphoto != null)
             {
@@ -267,7 +333,7 @@ namespace App.Web.Controllers
                     await posterphoto.CopyToAsync(stream);
                 }
 
-                var nameOfFile = fileNameWithPath.Replace("wwwroot", "../../");
+                var nameOfFile = fileNameWithPath.Replace("wwwroot", "../..");
 
                 Attachment attachment = new();
                 attachment.CreatedById = foreignAgentUserId;
@@ -296,7 +362,7 @@ namespace App.Web.Controllers
                     await passportphoto.CopyToAsync(stream);
                 }
 
-                var nameOfFile = fileNameWithPath.Replace("wwwroot", "../../");
+                var nameOfFile = fileNameWithPath.Replace("wwwroot", "../..");
 
                 Attachment attachment = new();
                 attachment.CreatedById = foreignAgentUserId;

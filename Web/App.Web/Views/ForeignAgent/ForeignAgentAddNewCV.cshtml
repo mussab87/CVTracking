@@ -4,6 +4,7 @@
 }
 
 <!-- ========== Dashboard Area end============= -->
+
 <div class="dashboard-area pt-120 mb-120">
     <div class="container">
         <div class="row g-lg-4 gy-5 mb-90">
@@ -39,17 +40,29 @@
                                 </button>
                             </li>
                         </ul>
-                        <div class="tab-content" id="myTabContent">
+                        <form asp-action="ForeignAgentAddNewCV" method="post" enctype="multipart/form-data">
+                            <input type="hidden" asp-for="foreignAgentId" />
+                            <input type="hidden" asp-for="foreignAgentUserId" />
+                            @if (Model.cv.Id != null)
+                            {
+                                <input type="hidden" asp-for="cv.Id" />
+                            }
+                            @if (Model.HRPoolId != null)
+                            {
+                                <input type="hidden" asp-for="HRPoolId" />
+                            }
+                            <div class="tab-content" id="myTabContent">
 
-                            <partial name="_BasicInformationPartial" model="Model" />
-                            <partial name="_ProfilePartial" model="Model" />
-                            <partial name="_ProfessionalInfoPartial" model="Model" />
-                            <partial name="_AttachmentsPartial" model="Model" />
+                                <partial name="_BasicInformationPartial" model="Model" />
+                                <partial name="_ProfilePartial" model="Model" />
+                                <partial name="_ProfessionalInfoPartial" model="Model" />
+                                <partial name="_AttachmentsPartial" model="Model" />
 
 
 
 
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

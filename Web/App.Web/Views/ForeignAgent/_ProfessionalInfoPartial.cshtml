@@ -1,12 +1,7 @@
 ﻿@model AddAddNewForeignCvRequest
 <div class="tab-pane fade" id="professional" role="tabpanel" aria-labelledby="professional-tab">
-    <form asp-action="ForeignAgentAddNewCV" method="post" class="edit-profile-form profile-form">
-        <input type="hidden" asp-for="foreignAgentId" />
-        <input type="hidden" asp-for="foreignAgentUserId" />
-        @if (Model.cv.Id != null)
-        {
-            <input type="hidden" asp-for="cv.Id" />
-        }
+    <div class="edit-profile-form profile-form">
+
         <div class="section-title2">
             <h5>Employment Information:</h5>
         </div>
@@ -62,5 +57,5 @@
                 <button class="primry-btn-2 lg-btn w-unset" type="submit">Save Changes</button>
             </div>
         </div>
-    </form>
+    </div>
 </div>

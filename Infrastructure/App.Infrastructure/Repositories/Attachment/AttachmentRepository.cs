@@ -22,6 +22,7 @@ public class AttachmentRepository : RepositoryBase<Attachment>, IAttachmentRepos
         }
         if (cVAttachments.Count > 0)
             await _dbContext.CVAttachments.AddRangeAsync(cVAttachments);
+        _dbContext.SaveChanges();
     }
 
     public async Task<List<Attachment>> AddAttachment(List<Attachment> attachments, string foreugnUserId)
@@ -40,6 +41,7 @@ public class AttachmentRepository : RepositoryBase<Attachment>, IAttachmentRepos
         }
         if (Attachments.Count > 0)
             await _dbContext.Attachments.AddRangeAsync(Attachments);
+        _dbContext.SaveChanges();
 
         return Attachments;
     }

@@ -22,7 +22,27 @@ public class CVRepository : RepositoryBase<CV>, ICVRepository
         await _dbContext.SaveChangesAsync();
     }
 
-   public async Task<HRPool> GetForeignCvById(int ForeignAgentcvId)
+    public async Task<List<CVAttachment>> GetCvAttachmentByCvId(int cvId)
+    {
+        var query = await _dbContext.CVAttachments
+                    .Include(c => c.CV)
+                    .Include(c => c.Attachment)
+                    .Include(c => c.Attachment.AttachmentType)
+                    .Where(c => c.CVId == cvId).ToListAsync();
+
+        return query;
+    }
+
+    public async Task<List<PreviousEmployment>> GetCvPreviousEmploymentByCvId(int cvId)
+    {
+        var query = await _dbContext.PreviousEmployments
+                    .Include(c => c.CV)
+                    .Where(p => p.CV.Id == cvId).ToListAsync();
+
+        return query;
+    }
+
+    public async Task<HRPool> GetForeignCvById(int ForeignAgentcvId)
     {
         var query = await _dbContext.HRPools
                     .Include(c => c.ForeignAgent)

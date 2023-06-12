@@ -37,11 +37,11 @@ public class AddNewForeignCvRequestHandler : IRequestHandler<AddAddNewForeignCvR
         {
             if (request.previousEmployment.Count > 0)
             {
-                var previosEmployment = _PreviousEmployments.AddPreviousEmployments
-                                            (newForeignAgentCV, request.previousEmployment, request.foreignAgentUserId);
+                await _PreviousEmployments.AddPreviousEmployments
+                                           (newForeignAgentCV, request.previousEmployment, request.foreignAgentUserId);
             }
         }
-        
+
         //add attachments
         if (request.cvAttachments.Count > 0)
         {
