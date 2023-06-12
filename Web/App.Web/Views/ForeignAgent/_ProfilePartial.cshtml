@@ -1,6 +1,12 @@
 ﻿@model AddAddNewForeignCvRequest
 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-    <form class="edit-profile-form profile-form">
+    <form asp-action="ForeignAgentAddNewCV" method="post" class="edit-profile-form profile-form">
+        <input type="hidden" asp-for="foreignAgentId" />
+        <input type="hidden" asp-for="foreignAgentUserId" />
+        @if (Model.cv.Id != null)
+        {
+            <input type="hidden" asp-for="cv.Id" />
+        }
         <div class="row">
 
             <div class="col-md-6">

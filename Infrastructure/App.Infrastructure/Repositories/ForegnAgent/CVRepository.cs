@@ -8,16 +8,33 @@ public class CVRepository : RepositoryBase<CV>, ICVRepository
     {
     }
 
-    public async Task AddHRPool(CV cv, ForeignAgent foreignAgent, CVStatus status)
+    public async Task AddHRPool(CV cv, ForeignAgent foreignAgent, CVStatus status, string userId)
     {
         HRPool hRPool = new HRPool()
         {
             CV = cv,
             ForeignAgent = foreignAgent,
-            CVStatus = status
+            CVStatus = status,
+            CreatedById = userId,
+            CreatedDate = DateTime.Now
         };
         await _dbContext.HRPools.AddAsync(hRPool);
         await _dbContext.SaveChangesAsync();
+    }
+
+   public async Task<HRPool> GetForeignCvById(int ForeignAgentcvId)
+    {
+        var query = await _dbContext.HRPools
+                    .Include(c => c.ForeignAgent)
+                    .Include(c => c.CV)
+                    .Include(c => c.CV.Nationality)
+                    .Include(c => c.CV.Religion)
+                    .Include(c => c.CV.PlaceOfBirth)
+                    .Include(c => c.CV.MartialStatus)
+                    .Include(c => c.CVStatus)
+                    .Where(c => c.CV.Id == ForeignAgentcvId).FirstOrDefaultAsync();
+
+        return query;
     }
 }
 

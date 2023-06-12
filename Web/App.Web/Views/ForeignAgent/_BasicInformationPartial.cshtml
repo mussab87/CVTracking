@@ -2,7 +2,12 @@
 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
     <form asp-action="ForeignAgentAddNewCV" method="post" enctype="multipart/form-data" class="profile-form">
         <div class="row">
-
+            <input type="hidden" asp-for="foreignAgentId" />
+            <input type="hidden" asp-for="foreignAgentUserId" />
+            @if (Model.cv.Id != null)
+            {
+                <input type="hidden" asp-for="cv.Id" />
+            }
             <div class="col-md-6">
                 <div class="form-inner mb-25">
                     <label asp-for="cv.CandidateNameEnglish"></label>

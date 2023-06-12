@@ -202,7 +202,7 @@
                     <div class="table-wrapper">
                         <h5 class="title">HR Pool:</h5>
                         <div class="scroll-table">
-                            <table class="eg-table table category-table mb-0">
+                            <table class="eg-table table category-table mb-0" id="tbl">
                                 <thead>
                                     <tr>
                                         <th hidden>
@@ -210,9 +210,14 @@
                                         </th>
                                         <th>#</th>
                                         <th>Reference Number</th>
-                                        <th>Apply Date</th>
-                                        <th>Company</th>
+                                        <th>Name</th>
+                                        <th>Passport No</th>
+                                        
+                                        <th>Nationality</th>
+                                        <th>Contact</th>
                                         <th>Status</th>
+
+                                        <th>Manage</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -223,6 +228,7 @@
                                             <tr>
                                                 <td hidden>@cv.CV.Id</td>
                                                 <td>@i</td>
+                                                <td>@cv.CV.CvReferenceNumber</td>
                                                 <td>
                                                     @cv.CV.CandidateNameEnglish
                                                 </td>
@@ -230,19 +236,30 @@
                                                     @cv.CV.PassportNumber
                                                 </td>
                                                 <td>
-                                                    @cv.CV.Nationality.NameEnglish
+                                                    @if (@cv.CV.Nationality != null)
+                                                    {
+                                                        @cv.CV.Nationality.NameEnglish
+                                                    }else
+                                                    {
+                                                        <text>Not Entered</text>
+                                                    }
                                                 </td>
                                                 <td>
                                                     @cv.CV.PhoneNumber
                                                 </td>
-                                                <td>
-                                                    @cv.CVStatus.Status
+                                                <td data-label="Status">
+                                                    
+                                                    @if (cv.CVStatus.StatusNo == (int) cvStatus.InComplete)
+                                                    {
+                                                        <button class="eg-btn orenge-btn">@cv.CVStatus.Status</button>
+                                                    }
+                                                    
 
                                                 </td>
                                                 <td>
                                                     <form method="post" asp-controller="ForeignAgent" asp-action="DeleteCity" asp-route-id="@cv.CV.Id">
 
-                                                        <a asp-action="ForeignEditCV" asp-controller="ForeignAgent"
+                                                        <a asp-action="ForeignAgentAddNewCV" asp-controller="ForeignAgent"
                                                            asp-route-id="@cv.CV.Id" class="btn btn-info text-white" style="cursor:pointer">
                                                             <i class="bi bi-pencil-square"></i>
                                                         </a>
@@ -258,7 +275,7 @@
                                     {
                                         <p><h4 style="text-align:center">No Data to Display</h4></p>
                                     }
-                                    <tr>
+                                    @*<tr>
                                         <td data-label="Job Title">
                                             <div class="company-info">
                                                 <div class="logo">
@@ -382,7 +399,7 @@
                                         <td data-label="Apply Job">18/08/2022</td>
                                         <td data-label="Company"><a class="view-btn" href="company-details.html">Bistro.Tech Group</a></td>
                                         <td data-label="Status"><button class="eg-btn green-btn">Success</button></td>
-                                    </tr>
+                                    </tr>*@
                                 </tbody>
                             </table>
                         </div>

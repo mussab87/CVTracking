@@ -5,6 +5,7 @@ namespace App.Application.Features.ForeignAgent.ForeignAgentDtos { }
 
 public class CVDto
 {
+    public int? Id { get; set; }
     public string CreatedById { get; set; }
     public DateTime CreatedDate { get; set; }
     public string LastModifiedById { get; set; }

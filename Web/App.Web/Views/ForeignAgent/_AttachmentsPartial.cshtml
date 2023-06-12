@@ -1,6 +1,12 @@
 ﻿@model AddAddNewForeignCvRequest
 <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
     <form asp-action="ForeignAgentAddNewCV" method="post" enctype="multipart/form-data" class="profile-form">
+        <input type="hidden" asp-for="foreignAgentId" />
+        <input type="hidden" asp-for="foreignAgentUserId" />
+        @if (Model.cv.Id != null)
+        {
+            <input type="hidden" asp-for="cv.Id" />
+        }
         <div class="section-title2">
             <h5>Candidate Attachments:</h5>
         </div>

@@ -30,14 +30,18 @@ public class AddNewForeignCvRequestHandler : IRequestHandler<AddAddNewForeignCvR
         var foreign = await _foreignAgent.GetByIdAsync(request.foreignAgentId);
         var status = await _cvStatus.GetByIdAsync(request.cvStatusId);
         //Add HRPool
-        await _unitOfWork.AddHRPool(newForeignAgentCV, foreign, status);
+        await _unitOfWork.AddHRPool(newForeignAgentCV, foreign, status, request.foreignAgentUserId);
 
         //add PreviousEmployments
-        if (request.previousEmployment.Count > 0)
+        if (request.previousEmployment != null)
         {
-            var previosEmployment = _PreviousEmployments.AddPreviousEmployments
-                                        (newForeignAgentCV, request.previousEmployment, request.foreignAgentUserId);
+            if (request.previousEmployment.Count > 0)
+            {
+                var previosEmployment = _PreviousEmployments.AddPreviousEmployments
+                                            (newForeignAgentCV, request.previousEmployment, request.foreignAgentUserId);
+            }
         }
+        
         //add attachments
         if (request.cvAttachments.Count > 0)
         {
