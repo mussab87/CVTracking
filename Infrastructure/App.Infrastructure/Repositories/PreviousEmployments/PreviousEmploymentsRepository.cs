@@ -11,21 +11,25 @@ public class PreviousEmploymentsRepository : RepositoryBase<PreviousEmployment>,
         List<PreviousEmployment> previousEmployments = new();
         foreach (var prev in previous)
         {
-            PreviousEmployment cvAttachment = new()
+            if (prev.Position is not null && prev.CountryOfEmploymentId != 0 && prev.Period != 0)
             {
-                Period = prev.Period,
-                CountryOfEmploymentId = prev.CountryOfEmploymentId,
-                Position = prev.Position,
-                CV = cv,
-                CreatedById = foreignUserId,
-                CreatedDate = DateTime.Now
-            };
-            previousEmployments.Add(cvAttachment);
+                PreviousEmployment cvAttachment = new()
+                {
+                    Period = prev.Period,
+                    CountryOfEmploymentId = prev.CountryOfEmploymentId,
+                    Position = prev.Position,
+                    CV = cv,
+                    CreatedById = foreignUserId,
+                    CreatedDate = DateTime.Now
+                };
+                previousEmployments.Add(cvAttachment);
+            }
+
         }
         if (previousEmployments.Count > 0)
         {
-            await _dbContext.PreviousEmployments.AddRangeAsync(previousEmployments);
-            _dbContext.SaveChangesAsync();
+            _dbContext.PreviousEmployments.AddRange(previousEmployments);
+            _dbContext.SaveChanges();
         }
 
     }

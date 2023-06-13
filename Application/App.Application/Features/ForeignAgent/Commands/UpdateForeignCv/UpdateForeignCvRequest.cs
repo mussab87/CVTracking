@@ -20,6 +20,10 @@ public class UpdateForeignCvRequest : IRequest<int>
 
     public int HRPoolId { get; set; }
 
+    public bool? personalImg { get; set; }
+    public bool? posterImg { get; set; }
+    public bool? passportImg { get; set; }
+
 
 }
 

@@ -3,7 +3,7 @@
     <div class="edit-profile-form profile-form">
         @if (Model.cvAttachments != null)
         {
-            var passportimg = Model.cvAttachments.Where(p => p.AttachmentType.TypeName == "Passport Photo").FirstOrDefault();
+            var passportimg = Model.cvAttachments.Where(p => p.AttachmentType.TypeName == cvAttachmentType.PersonalPhoto.ToString()).FirstOrDefault();
             <div class="row">
                 <div class="col-lg-6">
                     <div class="author-area">

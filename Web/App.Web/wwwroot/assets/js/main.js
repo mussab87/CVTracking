@@ -1025,6 +1025,10 @@
     });
     // Workingarea Row
     var count = 0;
+    var existCount = $("#countExpList").val();
+    if (existCount != undefined) {
+        count = parseInt(existCount) - 1;
+    }
     $('body').on('click', '.add-experiences-row', function () {
         count = count + 1;
 
@@ -1041,7 +1045,7 @@
         newRow += '<label>Period</label>';
         newRow += '<div class="input-area">';
         newRow += '<img src="../../assets/images/icon/hight.svg" alt="">';
-        newRow += '<input asp-for="previousEmployment[' + count.toString() + '].Period" placeholder="Period">';
+        newRow += '<input id="previousEmployment_' + count.toString() + '__Period" name="previousEmployment[' + count.toString() + '].Period" placeholder="Period">';
         newRow += '</div>';
         newRow += '</div>';
         newRow += '</div>';
@@ -1050,7 +1054,7 @@
         newRow += '<label>Country Of Employment</label>';
         newRow += '<div class="input-area">';
         newRow += '<img src="../../assets/images/icon/nid.svg" alt="">';
-        newRow += '<select class="select4" id="previousEmployment[' + count.toString() + '].CountryOfEmploymentId" name="previousEmployment[' + count.toString() + '].CountryOfEmploymentId">';
+        newRow += '<select class="select4" id="previousEmployment_' + count.toString() + '__.CountryOfEmploymentId" name="previousEmployment[' + count.toString() + '].CountryOfEmploymentId">';
         newRow += '<option value="0">Select Country of Employment</option>';
         newRow += '</select>';
         newRow += '</div>';
@@ -1061,7 +1065,7 @@
         newRow += '<label>Position</label>';
         newRow += '<div class="input-area">';
         newRow += '<img src="../../assets/images/icon/designation-2.svg" alt="">';
-        newRow += '<input asp-for="previousEmployment[' + count.toString() + '].Position" placeholder="Position">';
+        newRow += '<input id="previousEmployment_' + count.toString() + '__Position" name="previousEmployment[' + count.toString() + '].Position" placeholder="Position">';
         newRow += '</div>';
         newRow += '</div>';
         newRow += '</div>';
@@ -1076,7 +1080,7 @@
         debugger;
         var country = JSON.parse($("#countrylist").val());
 
-        var element = 'previousEmployment[' + count.toString() + '].CountryOfEmploymentId';
+        var element = 'previousEmployment_' + count.toString() + '__.CountryOfEmploymentId';
 
         var select = document.getElementById(element);
 

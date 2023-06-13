@@ -70,23 +70,111 @@ public class UpdateForeignCvRequestHandler : IRequestHandler<UpdateForeignCvRequ
         List<CVAttachment> oldAttachments = new();
         try
         {
-            oldAttachments = _cVAttachmentRepository.GetAsync(predicate: p => p.CVId == request.cv.Id).Result.ToList();
+            oldAttachments = _cVAttachmentRepository.GetAsync
+                (predicate: p => p.CVId == request.cv.Id
+                , null
+                , includes: new List<System.Linq.Expressions.Expression<Func<CVAttachment, object>>>
+                {
+                    cv=> cv.Attachment, cv=>cv.CV, cv=>cv.Attachment.AttachmentType
+                }
+                , true
+                )
+                .Result.ToList();
         }
         catch (Exception)
         { }
 
         if (oldAttachments.Count > 0 && oldAttachments is not null)
         {
-            //delete all old attachments
-            foreach (var attachment in oldAttachments)
+            //check which type of attachment has been changed
+            if (request.personalImg is not null && (bool)request.personalImg)
             {
-                await _cVAttachmentRepository.DeleteAsync(attachment);
-                await _attachmentRepository.DeleteAsync(await _attachmentRepository.GetByIdAsync(attachment.Id));
-            }
-        }
+                var imgpersonal = oldAttachments
+                                  .Where(att => att.Attachment.AttachmentType.TypeName == cvAttachmentType.PersonalPhoto.ToString())
+                                  .FirstOrDefault();
 
-        var attachmentResult = await _attachmentRepository.AddAttachment(request.cvAttachments, request.foreignAgentUserId);
-        await _attachmentRepository.AddCVAttachment(existCvToUpdate, attachmentResult, request.foreignAgentUserId);
+                //in case no old img then save new
+                if (imgpersonal is null)
+                {
+                    var newAtt = request.cvAttachments.FirstOrDefault(cv => cv.AttachmentTypeId == (int)cvAttachmentType.PersonalPhoto);
+                    //fill new list attachment
+                    List<Attachment> attachments = new() { newAtt };
+                    var attachmentResult = await _attachmentRepository.AddAttachment(attachments, request.foreignAgentUserId);
+                    await _attachmentRepository.AddCVAttachment(existCvToUpdate, attachmentResult, request.foreignAgentUserId);
+                }
+                else
+                {
+                    //get new attachment
+                    var newPath = request.cvAttachments.Where(cv => cv.AttachmentTypeId == (int)cvAttachmentType.PersonalPhoto).FirstOrDefault();
+                    //update old attachment record
+                    imgpersonal.Attachment.Path = newPath.Path;
+                    await _attachmentRepository.UpdateAsync(imgpersonal.Attachment);
+                }
+            }
+
+            if (request.posterImg is not null && (bool)request.posterImg)
+            {
+                var imgposter = oldAttachments
+                                  .Where(att => att.Attachment.AttachmentType.TypeName == cvAttachmentType.PosterPhoto.ToString())
+                                  .FirstOrDefault();
+
+                //in case no old img then save new
+                if (imgposter is null)
+                {
+                    var newAtt = request.cvAttachments.FirstOrDefault(cv => cv.AttachmentTypeId == (int)cvAttachmentType.PosterPhoto);
+                    //fill new list attachment
+                    List<Attachment> attachments = new() { newAtt };
+                    var attachmentResult = await _attachmentRepository.AddAttachment(attachments, request.foreignAgentUserId);
+                    await _attachmentRepository.AddCVAttachment(existCvToUpdate, attachmentResult, request.foreignAgentUserId);
+                }
+                else
+                {
+                    //get new attachment
+                    var newPath = request.cvAttachments.Where(cv => cv.AttachmentTypeId == (int)cvAttachmentType.PosterPhoto).FirstOrDefault();
+                    //update old attachment record
+                    imgposter.Attachment.Path = newPath.Path;
+                    await _attachmentRepository.UpdateAsync(imgposter.Attachment);
+                }
+            }
+
+            if (request.passportImg is not null && (bool)request.passportImg)
+            {
+                var imgpassport = oldAttachments
+                                  .Where(att => att.Attachment.AttachmentType.TypeName == cvAttachmentType.PassportCopy.ToString())
+                                  .FirstOrDefault();
+
+                //in case no old img then save new
+                if (imgpassport is null)
+                {
+                    var newAtt = request.cvAttachments.FirstOrDefault(cv => cv.AttachmentTypeId == (int)cvAttachmentType.PassportCopy);
+                    //fill new list attachment
+                    List<Attachment> attachments = new() { newAtt };
+                    var attachmentResult = await _attachmentRepository.AddAttachment(attachments, request.foreignAgentUserId);
+                    await _attachmentRepository.AddCVAttachment(existCvToUpdate, attachmentResult, request.foreignAgentUserId);
+                }
+                else
+                {
+                    //get new attachment
+                    var newPath = request.cvAttachments.Where(cv => cv.AttachmentTypeId == (int)cvAttachmentType.PassportCopy).FirstOrDefault();
+                    //update old attachment record
+                    imgpassport.Attachment.Path = newPath.Path;
+                    await _attachmentRepository.UpdateAsync(imgpassport.Attachment);
+                }
+            }
+
+            ////delete all old attachments
+            //foreach (var attachment in oldAttachments)
+            //{
+            //    await _cVAttachmentRepository.DeleteAsync(attachment);
+            //    await _attachmentRepository.DeleteAsync(await _attachmentRepository.GetByIdAsync(attachment.Id));
+            //}
+        }
+        else
+        {
+            //no old attachment then insert new
+            var attachmentResult = await _attachmentRepository.AddAttachment(request.cvAttachments, request.foreignAgentUserId);
+            await _attachmentRepository.AddCVAttachment(existCvToUpdate, attachmentResult, request.foreignAgentUserId);
+        }
     }
 
     async Task addUpdatePreviousEmployment(UpdateForeignCvRequest request, CV existCvToUpdate)
@@ -95,13 +183,13 @@ public class UpdateForeignCvRequestHandler : IRequestHandler<UpdateForeignCvRequ
         {
             //delete old first
             var oldPreviousEmployment = await _PreviousEmployments.GetAsync(predicate: p => p.CV.Id == request.cv.Id);
+            //var previousNotExist = new List<PreviousEmployment>();
             if (oldPreviousEmployment.Count > 0)
             {
                 foreach (var prev in oldPreviousEmployment)
                 {
                     await _PreviousEmployments.DeleteAsync(prev);
                 }
-
             }
             //add new previous employment
             var previosEmployment = _PreviousEmployments.AddPreviousEmployments

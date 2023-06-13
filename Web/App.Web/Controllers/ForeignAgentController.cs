@@ -159,8 +159,8 @@ namespace App.Web.Controllers
             //update exist cv data
             await addNewCv(model, personalphoto, posterphoto, passportphoto, false);
 
-            await GetDropDownList();
-            return View(model);
+            //await GetDropDownList();
+            return RedirectToAction("ForeignAgentAddNewCV", new { id = model.cv.Id });
         }
 
         private AddAddNewForeignCvRequest FillExistForeignCv(ApplicationUser LoggedInuser, ForegnAgentDto userForeignAgent, ForeignAgentHRPoolDto GetCVById, List<Attachment> existCvAttachments)
@@ -198,9 +198,14 @@ namespace App.Web.Controllers
             else model.cvStatusId = (int)cvStatus.Free;
 
             //add cv attachment
-            var attachmentsList = await SaveAttachments(personalphoto, posterphoto, passportphoto, model.foreignAgentUserId);
-            if (attachmentsList.Count > 0)
-                model.cvAttachments = attachmentsList;
+            List<Attachment> attachmentsList = new();
+            if (personalphoto is not null || posterphoto is not null || passportphoto is not null)
+            {
+                attachmentsList = await SaveAttachments(personalphoto, posterphoto, passportphoto, model.foreignAgentUserId, model);
+                if (attachmentsList.Count > 0)
+                    model.cvAttachments = attachmentsList;
+            }
+
 
             model.cv.CreatedById = model.foreignAgentUserId;
             model.cv.CreatedDate = DateTime.Now;
@@ -214,10 +219,14 @@ namespace App.Web.Controllers
                     foreignAgentId = model.foreignAgentId,
                     foreignAgentUserId = model.foreignAgentUserId,
                     cvStatusId = model.cvStatusId,
-                    previousEmployment = model.previousEmployment
+                    previousEmployment = model.previousEmployment,
+                    personalImg = model.personalImg,
+                    posterImg = model.posterImg,
+                    passportImg = model.passportImg
                 };
                 var newCv = await _mediator.Send(command);
                 model.cv.Id = newCv;
+
             }
             else
             {
@@ -229,7 +238,10 @@ namespace App.Web.Controllers
                     foreignAgentUserId = model.foreignAgentUserId,
                     cvStatusId = model.cvStatusId,
                     previousEmployment = model.previousEmployment,
-                    HRPoolId = model.HRPoolId
+                    HRPoolId = model.HRPoolId,
+                    personalImg = model.personalImg,
+                    posterImg = model.posterImg,
+                    passportImg = model.passportImg
                 };
                 var newCv = await _mediator.Send(command);
             }
@@ -282,7 +294,14 @@ namespace App.Web.Controllers
             ViewData["martialStatus"] = new SelectList(martials, "Id", "MartialStatusEnglish");
         }
 
-        static async Task<List<Attachment>> SaveAttachments(IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto, string foreignAgentUserId)
+        static async Task<List<Attachment>> SaveAttachments
+            (
+            IFormFile personalphoto,
+            IFormFile posterphoto,
+            IFormFile passportphoto,
+            string foreignAgentUserId,
+            AddAddNewForeignCvRequest model
+            )
         {
             List<Attachment> attachments = new();
 
@@ -313,6 +332,8 @@ namespace App.Web.Controllers
                 attachment.Path = nameOfFile;
 
                 attachments.Add(attachment);
+                //flag for update
+                model.personalImg = true;
             }
 
             if (posterphoto != null)
@@ -342,6 +363,8 @@ namespace App.Web.Controllers
                 attachment.Path = nameOfFile;
 
                 attachments.Add(attachment);
+                //flag for update
+                model.posterImg = true;
             }
 
             if (passportphoto != null)
@@ -371,6 +394,8 @@ namespace App.Web.Controllers
                 attachment.Path = nameOfFile;
 
                 attachments.Add(attachment);
+                //flag for update
+                model.passportImg = true;
             }
 
             return attachments;

@@ -6,7 +6,7 @@ public abstract class EntityBase()
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key, Column(Order = 0)]
-    public int Id { get; protected set; }
+    public int Id { get; set; }
     public string? CreatedById { get; set; }
     public ApplicationUser CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
