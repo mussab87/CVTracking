@@ -24,5 +24,9 @@ public class AddAddNewForeignCvRequest : IRequest<int>
     public bool? posterImg { get; set; }
     public bool? passportImg { get; set; }
 
+    public int[] Skills { get; set; }
+
+    public List<SkillSelectedDto> skillList { get; set; }
+
 }
 

@@ -14,9 +14,11 @@ public class UpdateForeignCvRequestHandler : IRequestHandler<UpdateForeignCvRequ
     readonly IPreviousEmploymentsRepository _PreviousEmployments;
     readonly IMapper _mapper;
     readonly ICVHRPool _cVHRPool;
+    readonly ICandidateSkillsRepository _candidateSkillsRepository;
+    readonly ICVCandidateSkillsRepository _cVCandidateSkillsRepository;
 
     public UpdateForeignCvRequestHandler(ICVRepository unitOfWork, IMapper mapper,
-        ILogger<AddCountryHandler> logger, IForeignAgentRepository foreignAgent, ICVStatusRepository cvStatus, IAttachmentRepository attachmentRepository, IPreviousEmploymentsRepository previousEmployments, ICVHRPool cVHRPool, ICVAttachmentRepository cVAttachmentRepository)
+        ILogger<AddCountryHandler> logger, IForeignAgentRepository foreignAgent, ICVStatusRepository cvStatus, IAttachmentRepository attachmentRepository, IPreviousEmploymentsRepository previousEmployments, ICVHRPool cVHRPool, ICVAttachmentRepository cVAttachmentRepository, ICandidateSkillsRepository candidateSkillsRepository, ICVCandidateSkillsRepository cVCandidateSkillsRepository)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         _mapper = mapper;
@@ -26,6 +28,8 @@ public class UpdateForeignCvRequestHandler : IRequestHandler<UpdateForeignCvRequ
         _PreviousEmployments = previousEmployments;
         _cVHRPool = cVHRPool;
         _cVAttachmentRepository = cVAttachmentRepository;
+        _candidateSkillsRepository = candidateSkillsRepository;
+        _cVCandidateSkillsRepository = cVCandidateSkillsRepository;
     }
 
     public async Task<int> Handle(UpdateForeignCvRequest request, CancellationToken cancellationToken)
@@ -61,7 +65,27 @@ public class UpdateForeignCvRequestHandler : IRequestHandler<UpdateForeignCvRequ
             await AddUpdateCvAttachments(request, existCvToUpdate);
         }
 
+        //update skills by remove old skills
+        await UpdateCandidateSkills(request);
+
         return existCvToUpdate.Id;
+    }
+
+    private async Task UpdateCandidateSkills(UpdateForeignCvRequest request)
+    {
+        var existSkills = await _candidateSkillsRepository.GetCVCandidateSkills((int)request.cv.Id);
+        if (existSkills is not null && existSkills.Count > 0)
+        {
+            foreach (var skill in existSkills)
+            {
+                await _cVCandidateSkillsRepository.DeleteAsync(skill);
+            }
+        }
+        //Add skills
+        if (request.Skills is not null && request.Skills.Length > 0)
+        {
+            await _candidateSkillsRepository.AddCVCandidateSkills(_mapper.Map<CV>(request.cv), request.Skills, request.foreignAgentUserId);
+        }
     }
 
     private async Task AddUpdateCvAttachments(UpdateForeignCvRequest request, CV existCvToUpdate)

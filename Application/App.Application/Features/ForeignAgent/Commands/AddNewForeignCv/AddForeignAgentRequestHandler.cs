@@ -12,9 +12,10 @@ public class AddNewForeignCvRequestHandler : IRequestHandler<AddAddNewForeignCvR
     readonly IAttachmentRepository _attachmentRepository;
     readonly IPreviousEmploymentsRepository _PreviousEmployments;
     readonly IMapper mapper;
+    readonly ICandidateSkillsRepository _candidateSkillsRepository;
 
     public AddNewForeignCvRequestHandler(ICVRepository unitOfWork, IMapper mapper,
-        ILogger<AddCountryHandler> logger, IForeignAgentRepository foreignAgent, ICVStatusRepository cvStatus, IAttachmentRepository attachmentRepository, IPreviousEmploymentsRepository previousEmployments)
+        ILogger<AddCountryHandler> logger, IForeignAgentRepository foreignAgent, ICVStatusRepository cvStatus, IAttachmentRepository attachmentRepository, IPreviousEmploymentsRepository previousEmployments, ICandidateSkillsRepository candidateSkillsRepository)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         this.mapper = mapper;
@@ -22,6 +23,7 @@ public class AddNewForeignCvRequestHandler : IRequestHandler<AddAddNewForeignCvR
         _cvStatus = cvStatus;
         _attachmentRepository = attachmentRepository;
         _PreviousEmployments = previousEmployments;
+        _candidateSkillsRepository = candidateSkillsRepository;
     }
 
     public async Task<int> Handle(AddAddNewForeignCvRequest request, CancellationToken cancellationToken)
@@ -47,6 +49,12 @@ public class AddNewForeignCvRequestHandler : IRequestHandler<AddAddNewForeignCvR
         {
             var attachmentResult = await _attachmentRepository.AddAttachment(request.cvAttachments, request.foreignAgentUserId);
             await _attachmentRepository.AddCVAttachment(newForeignAgentCV, attachmentResult, request.foreignAgentUserId);
+        }
+
+        //Add skills
+        if (request.Skills is not null && request.Skills.Length > 0)
+        {
+            await _candidateSkillsRepository.AddCVCandidateSkills(newForeignAgentCV, request.Skills, request.foreignAgentUserId);
         }
 
         return newForeignAgentCV.Id;

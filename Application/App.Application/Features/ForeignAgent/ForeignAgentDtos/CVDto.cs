@@ -17,6 +17,7 @@ public class CVDto
 
     //done
     [Display(Name = "Name English")]
+    [Required(ErrorMessage = "Name English is Required")]
     public string CandidateNameEnglish { get; set; }
 
     //done
@@ -37,6 +38,7 @@ public class CVDto
 
     //done
     [Display(Name = "Passport Number")]
+    [Required(ErrorMessage = "Passport Number is Required")]
     public string PassportNumber { get; set; }
 
     //done
@@ -73,29 +75,36 @@ public class CVDto
 
     //done
     [Display(Name = "Date Of Birth")]
+    [Required(ErrorMessage = "Date Of Birth is Required")]
     public DateTime? DateOfBirth { get; set; }
 
     //done
     [Display(Name = "Place Of Birth")]
+    [Required(ErrorMessage = "Place Of Birth is Required")]
     public int? PlaceOfBirthId { get; set; }
 
     //done
     [Display(Name = "Martial Status")]
+    [Required(ErrorMessage = "Martial Status is Required")]
     public int? MartialStatusId { get; set; }
 
     //done
+    [Required(ErrorMessage = "Gender is Required")]
     public int Gender { get; set; }
 
     //done
     [Display(Name = "No Of Children")]
+    [Required(ErrorMessage = "No Of Children is Required")]
     public string NoOfChildren { get; set; }
 
     //done
     [Display(Name = "Weight")]
+    [Required(ErrorMessage = "Weight Field is Required")]
     public int? Weight { get; set; }
 
     //done
     [Display(Name = "Height")]
+    [Required(ErrorMessage = "Height Field is Required")]
     public int? Height { get; set; }
 
     //done

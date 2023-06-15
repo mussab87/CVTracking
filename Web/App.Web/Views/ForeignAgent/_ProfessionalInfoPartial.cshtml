@@ -25,7 +25,7 @@
                                 <label>Period</label>
                                 <div class="input-area">
                                     <img src="~/assets/images/icon/hight.svg" alt="">
-                                    <input type="text" asp-for="@Model.previousEmployment[i].Period" placeholder="Period'">
+                                    <input type="text" asp-for="@Model.previousEmployment[i].Period" placeholder="Period'" required title="Please enter your this Field">
                                 </div>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                                 <div class="input-area">
                                     <img src="~/assets/images/icon/nid.svg" alt="">
                                     <select asp-for="@Model.previousEmployment[i].CountryOfEmploymentId" class="select1"
-                                            asp-items="@ViewBag.Countries">
+                                            asp-items="@ViewBag.Countries" required title="Please enter your this Field">
                                         <option value="">Select Country of Employment </option>
                                     </select>
                                 </div>
@@ -47,7 +47,7 @@
                                 <label>Position</label>
                                 <div class="input-area">
                                     <img src="~/assets/images/icon/designation-2.svg" alt="">
-                                    <input type="text" asp-for="@Model.previousEmployment[i].Position" placeholder="Position">
+                                    <input type="text" asp-for="@Model.previousEmployment[i].Position" placeholder="Position" required title="Please enter your this Field">
 
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                             <label>Period</label>
                             <div class="input-area">
                                 <img src="~/assets/images/icon/hight.svg" alt="">
-                                <input type="text" asp-for="previousEmployment[0].Period" placeholder="Period'">
+                                <input type="text" asp-for="previousEmployment[0].Period" placeholder="Period" required title="Please enter your this Field">
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                             <div class="input-area">
                                 <img src="~/assets/images/icon/nid.svg" alt="">
                                 <select asp-for="previousEmployment[0].CountryOfEmploymentId" class="select1"
-                                        asp-items="@ViewBag.Countries">
+                                        asp-items="@ViewBag.Countries" required title="Please enter your this Field">
                                     <option value="">Select Country of Employment </option>
                                 </select>
                             </div>
@@ -93,7 +93,7 @@
                             <label>Position</label>
                             <div class="input-area">
                                 <img src="~/assets/images/icon/designation-2.svg" alt="">
-                                <input type="text" asp-for="previousEmployment[0].Position" placeholder="Position">
+                                <input type="text" asp-for="previousEmployment[0].Position" placeholder="Position" required title="Please enter your this Field">
 
                             </div>
                         </div>
@@ -101,7 +101,6 @@
                 </div>
             </div>
         }
-
 
         <div class="add-remove-btn d-flex align-items-center justify-content-between mb-50">
             <div class="add-row">

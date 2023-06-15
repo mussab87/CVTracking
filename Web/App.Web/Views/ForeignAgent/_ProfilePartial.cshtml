@@ -9,8 +9,9 @@
                     <label asp-for="cv.DateOfBirth">Date of Birth*</label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/calender2.svg" alt="">
-                        <input type="text" asp-for="cv.DateOfBirth" placeholder="03/08/1986" onchange="calculateAge()">
+                        <input type="text" asp-for="cv.DateOfBirth" placeholder="03/08/1986" onchange="calculateAge()" required>
                     </div>
+                    <span asp-validation-for="cv.DateOfBirth" class="alert-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
@@ -42,6 +43,7 @@
                             <option value="">Select Place of Birth </option>
                         </select>
                     </div>
+                    <span asp-validation-for="cv.PlaceOfBirthId" class="alert-danger"></span>
                 </div>
             </div>
 
@@ -54,6 +56,7 @@
                             <option value="">Select Martial Status </option>
                         </select>
                     </div>
+                    <span asp-validation-for="cv.MartialStatusId" class="alert-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
@@ -63,6 +66,7 @@
                         <img src="~/assets/images/icon/hight.svg" alt="">
                         <input type="text" asp-for="cv.NoOfChildren" placeholder="Enter Number">
                     </div>
+                    <span asp-validation-for="cv.NoOfChildren" class="alert-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
@@ -77,6 +81,7 @@
 
                         </select>
                     </div>
+                    <span asp-validation-for="cv.Gender" class="alert-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
@@ -106,6 +111,7 @@
                         <img src="~/assets/images/icon/hight.svg" alt="">
                         <input type="text" asp-for="cv.PassportNumber" placeholder="Enter Number">
                     </div>
+                    <span asp-validation-for="cv.PassportNumber" class="alert-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
@@ -113,7 +119,7 @@
                     <label asp-for="cv.PlaceOfIssue"></label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/hight.svg" alt="">
-                        <input type="text" asp-for="cv.PlaceOfIssue" placeholder="Enter Number">
+                        <input type="text" asp-for="cv.PlaceOfIssue" placeholder="Place Of Issue">
                     </div>
                 </div>
             </div>
@@ -142,6 +148,7 @@
                         <img src="~/assets/images/icon/hight.svg" alt="">
                         <input type="text" asp-for="cv.Height" placeholder="5.6'">
                     </div>
+                    <span asp-validation-for="cv.Height" class="alert-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
@@ -151,6 +158,81 @@
                         <img src="~/assets/images/icon/weight.svg" alt="">
                         <input asp-for="cv.Weight" type="text" placeholder="56">
                     </div>
+                    <span asp-validation-for="cv.Weight" class="alert-danger"></span>
+                </div>
+            </div>
+
+            <div class="skills-row" data-select2-id="select2-data-7-oy7i">
+                <div class="row" data-select2-id="select2-data-6-rpbt">
+                    <div class="col-lg-12">
+                        <div class="section-title2 mb-20">
+                            <h5>Additional Skills:</h5>
+                        </div>
+                    </div>
+                    @*@if (Model.skillList is not null && Model.skillList.Count > 0)
+                    {*@
+                    <div class="col-md-12" data-select2-id="select2-data-5-oye3">
+                        <div class="form-inner mb-25" data-select2-id="select2-data-4-f7qu">
+                            <label>Candidate Skills</label>
+                            <select name="states[]" class="js-example-basic-multiple select2-hidden-accessible" multiple="" data-select2-id="select2-data-1-chqf" tabindex="-1" aria-hidden="true" required>
+                                <option value="">Select Skills </option>
+                                @for (int i = 0; i < Model.skillList.Count; i++)
+                                {
+                                    if (@Model.skillList[i].IsSelected)
+                                    {
+                                        <option value="@Model.skillList[i].Value" selected>@Model.skillList[i].Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@Model.skillList[i].Value">@Model.skillList[i].Text</option>
+                                    }
+                                }
+                            </select>
+                            <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus select2-container--open" dir="ltr" data-select2-id="select2-data-2-tjhs" style="width: 100%;">
+                                <span class="selection">
+                                    <span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="true" tabindex="-1" aria-disabled="false" aria-owns="select2-states-ak-results">
+                                        <ul class="select2-selection__rendered" id="select2-states-ak-container">
+                                        </ul>
+                                        <span class="select2-search select2-search--inline">
+                                            <textarea class="select2-search__field" type="search" tabindex="0" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" aria-autocomplete="list" autocomplete="off" aria-label="Search" aria-describedby="select2-states-ak-container" placeholder="" style="width: 0.75em;" aria-controls="select2-states-ak-results">
+                                            </textarea>
+                                        </span>
+                                    </span><
+                                    /span>
+                                    <span class="dropdown-wrapper" aria-hidden="true">
+                                    </span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    @*}*@
+                    @*else
+                    {
+                    <div class="col-md-12" data-select2-id="select2-data-5-oye3">
+                    <div class="form-inner mb-25" data-select2-id="select2-data-4-f7qu">
+                    <label>Candidate Skills</label>
+                    <select asp-items="@ViewBag.Skills" class="js-example-basic-multiple select2-hidden-accessible" name="states[]" multiple="" data-select2-id="select2-data-1-chqf" tabindex="-1" aria-hidden="true">
+                    </select>
+                    <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus select2-container--open" dir="ltr" data-select2-id="select2-data-2-tjhs" style="width: 100%;">
+                    <span class="selection">
+                    <span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="true" tabindex="-1" aria-disabled="false" aria-owns="select2-states-ak-results">
+                    <ul class="select2-selection__rendered" id="select2-states-ak-container">
+                    </ul>
+                    <span class="select2-search select2-search--inline">
+                    <textarea class="select2-search__field" type="search" tabindex="0" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" aria-autocomplete="list" autocomplete="off" aria-label="Search" aria-describedby="select2-states-ak-container" placeholder="" style="width: 0.75em;" aria-controls="select2-states-ak-results">
+                    </textarea>
+                    </span>
+                    </span><
+                    /span>
+                    <span class="dropdown-wrapper" aria-hidden="true">
+                    </span>
+                    </span>
+                    </span>
+                    </div>
+                    </div>
+                    }*@
+
+
                 </div>
             </div>
 

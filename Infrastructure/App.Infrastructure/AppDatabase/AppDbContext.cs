@@ -15,6 +15,7 @@ public class AppDbContext : AuditIdentityDbContext
         modelBuilder.Entity<RootCompanyForeignAgent>().HasKey(sc => new { sc.RootCompanyId, sc.ForeignAgentId });
         modelBuilder.Entity<RootCompanyLocalAgent>().HasKey(sc => new { sc.RootCompanyId, sc.LocalAgentId });
         modelBuilder.Entity<CVAttachment>().HasKey(sc => new { sc.CVId, sc.AttachmentId });
+        modelBuilder.Entity<CVCandidateSkills>().HasKey(sc => new { sc.CVId, sc.CandidateSkillsId });
 
         //change AspNet Users tables names
         var entityTypes = modelBuilder.Model.GetEntityTypes();
@@ -44,5 +45,7 @@ public class AppDbContext : AuditIdentityDbContext
     public DbSet<RootCompanyLocalAgent> RootCompanyLocalAgents { get; set; }
     public DbSet<RootCompanyUsers> RootCompanyUsers { get; set; }
     public DbSet<SelectedCv> SelectedCvs { get; set; }
+    public DbSet<CandidateSkills> CandidateSkils { get; set; }
+    public DbSet<CVCandidateSkills> CVCandidateSkils { get; set; }
 }
 

@@ -37,5 +37,7 @@ public class MappingProfile : Profile
         CreateMap<MartialStatus, MartialStatusDto>().ReverseMap();
 
         CreateMap<CV, CVDto>().ReverseMap();
+
+        CreateMap<CandidateSkills, SkillsDto>().ReverseMap();
     }
 }

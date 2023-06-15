@@ -24,11 +24,15 @@ namespace App.Web.Controllers
         {
             var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
 
+            //get all CV for the ForeignAgent
+            var query = new GetAllCvListQuery() { ForeignAgentId = (int)LoggedInuser.ForeignAgentId };
+            var ForeignAgentCvList = await _mediator.Send(query);
+
             var ForeignAgentCount = new FoerignAgentCountDto()
             {
-                CvCount = 0,
-                PostToAdminCount = 0,
-                SelectedCvCount = 0
+                CvCount = ForeignAgentCvList.Count(),
+                PostToAdminCount = ForeignAgentCvList.Where(s => s.CVStatus.StatusNo == (int)cvStatus.PostToAdmin).Count(),
+                SelectedCvCount = ForeignAgentCvList.Where(s => s.CVStatus.StatusNo == (int)cvStatus.Selected).Count()
             };
 
 
@@ -55,13 +59,13 @@ namespace App.Web.Controllers
         public async Task<IActionResult> ForeignAgentSelectedApplicants()
         {
             var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
-            var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("RootCompany");
+            var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent");
 
             //get all CV for the ForeignAgent
             var query = new GetAllCvListQuery() { ForeignAgentId = (int)userForeignAgentId.Id };
             var ForeignAgentCvList = await _mediator.Send(query);
 
-            return View(ForeignAgentCvList.Where(s => s.CVStatus.Status == "Selected"));
+            return View(ForeignAgentCvList.Where(s => s.CVStatus.StatusNo == (int)cvStatus.Selected));
         }
 
         [HttpGet]
@@ -69,13 +73,13 @@ namespace App.Web.Controllers
         public async Task<IActionResult> ForeignAgentPostToAdminApplicants()
         {
             var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
-            var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("RootCompany");
+            var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent");
 
             //get all CV for the ForeignAgent
             var query = new GetAllCvListQuery() { ForeignAgentId = (int)userForeignAgentId.Id };
             var ForeignAgentCvList = await _mediator.Send(query);
 
-            return View(ForeignAgentCvList.Where(s => s.CVStatus.Status == "Post to Admin"));
+            return View(ForeignAgentCvList.Where(s => s.CVStatus.StatusNo == (int)cvStatus.PostToAdmin));
         }
 
         [HttpGet]
@@ -83,13 +87,13 @@ namespace App.Web.Controllers
         public async Task<IActionResult> ForeignAgentInCompleteCV()
         {
             var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
-            var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("RootCompany");
+            var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent");
 
             //get all CV for the ForeignAgent
             var query = new GetAllCvListQuery() { ForeignAgentId = (int)userForeignAgentId.Id };
             var ForeignAgentCvList = await _mediator.Send(query);
 
-            return View(ForeignAgentCvList.Where(s => s.CVStatus.Status == "InComplete"));
+            return View(ForeignAgentCvList.Where(s => s.CVStatus.StatusNo == (int)cvStatus.InComplete));
         }
 
         [HttpGet]
@@ -97,13 +101,13 @@ namespace App.Web.Controllers
         public async Task<IActionResult> ForeignAgentBackoutCV()
         {
             var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
-            var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("RootCompany");
+            var userForeignAgentId = HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent");
 
             //get all CV for the ForeignAgent
             var query = new GetAllCvListQuery() { ForeignAgentId = (int)userForeignAgentId.Id };
             var ForeignAgentCvList = await _mediator.Send(query);
 
-            return View(ForeignAgentCvList.Where(s => s.CVStatus.Status == "Backout"));
+            return View(ForeignAgentCvList.Where(s => s.CVStatus.StatusNo == (int)cvStatus.Backout));
         }
 
         [HttpGet]
@@ -111,7 +115,7 @@ namespace App.Web.Controllers
         public async Task<IActionResult> ForeignAgentAddNewCV(int id)
         {
 
-            await GetDropDownList();
+
             var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
             //configure reference number - first 2 digit from ForeignAgent name + 0000100
             var userForeignAgent = HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent");
@@ -132,6 +136,7 @@ namespace App.Web.Controllers
                     foreignAgentId = userForeignAgent.Id,
                     foreignAgentUserId = LoggedInuser.Id
                 };
+                await GetDropDownList(model);
                 return View(model);
             }
 
@@ -141,25 +146,46 @@ namespace App.Web.Controllers
 
             var existCvAttachments = await getCVAttachments(GetCVById);
             AddAddNewForeignCvRequest model2 = FillExistForeignCv(LoggedInuser, userForeignAgent, GetCVById, existCvAttachments);
+
+            //ViewBag.candidateSkills = model2.Skills;
+            await GetDropDownList(model2);
             return View(model2);
         }
 
         [HttpPost]
         public async Task<IActionResult> ForeignAgentAddNewCV(AddAddNewForeignCvRequest model,
-                                                        IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto)
+                                                        IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto, int[] states)
         {
+
             if (model.cv.Id == null)
             {
-                await addNewCv(model, personalphoto, posterphoto, passportphoto, true);
-                await GetDropDownList();
+                //check cv fields first before going to save 
+                if (await CheckCvBeforeSave(model, personalphoto, posterphoto, passportphoto, states, true) == false)
+                {
+                    ModelState.AddModelError("CustomError", "You must enter all required fields before click on save");
+                    await GetDropDownList(model);
+                    ViewBag.error = "yes";
+                    return View(model);
+                }
+
+                await addNewCv(model, personalphoto, posterphoto, passportphoto, true, states);
+                await GetDropDownList(model);
+                return RedirectToAction("ForeignAgentAddNewCV", new { id = model.cv.Id });
+            }
+
+            //update exist cv data
+            //check cv fields first before going to save 
+            if (await CheckCvBeforeSave(model, personalphoto, posterphoto, passportphoto, states, false) == false)
+            {
+                ModelState.AddModelError("CustomError", "You must enter all required fields before click on save");
+                await GetDropDownList(model);
+                ViewBag.error = "yes";
                 return View(model);
             }
 
+            await addNewCv(model, personalphoto, posterphoto, passportphoto, false, states);
 
-            //update exist cv data
-            await addNewCv(model, personalphoto, posterphoto, passportphoto, false);
-
-            //await GetDropDownList();
+            await GetDropDownList(model);
             return RedirectToAction("ForeignAgentAddNewCV", new { id = model.cv.Id });
         }
 
@@ -174,7 +200,8 @@ namespace App.Web.Controllers
                 cvStatusId = GetCVById.CVStatus.Id,
                 foreignAgentId = userForeignAgent.Id,
                 foreignAgentUserId = LoggedInuser.Id,
-                HRPoolId = GetCVById.cvHRpool.Id
+                HRPoolId = GetCVById.cvHRpool.Id,
+                Skills = GetCVById.Skills
             };
         }
 
@@ -190,12 +217,10 @@ namespace App.Web.Controllers
             }
             return cvAttachments;
         }
-        async Task addNewCv(AddAddNewForeignCvRequest model, IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto, bool actionType)
+        async Task addNewCv(AddAddNewForeignCvRequest model, IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto, bool actionType, int[] skills)
         {
             //add cv status
-            if (personalphoto == null || posterphoto == null || passportphoto == null || model.cv.CandidateNameEnglish == null)
-                model.cvStatusId = (int)cvStatus.InComplete;
-            else model.cvStatusId = (int)cvStatus.Free;
+            AddCVStatus(model, personalphoto, posterphoto, passportphoto, skills);
 
             //add cv attachment
             List<Attachment> attachmentsList = new();
@@ -205,7 +230,6 @@ namespace App.Web.Controllers
                 if (attachmentsList.Count > 0)
                     model.cvAttachments = attachmentsList;
             }
-
 
             model.cv.CreatedById = model.foreignAgentUserId;
             model.cv.CreatedDate = DateTime.Now;
@@ -222,7 +246,8 @@ namespace App.Web.Controllers
                     previousEmployment = model.previousEmployment,
                     personalImg = model.personalImg,
                     posterImg = model.posterImg,
-                    passportImg = model.passportImg
+                    passportImg = model.passportImg,
+                    Skills = skills
                 };
                 var newCv = await _mediator.Send(command);
                 model.cv.Id = newCv;
@@ -241,12 +266,80 @@ namespace App.Web.Controllers
                     HRPoolId = model.HRPoolId,
                     personalImg = model.personalImg,
                     posterImg = model.posterImg,
-                    passportImg = model.passportImg
+                    passportImg = model.passportImg,
+                    Skills = skills
                 };
                 var newCv = await _mediator.Send(command);
             }
+
+
         }
 
+        static void AddCVStatus(AddAddNewForeignCvRequest model, IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto, int[] skills)
+        {
+            if (personalphoto == null ||
+                            posterphoto == null ||
+                            passportphoto == null ||
+                            model.cv.CandidateNameEnglish == null ||
+                            model.cv.DateOfBirth == null ||
+                            model.cv.PlaceOfBirthId == null ||
+                            model.cv.MartialStatusId == null ||
+                            model.cv.NoOfChildren == null ||
+                            model.cv.Weight == null ||
+                            model.cv.Height == null ||
+                            model.cv.PassportNumber == null ||
+                            skills.Length < 0 ||
+                            model.previousEmployment[0].Position == null ||
+                            model.previousEmployment[0].Period == 0 ||
+                            model.previousEmployment[0].CountryOfEmploymentId == null)
+                model.cvStatusId = (int)cvStatus.InComplete;
+            else model.cvStatusId = (int)cvStatus.Free;
+        }
+
+        private async Task<bool> CheckCvBeforeSave(AddAddNewForeignCvRequest model, IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto, int[] skills, bool AddNewUpdatetype)
+        {
+            if (AddNewUpdatetype)
+            {
+                if (personalphoto == null ||
+                            posterphoto == null ||
+                            passportphoto == null ||
+                            model.cv.CandidateNameEnglish == null ||
+                            model.cv.DateOfBirth == null ||
+                            model.cv.PlaceOfBirthId == null ||
+                            model.cv.MartialStatusId == null ||
+                            model.cv.NoOfChildren == null ||
+                            model.cv.Weight == null ||
+                            model.cv.Height == null ||
+                            model.cv.PassportNumber == null ||
+                            skills.Length < 0 ||
+                            model.previousEmployment[0].Position == null ||
+                            model.previousEmployment[0].Period == 0 ||
+                            model.previousEmployment[0].CountryOfEmploymentId == null)
+                    return false;
+                else return true;
+            }
+            else
+            {
+                if (model.personalImg == null ||
+                            model.posterImg == null ||
+                            model.passportImg == null ||
+                            model.cv.CandidateNameEnglish == null ||
+                            model.cv.DateOfBirth == null ||
+                            model.cv.PlaceOfBirthId == null ||
+                            model.cv.MartialStatusId == null ||
+                            model.cv.NoOfChildren == null ||
+                            model.cv.Weight == null ||
+                            model.cv.Height == null ||
+                            model.cv.PassportNumber == null ||
+                            skills.Length < 0 ||
+                            model.previousEmployment[0].Position == null ||
+                            model.previousEmployment[0].Period == 0 ||
+                            model.previousEmployment[0].CountryOfEmploymentId == null)
+                    return false;
+                else return true;
+            }
+
+        }
         private async Task<string> GetCVRefNumber(ForegnAgentDto userForeignAgent, string twoDigitFromName)
         {
             var query = new GetAllCvListQuery() { ForeignAgentId = (int)userForeignAgent.Id };
@@ -266,7 +359,7 @@ namespace App.Web.Controllers
             return refNo;
         }
 
-        async Task GetDropDownList()
+        async Task GetDropDownList(AddAddNewForeignCvRequest model = null)
         {
             //Countries
             var country = new GetCountryListQuery();
@@ -292,6 +385,57 @@ namespace App.Web.Controllers
             var martialStatus = new GetMartialStatusListQuery();
             var martials = await _mediator.Send(martialStatus);
             ViewData["martialStatus"] = new SelectList(martials, "Id", "MartialStatusEnglish");
+
+            //Skills
+            var getSkills = new GetCandidateSkillsListQuery();
+            var Skills = await _mediator.Send(getSkills);
+
+            //fill candidate skills
+            if (Skills is not null && Skills.Count > 0)
+            {
+                if (model is not null)
+                {
+                    model.skillList = new();
+                    foreach (var skill in Skills)
+                    {
+                        if (model.Skills is not null)
+                        {
+                            var selectedSkills = model.Skills.Where(s => s.Equals(skill.Id)).FirstOrDefault();
+                            if (selectedSkills > 0)
+                            {
+                                var selected = new SkillSelectedDto()
+                                {
+                                    Text = skill.SkillEnglish,
+                                    Value = skill.Id.ToString(),
+                                    IsSelected = true
+                                };
+                                model.skillList.Add(selected);
+                            }
+                            else
+                            {
+                                var selected = new SkillSelectedDto()
+                                {
+                                    Text = skill.SkillEnglish,
+                                    Value = skill.Id.ToString(),
+                                };
+                                model.skillList.Add(selected);
+                            }
+                        }
+                        else
+                        {
+                            var selected = new SkillSelectedDto()
+                            {
+                                Text = skill.SkillEnglish,
+                                Value = skill.Id.ToString(),
+                            };
+                            model.skillList.Add(selected);
+                        }
+
+                    }
+                }
+            }
+
+            ViewData["Skills"] = new SelectList(Skills, "Id", "SkillEnglish");
         }
 
         static async Task<List<Attachment>> SaveAttachments

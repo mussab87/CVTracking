@@ -8,11 +8,13 @@ public class GetForeignCvByIdQueryHandler : IRequestHandler<GetForeignCvByIdQuer
 {
     private readonly ICVRepository _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly ICandidateSkillsRepository _candidateSkillsRepository;
 
-    public GetForeignCvByIdQueryHandler(ICVRepository unitOfWork, IMapper mapper)
+    public GetForeignCvByIdQueryHandler(ICVRepository unitOfWork, IMapper mapper, ICandidateSkillsRepository candidateSkillsRepository)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _candidateSkillsRepository = candidateSkillsRepository;
     }
 
     public async Task<ForeignAgentHRPoolDto> Handle(GetForeignCvByIdQuery request,
@@ -28,6 +30,19 @@ public class GetForeignCvByIdQueryHandler : IRequestHandler<GetForeignCvByIdQuer
 
         //add attachments & PreviousEmployment into foregnAgentCv
 
+        //get candidate skils
+        var skills = await _candidateSkillsRepository.GetCVCandidateSkills(request.cvId);
+        int[] skillList = null;
+        if (skills.Count > 0)
+        {
+            skillList = new int[skills.Count];
+            for (int i = 0; i < skills.Count; i++)
+            {
+                var skillId = skills[i].CandidateSkillsId;
+                skillList[i] = skillId;
+            }
+        }
+
         ForeignAgentHRPoolDto foreignAgentHRPoolDto = new();
         foreignAgentHRPoolDto.ForeignAgent = foregnAgentCv.ForeignAgent;
         foreignAgentHRPoolDto.CV = foregnAgentCv.CV;
@@ -35,7 +50,7 @@ public class GetForeignCvByIdQueryHandler : IRequestHandler<GetForeignCvByIdQuer
         foreignAgentHRPoolDto.cvAttachments = Cvattachments;
         foreignAgentHRPoolDto.previousEmployment = cvPreviousEmployment;
         foreignAgentHRPoolDto.cvHRpool = foregnAgentCv;
-
+        foreignAgentHRPoolDto.Skills = skillList;
 
         return foreignAgentHRPoolDto;
     }

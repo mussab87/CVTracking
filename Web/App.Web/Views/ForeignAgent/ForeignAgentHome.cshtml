@@ -38,141 +38,141 @@
                         </div>
                     </div>
                 }
-                @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-PostToAdminCv").Result.Succeeded)
+                @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-ForeignAgentPostToAdminApplicants").Result.Succeeded)
                 {
                     <div class="col">
                         <div class="single-category">
                             <div class="category-top">
                                 <div class="icon">
-                                    <img src="~/assets/images/icon/technology.svg" alt="">
+                                    <img src="~/assets/images/icon/receotionist.svg" alt="">
                                 </div>
                                 <div class="sl-no">
                                     <h6>02</h6>
                                 </div>
                             </div>
                             <div class="category-content">
-                                <h5><a asp-controller="ForeignAgent" asp-action="SelectedCVs">Post to Admin</a></h5>
+                                <h5><a asp-controller="ForeignAgent" asp-action="ForeignAgentPostToAdminApplicants">Post to Admin</a></h5>
                                 <p>Post to Admin: <span>@Model.PostToAdminCount</span></p>
                             </div>
                         </div>
                     </div>
                 }
-                @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-PostToAdminCv").Result.Succeeded)
+                @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-ForeignAgentSelectedApplicants").Result.Succeeded)
                 {
                     <div class="col">
                         <div class="single-category">
                             <div class="category-top">
                                 <div class="icon">
-                                    <img src="~/assets/images/icon/medical.svg" alt="">
+                                    <img src="~/assets/images/icon/cv-review.svg" alt="">
                                 </div>
                                 <div class="sl-no">
                                     <h6>03</h6>
                                 </div>
                             </div>
                             <div class="category-content">
-                                <h5><a asp-controller="ForeignAgent" asp-action="SelectedCVs">Selected CVs</a></h5>
+                                <h5><a asp-controller="ForeignAgent" asp-action="ForeignAgentSelectedApplicants">Selected CVs</a></h5>
                                 <p>All Selected CVs: <span>@Model.SelectedCvCount</span></p>
                             </div>
                         </div>
                     </div>
                 }
-                <div class="col">
-                    <div class="single-category">
-                        <div class="category-top">
-                            <div class="icon">
-                                <img src="~/assets/images/icon/marketing.svg" alt="">
-                            </div>
-                            <div class="sl-no">
-                                <h6>04</h6>
-                            </div>
-                        </div>
-                        <div class="category-content">
-                            <h5><a href="job-listing1.html">Marketing & Sales</a></h5>
-                            <p>Job Available: <span>56</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="single-category">
-                        <div class="category-top">
-                            <div class="icon">
-                                <img src="~/assets/images/icon/design-job.svg" alt="">
-                            </div>
-                            <div class="sl-no">
-                                <h6>05</h6>
-                            </div>
-                        </div>
-                        <div class="category-content">
-                            <h5><a href="job-listing1.html">Design Jobs</a></h5>
-                            <p>Job Available: <span>18 </span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="single-category">
-                        <div class="category-top">
-                            <div class="icon">
-                                <img src="~/assets/images/icon/transportation.svg" alt="">
-                            </div>
-                            <div class="sl-no">
-                                <h6>06</h6>
-                            </div>
-                        </div>
-                        <div class="category-content">
-                            <h5><a href="job-listing1.html">Transportation</a></h5>
-                            <p>Job Available: <span>97</span></p>
-                        </div>
-                    </div>
-                </div>
+                @*<div class="col">
+            <div class="single-category">
+            <div class="category-top">
+            <div class="icon">
+            <img src="~/assets/images/icon/marketing.svg" alt="">
+            </div>
+            <div class="sl-no">
+            <h6>04</h6>
+            </div>
+            </div>
+            <div class="category-content">
+            <h5><a href="job-listing1.html">Marketing & Sales</a></h5>
+            <p>Job Available: <span>56</span></p>
+            </div>
+            </div>
+            </div>
+            <div class="col">
+            <div class="single-category">
+            <div class="category-top">
+            <div class="icon">
+            <img src="~/assets/images/icon/design-job.svg" alt="">
+            </div>
+            <div class="sl-no">
+            <h6>05</h6>
+            </div>
+            </div>
+            <div class="category-content">
+            <h5><a href="job-listing1.html">Design Jobs</a></h5>
+            <p>Job Available: <span>18 </span></p>
+            </div>
+            </div>
+            </div>
+            <div class="col">
+            <div class="single-category">
+            <div class="category-top">
+            <div class="icon">
+            <img src="~/assets/images/icon/transportation.svg" alt="">
+            </div>
+            <div class="sl-no">
+            <h6>06</h6>
+            </div>
+            </div>
+            <div class="category-content">
+            <h5><a href="job-listing1.html">Transportation</a></h5>
+            <p>Job Available: <span>97</span></p>
+            </div>
+            </div>
+            </div>
 
-                <div class="col">
-                    <div class="single-category">
-                        <div class="category-top">
-                            <div class="icon">
-                                <img src="~/assets/images/icon/receotionist.svg" alt="">
-                            </div>
-                            <div class="sl-no">
-                                <h6>08</h6>
-                            </div>
-                        </div>
-                        <div class="category-content">
-                            <h5><a href="job-listing1.html">Receptionist Job</a></h5>
-                            <p>Job Available: <span>55</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="single-category">
-                        <div class="category-top">
-                            <div class="icon">
-                                <img src="~/assets/images/icon/non-profit-org.svg" alt="">
-                            </div>
-                            <div class="sl-no">
-                                <h6>09</h6>
-                            </div>
-                        </div>
-                        <div class="category-content">
-                            <h5><a href="job-listing1.html">Non-Profit Orag.</a></h5>
-                            <p>Job Available: <span>05</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="single-category">
-                        <div class="category-top">
-                            <div class="icon">
-                                <img src="~/assets/images/icon/architect.svg" alt="">
-                            </div>
-                            <div class="sl-no">
-                                <h6>10</h6>
-                            </div>
-                        </div>
-                        <div class="category-content">
-                            <h5><a href="job-listing1.html">Architect Jobs</a></h5>
-                            <p>Job Available: <span>20</span></p>
-                        </div>
-                    </div>
-                </div>
+            <div class="col">
+            <div class="single-category">
+            <div class="category-top">
+            <div class="icon">
+            <img src="~/assets/images/icon/receotionist.svg" alt="">
+            </div>
+            <div class="sl-no">
+            <h6>08</h6>
+            </div>
+            </div>
+            <div class="category-content">
+            <h5><a href="job-listing1.html">Receptionist Job</a></h5>
+            <p>Job Available: <span>55</span></p>
+            </div>
+            </div>
+            </div>
+            <div class="col">
+            <div class="single-category">
+            <div class="category-top">
+            <div class="icon">
+            <img src="~/assets/images/icon/non-profit-org.svg" alt="">
+            </div>
+            <div class="sl-no">
+            <h6>09</h6>
+            </div>
+            </div>
+            <div class="category-content">
+            <h5><a href="job-listing1.html">Non-Profit Orag.</a></h5>
+            <p>Job Available: <span>05</span></p>
+            </div>
+            </div>
+            </div>
+            <div class="col">
+            <div class="single-category">
+            <div class="category-top">
+            <div class="icon">
+            <img src="~/assets/images/icon/architect.svg" alt="">
+            </div>
+            <div class="sl-no">
+            <h6>10</h6>
+            </div>
+            </div>
+            <div class="category-content">
+            <h5><a href="job-listing1.html">Architect Jobs</a></h5>
+            <p>Job Available: <span>20</span></p>
+            </div>
+            </div>
+            </div>*@
             }
         </div>
     </div>

@@ -41,6 +41,9 @@
                             </li>
                         </ul>
                         <form asp-action="ForeignAgentAddNewCV" method="post" enctype="multipart/form-data">
+
+
+
                             <input type="hidden" asp-for="foreignAgentId" />
                             <input type="hidden" asp-for="foreignAgentUserId" />
                             @if (Model.cv.Id != null)
@@ -51,7 +54,21 @@
                             {
                                 <input type="hidden" asp-for="HRPoolId" />
                             }
+
+                            @if (ViewBag.error is not null)
+                            {
+                                <div class="alert">
+                                    <div class="row alert alert-danger">
+                                        <h5>Missing Data Message</h5>
+
+                                        <p>@Html.ValidationSummary()</p>
+                                    </div>
+                                </div>
+                            }
+
                             <div class="tab-content" id="myTabContent">
+
+
 
                                 <partial name="_BasicInformationPartial" model="Model" />
                                 <partial name="_ProfilePartial" model="Model" />

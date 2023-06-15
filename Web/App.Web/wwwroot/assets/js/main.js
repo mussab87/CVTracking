@@ -120,9 +120,15 @@
 
 
     // select2
+    //debugger;
+    //if ($("#skills").val() != undefined) {
+    //    var skills = JSON.parse($("#candidateSkills").val());
+    //    $("#states[]").val(skills);
+    //}
+
 
     $(".select2").select2({
-        placeholder: "Select a programming language",
+        placeholder: "Select Skils",
         allowClear: true
     });
     $('.js-example-basic-single').select2({

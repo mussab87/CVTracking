@@ -10,5 +10,7 @@ public class ForeignAgentHRPoolDto
     public List<CVAttachment> cvAttachments { get; set; }
 
     public List<PreviousEmployment> previousEmployment { get; set; }
+
+    public int[] Skills { get; set; }
 }
 

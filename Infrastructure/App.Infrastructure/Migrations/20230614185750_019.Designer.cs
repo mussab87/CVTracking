@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230614185750_019")]
+    partial class _019
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -393,12 +396,12 @@ namespace App.Infrastructure.Migrations
                     b.ToTable("CVAttachments", (string)null);
                 });
 
-            modelBuilder.Entity("CVCandidateSkills", b =>
+            modelBuilder.Entity("CVCandidateSkils", b =>
                 {
                     b.Property<int>("CVId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CandidateSkillsId")
+                    b.Property<int>("CandidateSkilsId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedById")
@@ -420,9 +423,9 @@ namespace App.Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("CVId", "CandidateSkillsId");
+                    b.HasKey("CVId", "CandidateSkilsId");
 
-                    b.HasIndex("CandidateSkillsId");
+                    b.HasIndex("CandidateSkilsId");
 
                     b.HasIndex("CreatedById");
 
@@ -467,7 +470,7 @@ namespace App.Infrastructure.Migrations
                     b.ToTable("CVStatuses", (string)null);
                 });
 
-            modelBuilder.Entity("CandidateSkills", b =>
+            modelBuilder.Entity("CandidateSkils", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1334,7 +1337,7 @@ namespace App.Infrastructure.Migrations
                     b.Navigation("LastModifiedBy");
                 });
 
-            modelBuilder.Entity("CVCandidateSkills", b =>
+            modelBuilder.Entity("CVCandidateSkils", b =>
                 {
                     b.HasOne("CV", "CV")
                         .WithMany()
@@ -1342,9 +1345,9 @@ namespace App.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CandidateSkills", "CandidateSkills")
+                    b.HasOne("CandidateSkils", "CandidateSkils")
                         .WithMany()
-                        .HasForeignKey("CandidateSkillsId")
+                        .HasForeignKey("CandidateSkilsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1358,7 +1361,7 @@ namespace App.Infrastructure.Migrations
 
                     b.Navigation("CV");
 
-                    b.Navigation("CandidateSkills");
+                    b.Navigation("CandidateSkils");
 
                     b.Navigation("CreatedBy");
 
@@ -1380,7 +1383,7 @@ namespace App.Infrastructure.Migrations
                     b.Navigation("LastModifiedBy");
                 });
 
-            modelBuilder.Entity("CandidateSkills", b =>
+            modelBuilder.Entity("CandidateSkils", b =>
                 {
                     b.HasOne("ApplicationUser", "CreatedBy")
                         .WithMany()
