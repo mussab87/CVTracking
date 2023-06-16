@@ -1232,6 +1232,16 @@ function checkUncheckEnglish() {
     }
 }
 
+function checkUncheckRootSelected() {
+    var checkbox = document.getElementById("rootSelected");
+
+    if (checkbox.checked) {
+        $("#cv_RootSelected").val("true");
+    } else {
+        $("#cv_EnglishLanguage").val("false");
+    }
+}
+
 function checkUncheckArabic() {
     var checkbox = document.getElementById("ArabicLanguage");
 
@@ -1240,4 +1250,29 @@ function checkUncheckArabic() {
     } else {
         $("#cv_ArabicLanguage").val("false");
     }
+}
+
+function confirmPostToAdmin(cvid) {
+    swal({
+        title: 'Are you sure?',
+        /*html: '<label>Enter Back Forward Comments</label><textarea id="txtcomment" class="form-control input-lg"></textarea>',*/
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Post to Admin',
+        type: 'warning'
+    },
+        function (resolve) {
+            if (resolve) {
+                $.ajax({
+                    url: "/ForeignAgent/PostToAdmin?cvid=" + cvid,
+                    method: "GET",
+                    success: function (data) {
+                        //alert(data);
+                        alert("CV has been posted to admin successfully");
+                        location.reload();
+                    }
+                });
+            }
+            return;
+        });
 }

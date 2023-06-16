@@ -677,6 +677,39 @@ namespace App.Web.Controllers
             return RedirectToAction(nameof(ForeignAgentList));
         }
 
+        [HttpGet]
+        [Authorize("RootCompany-CVHRPool")]
+        public async Task<IActionResult> CVHRPool()
+        {
+            await getForeignAgentsLookup();
+
+            return View();
+        }
+
+        private async Task getForeignAgentsLookup()
+        {
+            var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+            //get rootCompany foreignAgent list
+            var query = new GetForeignAgentListQuery() { rootCompanyId = (int)userRootCompanyId };
+            var ForeignAgentListByRootCompany = await _mediator.Send(query);
+
+            ViewData["RootForeignAgents"] = new SelectList(ForeignAgentListByRootCompany, "Id", "ForeignAgentName");
+        }
+
+        [HttpPost]
+        [Authorize("RootCompany-ForeignAgentCvList")]
+        public async Task<IActionResult> ForeignAgentCvList(string foreignId)
+        {
+            await getForeignAgentsLookup();
+
+            ////get all CV for the ForeignAgent
+            var query = new GetAllCvListQuery() { ForeignAgentId = Convert.ToInt32(foreignId) };
+            var ForeignAgentCvList = await _mediator.Send(query);
+
+            return View("CVHRPool", ForeignAgentCvList.Where(cv => cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin).ToList());
+        }
+
+
         //[HttpPost]
         //[Authorize("RootCompany-DeleteForeignAgent")]
         //public async Task<IActionResult> DeleteForeignAgent(int id)

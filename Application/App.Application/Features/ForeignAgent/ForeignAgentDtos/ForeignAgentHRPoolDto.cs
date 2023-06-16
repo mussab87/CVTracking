@@ -12,5 +12,7 @@ public class ForeignAgentHRPoolDto
     public List<PreviousEmployment> previousEmployment { get; set; }
 
     public int[] Skills { get; set; }
+
+    public bool RootSelected { get; set; }
 }
 

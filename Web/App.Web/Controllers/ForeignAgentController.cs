@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Drawing;
 using System.Text.Json;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -544,6 +545,34 @@ namespace App.Web.Controllers
 
             return attachments;
         }
+
+        [HttpGet]
+        [Authorize("ForeignAgent-PostToAdmin")]
+        public async Task<IActionResult> PostToAdmin(string cvid)
+        {
+            try
+            {
+                if (cvid is null)
+                    return Json(new { message = "Error" });
+
+                var LoggedInuser = await _userManager.GetUserAsync(User);
+
+                var CvId = Convert.ToInt32(cvid);
+
+                //update cv status by hrpoolId
+                var command = new UpdateForeignCVStatusByHRPoolIdRequest()
+                { CVId = CvId, foreignAgentUserId = LoggedInuser.Id };
+
+                var UpdateQuery = await _mediator.Send(command);
+                return Json(true);
+            }
+            catch (Exception)
+            {
+                return Json(new { message = "Error" });
+            }
+
+        }
+
 
         #endregion
     }

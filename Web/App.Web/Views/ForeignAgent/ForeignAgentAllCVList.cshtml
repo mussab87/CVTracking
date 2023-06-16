@@ -192,11 +192,17 @@
                                                     {
                                                         <button class="eg-btn yellow-btn">@cv.CVStatus.Status</button>
                                                         <hr />
-                                                        <button asp-controller="ForeignAgent" asp-action="PostToAdmin"
-                                                                onclick="return confirm('Are you sure you want to post? : @cv.CV.CandidateNameEnglish')"
-                                                                class="eg-btn purple-btn">
-                                                            Post to Admin
-                                                        </button>
+                                                        @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-PostToAdmin").Result.Succeeded)
+                                                        {
+                                                            <button class="eg-btn purple-btn" onclick="confirmPostToAdmin(@cv.CV.Id)">
+                                                                Post to Admin
+                                                            </button>
+                                                        }
+                                                    }
+
+                                                    @if (cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin)
+                                                    {
+                                                        <button class="eg-btn green-btn">@cv.CVStatus.Status</button>
                                                     }
                                                 </td>
                                                 <td>
