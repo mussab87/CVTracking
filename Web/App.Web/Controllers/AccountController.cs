@@ -77,6 +77,12 @@ namespace App.Web.Controllers
                             return RedirectToAction("ForeignAgentHome", "ForeignAgent");
                         }
 
+                        if (_userManager.IsInRoleAsync(user, Roles.LocalAgent).Result)
+                        {
+                            await SetRootCompanyForeignAgentSession(user, null, "localAgent");
+                            return RedirectToAction("LocalAgentHome", "LocalAgent");
+                        }
+
                     }
 
                 }
@@ -87,7 +93,7 @@ namespace App.Web.Controllers
             return LocalRedirect(returnUrl);
         }
 
-        private async Task SetRootCompanyForeignAgentSession(ApplicationUser user, string foreignAgent = null)
+        private async Task SetRootCompanyForeignAgentSession(ApplicationUser user, string foreignAgent = null, string localAgent = null)
         {
             //get user root company 
             var query = new GetRootCompanyByIdQuery() { RootCompanyId = (int)user.RootCompanyId };
@@ -103,6 +109,15 @@ namespace App.Web.Controllers
                 var UserForeignAgent = await _mediator.Send(queryForeignAgent);
 
                 HttpContext.Session.SetObject("ForeignAgent", UserForeignAgent);
+            }
+
+            //set session for LocalAgent 
+            if (localAgent is not null)
+            {
+                var queryLocalAgent = new GetLocalAgentByIdQuery() { LocalAgentId = (int)user.LocalAgentId };
+                var UserLocalAgent = await _mediator.Send(queryLocalAgent);
+
+                HttpContext.Session.SetObject("LocalAgent", UserLocalAgent);
             }
         }
 

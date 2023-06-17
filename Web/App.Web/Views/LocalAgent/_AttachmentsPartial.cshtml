@@ -1,0 +1,104 @@
+﻿@model AddAddNewForeignCvRequest
+<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+    <div class="profile-form">
+
+        <div class="section-title2">
+            <h5>Candidate Attachments:</h5>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="company-images-area mb-50">
+                    <div class="row g-lg-4 gy-5">
+                        <div class="col-lg-6 devaider1 position-relative">
+                            <div class="company-logo-area">
+                                <h5>Poster: </h5>
+                                <input type="file" id="posterphoto" name="posterphoto" hidden>
+                                <div class="drag-area">
+                                    <p>Upload Poster</p>
+                                    <a class="upload-btn" onclick="posterphotoclick()"><i class="bi bi-plus-lg"></i></a>
+                                </div>
+                                <span>Maximum File Upload: 1 MB</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="company-cover-photo-area">
+                                <h5>Passport Photo: </h5>
+                                <input type="file" id="passportphoto" name="passportphoto" hidden>
+                                <div class="drag-area">
+
+                                    <p>Upload Passport</p>
+                                    <a class="upload-btn" onclick="passportphotoclick()"><i class="bi bi-plus-lg"></i></a>
+                                </div>
+                                <span>Maximum File Upload: 1 MB</span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="info-title">
+                                <h6>Poster Photo:</h6>
+                                <div class="dash"></div>
+                            </div>
+                            <div class="mui-image-wrapper " style="width: 95%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: inherit;">
+                                @if (Model.cvAttachments != null)
+                                {
+                                    var posterimg = Model.cvAttachments.Where(p => p.AttachmentType.TypeName == cvAttachmentType.PosterPhoto.ToString()).FirstOrDefault();
+                                    if (posterimg != null)
+                                    {
+                                        <input type="hidden">
+                                        <img id="posterimg" src="@posterimg.Path" alt="EP7670594" class="mui-image-img  css-jlmoib" style="position: relative; width: 100%; height: 100%; object-fit: cover; transition-property: top, opacity; transition-duration: 320ms, 1500ms; transition-timing-function: cubic-bezier(0.7, 0, 0.6, 1); opacity: 1; top: 0px; border-radius: 2%; animation: 3000ms cubic-bezier(0.7, 0, 0.6, 1) 0s 1 normal none running materialize;width: 393px;height: 595px;">
+                                    }
+                                    else
+                                    {
+                                        <img id="posterimg" src="" alt="EP7670594" class="mui-image-img  css-jlmoib" style="position: relative; width: 100%; height: 100%; object-fit: cover; transition-property: top, opacity; transition-duration: 320ms, 1500ms; transition-timing-function: cubic-bezier(0.7, 0, 0.6, 1); opacity: 1; top: 0px; border-radius: 2%; animation: 3000ms cubic-bezier(0.7, 0, 0.6, 1) 0s 1 normal none running materialize;width: 393px;height: 595px;">
+                                    }
+                                }
+                                else
+                                {
+                                    <img id="posterimg" src="" alt="EP7670594" class="mui-image-img  css-jlmoib" style="position: relative; width: 100%; height: 100%; object-fit: cover; transition-property: top, opacity; transition-duration: 320ms, 1500ms; transition-timing-function: cubic-bezier(0.7, 0, 0.6, 1); opacity: 1; top: 0px; border-radius: 2%; animation: 3000ms cubic-bezier(0.7, 0, 0.6, 1) 0s 1 normal none running materialize;width: 393px;height: 595px;">
+                                }
+
+                                <div class="mui-image-iconWrapper " style="width: 100%; margin-left: -100%; display: flex; justify-content: center; align-items: center; opacity: 0;"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="info-title">
+                                <h6>Passport Copy:</h6>
+                                <div class="dash"></div>
+                            </div>
+                            <div class="mui-image-wrapper " style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: inherit;">
+                                @if (Model.cvAttachments != null)
+                                {
+                                    var passportimg = Model.cvAttachments.Where(p => p.AttachmentType.TypeName == cvAttachmentType.PassportCopy.ToString()).FirstOrDefault();
+                                    if (passportimg is not null)
+                                    {
+                                        @*<input type="hidden" asp-for="cvAttachments.Where(i=>i.Id == passportimg.Id).FirstOrDefault().Id">*@
+                                        <img id="passportimg" src="@passportimg.Path" alt="EP7670594" class="mui-image-img  css-jlmoib" style="position: relative; width: 100%; height: 100%; object-fit: cover; transition-property: top, opacity; transition-duration: 320ms, 1500ms; transition-timing-function: cubic-bezier(0.7, 0, 0.6, 1); opacity: 1; top: 0px; border-radius: 2%; margin-top: 40px; animation: 3000ms cubic-bezier(0.7, 0, 0.6, 1) 0s 1 normal none running materialize;">
+                                    }
+                                    else
+                                    {
+                                        <img id="passportimg" src="" alt="EP7670594" class="mui-image-img  css-jlmoib" style="position: relative; width: 100%; height: 100%; object-fit: cover; transition-property: top, opacity; transition-duration: 320ms, 1500ms; transition-timing-function: cubic-bezier(0.7, 0, 0.6, 1); opacity: 1; top: 0px; border-radius: 2%; margin-top: 40px; animation: 3000ms cubic-bezier(0.7, 0, 0.6, 1) 0s 1 normal none running materialize;">
+                                    }
+                                }
+                                else
+                                {
+                                    <img id="passportimg" src="" alt="EP7670594" class="mui-image-img  css-jlmoib" style="position: relative; width: 100%; height: 100%; object-fit: cover; transition-property: top, opacity; transition-duration: 320ms, 1500ms; transition-timing-function: cubic-bezier(0.7, 0, 0.6, 1); opacity: 1; top: 0px; border-radius: 2%; margin-top: 40px; animation: 3000ms cubic-bezier(0.7, 0, 0.6, 1) 0s 1 normal none running materialize;">
+                                }
+
+                                <div class="mui-image-iconWrapper " style="width: 100%; margin-left: -100%; display: flex; justify-content: center; align-items: center; opacity: 0;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-inner">
+                <button class="primry-btn-2 lg-btn w-unset" type="submit">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -61,6 +61,7 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<ICVAttachmentRepository, CVAttachmentRepository>();
         services.AddScoped<ICandidateSkillsRepository, CandidateSkillsRepository>();
         services.AddScoped<ICVCandidateSkillsRepository, CVCandidateSkillsRepository>();
+        services.AddScoped<ILocalAgentRepository, LocalAgentRepository>();
 
         //services.Configure<EmailSettings>(c => configuration.GetSection("EmailSettings"));
         //services.AddTransient<IEmailService, EmailService>();

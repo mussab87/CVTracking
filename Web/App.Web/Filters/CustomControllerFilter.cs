@@ -24,7 +24,16 @@ public class CustomControllerFilter : IActionFilter
             //check foreignAgentController
             if (context.Controller.GetType().Name == "ForeignAgentController")
             {
-                if (context.HttpContext.Session.GetObject<RootCompanyDto>("ForeignAgent") is null)
+                if (context.HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent") is null)
+                {
+                    // Redirect to login page if session does not exist
+                    context.Result = new RedirectToActionResult("Logout", "Account", null);
+                }
+            }
+
+            if (context.Controller.GetType().Name == "LocalAgentController")
+            {
+                if (context.HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent") is null)
                 {
                     // Redirect to login page if session does not exist
                     context.Result = new RedirectToActionResult("Logout", "Account", null);

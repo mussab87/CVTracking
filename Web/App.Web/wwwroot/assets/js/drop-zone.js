@@ -29,6 +29,12 @@ function foreignlogo() {
     foreign.click();
 }
 
+var local = document.getElementById("fileload");
+function Locallogo() {
+    dropArea = document.querySelector(".drag-area");
+    local.click();
+}
+
 var inputpersonalphoto = document.getElementById("personalphoto");
 function personalphoto() {
     dropArea = document.querySelector(".drag-area");

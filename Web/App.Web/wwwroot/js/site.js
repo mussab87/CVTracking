@@ -302,23 +302,43 @@ $('#permissionbtn').click(function (event) {
 
 //*******************************************************//end******************************************
 
-    //Manage UserForignAgent******************************************
-    $(function () {
-        
-            var placeHolderElement = $('#PlaceForeignrHere');
+//Manage UserForignAgent******************************************
+$(function () {
 
-            $('button[data-toggle="ajax-modal"').click(function (event) {
-                //get url action from data-url from the button tag
-                var url = $(this).data('url');
-                var decodedUrl = decodeURIComponent(url);
+    var placeHolderElement = $('#PlaceForeignrHere');
 
-                $.get(decodedUrl).done(function (data) {
-                    placeHolderElement.html(data);
-                    placeHolderElement.find('.modal').modal('show');
-                })
-            })
-        
+    $('button[data-toggle="ajax-modal"').click(function (event) {
+        //get url action from data-url from the button tag
+        var url = $(this).data('url');
+        var decodedUrl = decodeURIComponent(url);
+
+        $.get(decodedUrl).done(function (data) {
+            placeHolderElement.html(data);
+            placeHolderElement.find('.modal').modal('show');
+        })
     })
+
+})
+
+//*******************************************************//Manage UserPermissions******************************************
+
+//Manage UserLocalAgent******************************************
+$(function () {
+
+    var placeHolderElement = $('#PlaceLocalHere');
+
+    $('button[data-toggle="ajax-modal"').click(function (event) {
+        //get url action from data-url from the button tag
+        var url = $(this).data('url');
+        var decodedUrl = decodeURIComponent(url);
+        debugger;
+        $.get(decodedUrl).done(function (data) {
+            placeHolderElement.html(data);
+            placeHolderElement.find('.modal').modal('show');
+        })
+    })
+
+})
 
 //*******************************************************//Manage UserPermissions******************************************
 

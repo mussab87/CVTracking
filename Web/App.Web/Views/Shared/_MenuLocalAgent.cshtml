@@ -2,75 +2,49 @@
     ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
 
     string logo = null;
-    if (HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") != null)
+    if (HttpContextAccessor.HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent") != null
+    && signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.LocalAgent))
     {
-        logo = HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").RootCompanyLogo;
+        logo = HttpContextAccessor.HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent").LocalAgentLogo;
     }
 }
 
 <div class="menu-area">
     <div class="header-logo">
-        <a asp-controller="RootCompany" asp-action="RootCompany"><img alt="image" class="img-fluid" src="@logo" style="width:100px; height: 90px"></a>
+        <a asp-controller="LocalAgent" asp-action="LocalAgentHome"><img alt="image" class="img-fluid" src="@logo" style="width:100px; height: 90px"></a>
     </div>
     <div class="main-menu">
         <div class="mobile-logo-area d-lg-none d-flex justify-content-between align-items-center">
             <div class="mobile-logo-wrap">
-                <a asp-controller="RootCompany" asp-action="RootCompany"><img alt="image" src="@logo"></a>
+                <a asp-controller="LocalAgent" asp-action="LocalAgentHome"><img alt="image" src="@logo"></a>
             </div>
             <div class="menu-close-btn">
                 <i class="bi bi-x-lg"></i>
             </div>
         </div>
-        @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.Admin))
+        @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.LocalAgent))
         {
             <ul class="menu-list">
                 <li class="menu-item-has-children">
-                    @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-RootCompany").Result.Succeeded)
+                    @if (AuthorizationService.AuthorizeAsync(User, "LocalAgent-LocalAgentHome").Result.Succeeded)
                     {
-                        <a asp-controller="RootCompany" asp-action="RootCompany" class="drop-down">Home</a>
+                        <a asp-controller="LocalAgent" asp-action="LocalAgentHome" class="drop-down">Home</a>
 
                         <i class="bi bi-plus dropdown-icon"></i>
                     }
                 </li>
                 <li class="menu-item-has-children">
-                    <a href="#" class="drop-down">User Management</a><i class="bi bi-plus dropdown-icon"></i>
+                    <a href="#" class="drop-down">CV Portal</a><i class="bi bi-plus dropdown-icon"></i>
                     <ul class="sub-menu">
-                        @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-ListUsers").Result.Succeeded)
+                        @if (AuthorizationService.AuthorizeAsync(User, "LocalAgent-LocalAgentAllCVList").Result.Succeeded)
                         {
-                            <li><a asp-controller="RootCompany" asp-action="ListUsers">Users List</a></li>
+                            <li><a asp-controller="LocalAgent" asp-action="LocalAgentAllCVList">CV Portal</a></li>
                         }
-                        @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-AddNewAccount").Result.Succeeded)
-                        {
-                            <li><a asp-controller="RootCompany" asp-action="AddNewAccount">Add New User</a></li>
-                        }
+
                     </ul>
                 </li>
-                <li class="menu-item-has-children">
-                    <a href="#">Company</a><i class="bi bi-plus dropdown-icon"></i>
-                    <ul class="sub-menu">
-                        @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-ForeignAgentList").Result.Succeeded)
-                        {
-                            <li><a asp-controller="RootCompany" asp-action="ForeignAgentList">Foreign Agents</a></li>
-                        }
-                        @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-LocalAgentList").Result.Succeeded)
-                        {
-                            <li><a asp-controller="RootCompany" asp-action="LocalAgentList">Local Agents</a></li>
-                        }
-                    </ul>
-                </li>
-                <li class="menu-item-has-children">
-                    <a href="#">System Settings</a><i class="bi bi-plus dropdown-icon"></i>
-                    <ul class="sub-menu">
-                        @if (AuthorizationService.AuthorizeAsync(User, "Permission-CountryList").Result.Succeeded)
-                        {
-                            <li><a asp-controller="CountryCity" asp-action="CountryList">CountryList</a></li>
-                        }
-                        @if (AuthorizationService.AuthorizeAsync(User, "Permission-CityList").Result.Succeeded)
-                        {
-                            <li><a asp-controller="CountryCity" asp-action="CityList">Cities</a></li>
-                        }
-                    </ul>
-                </li>
+
+
             </ul>
         }
         <div class="for-mobile-menu d-lg-none d-block">

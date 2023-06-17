@@ -1,0 +1,247 @@
+﻿@model AddAddNewForeignCvRequest
+<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="edit-profile-form profile-form">
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.DateOfBirth">Date of Birth*</label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/calender2.svg" alt="">
+                        <input type="text" asp-for="cv.DateOfBirth" placeholder="03/08/1986" onchange="calculateAge()" required>
+                    </div>
+                    <span asp-validation-for="cv.DateOfBirth" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.Age"></label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/calender2.svg" alt="">
+                        <input type="text" asp-for="cv.Age" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.NationalityId"></label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/nid.svg" alt="">
+                        <select asp-for="cv.NationalityId" class="select1" asp-items="@ViewBag.Countries">
+                            <option value="">Select Nationality </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.PlaceOfBirthId"></label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/home-2.svg" alt="">
+                        <select asp-for="cv.PlaceOfBirthId" class="select1" asp-items="@ViewBag.Cities">
+                            <option value="">Select Place of Birth </option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="cv.PlaceOfBirthId" class="alert-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.MartialStatusId"></label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/marital-2.svg" alt="">
+                        <select asp-for="cv.MartialStatusId" class="select1" asp-items="@ViewBag.martialStatus">
+                            <option value="">Select Martial Status </option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="cv.MartialStatusId" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.NoOfChildren"></label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/hight.svg" alt="">
+                        <input type="text" asp-for="cv.NoOfChildren" placeholder="Enter Number">
+                    </div>
+                    <span asp-validation-for="cv.NoOfChildren" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.Gender">Gender</label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/gender.svg " alt="">
+                        <select asp-for="cv.Gender" class="select1">
+                            <option value="">Select Gender</option>
+                            <option value="0">@Gender.Male</option>
+                            <option value="1">@Gender.Female</option>
+
+                        </select>
+                    </div>
+                    <span asp-validation-for="cv.Gender" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.ReligionId"></label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/religion.svg" alt="">
+                        <select asp-for="cv.ReligionId" class="select1" asp-items="@ViewBag.Religion">
+                            <option value="">Select Religion </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.ContractPeriod"></label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/hight.svg" alt="">
+                        <input type="text" asp-for="cv.ContractPeriod" placeholder="Enter Number">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.PassportNumber"></label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/hight.svg" alt="">
+                        <input type="text" asp-for="cv.PassportNumber" placeholder="Enter Number">
+                    </div>
+                    <span asp-validation-for="cv.PassportNumber" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.PlaceOfIssue"></label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/hight.svg" alt="">
+                        <input type="text" asp-for="cv.PlaceOfIssue" placeholder="Place Of Issue">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.PassportDateOfIssue"></label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/calender2.svg" alt="">
+                        <input type="text" asp-for="cv.PassportDateOfIssue" placeholder="03/08/1986">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.PassportDateOfExpiry"></label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/calender2.svg" alt="">
+                        <input type="text" asp-for="cv.PassportDateOfExpiry" placeholder="03/08/1986">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.Height"></label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/hight.svg" alt="">
+                        <input type="text" asp-for="cv.Height" placeholder="5.6'">
+                    </div>
+                    <span asp-validation-for="cv.Height" class="alert-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inner mb-25">
+                    <label asp-for="cv.Weight"></label>
+                    <div class="input-area">
+                        <img src="~/assets/images/icon/weight.svg" alt="">
+                        <input asp-for="cv.Weight" type="text" placeholder="56">
+                    </div>
+                    <span asp-validation-for="cv.Weight" class="alert-danger"></span>
+                </div>
+            </div>
+
+            <div class="skills-row" data-select2-id="select2-data-7-oy7i">
+                <div class="row" data-select2-id="select2-data-6-rpbt">
+                    <div class="col-lg-12">
+                        <div class="section-title2 mb-20">
+                            <h5>Additional Skills:</h5>
+                        </div>
+                    </div>
+                    @*@if (Model.skillList is not null && Model.skillList.Count > 0)
+                    {*@
+                    <div class="col-md-12" data-select2-id="select2-data-5-oye3">
+                        <div class="form-inner mb-25" data-select2-id="select2-data-4-f7qu">
+                            <label>Candidate Skills</label>
+                            <select name="states[]" class="js-example-basic-multiple select2-hidden-accessible" multiple="" data-select2-id="select2-data-1-chqf" tabindex="-1" aria-hidden="true" required>
+                                <option value="">Select Skills </option>
+                                @for (int i = 0; i < Model.skillList.Count; i++)
+                                {
+                                    if (@Model.skillList[i].IsSelected)
+                                    {
+                                        <option value="@Model.skillList[i].Value" selected>@Model.skillList[i].Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@Model.skillList[i].Value">@Model.skillList[i].Text</option>
+                                    }
+                                }
+                            </select>
+                            <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus select2-container--open" dir="ltr" data-select2-id="select2-data-2-tjhs" style="width: 100%;">
+                                <span class="selection">
+                                    <span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="true" tabindex="-1" aria-disabled="false" aria-owns="select2-states-ak-results">
+                                        <ul class="select2-selection__rendered" id="select2-states-ak-container">
+                                        </ul>
+                                        <span class="select2-search select2-search--inline">
+                                            <textarea class="select2-search__field" type="search" tabindex="0" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" aria-autocomplete="list" autocomplete="off" aria-label="Search" aria-describedby="select2-states-ak-container" placeholder="" style="width: 0.75em;" aria-controls="select2-states-ak-results">
+                                            </textarea>
+                                        </span>
+                                    </span><
+                                    /span>
+                                    <span class="dropdown-wrapper" aria-hidden="true">
+                                    </span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    @*}*@
+                    @*else
+                    {
+                    <div class="col-md-12" data-select2-id="select2-data-5-oye3">
+                    <div class="form-inner mb-25" data-select2-id="select2-data-4-f7qu">
+                    <label>Candidate Skills</label>
+                    <select asp-items="@ViewBag.Skills" class="js-example-basic-multiple select2-hidden-accessible" name="states[]" multiple="" data-select2-id="select2-data-1-chqf" tabindex="-1" aria-hidden="true">
+                    </select>
+                    <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus select2-container--open" dir="ltr" data-select2-id="select2-data-2-tjhs" style="width: 100%;">
+                    <span class="selection">
+                    <span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="true" tabindex="-1" aria-disabled="false" aria-owns="select2-states-ak-results">
+                    <ul class="select2-selection__rendered" id="select2-states-ak-container">
+                    </ul>
+                    <span class="select2-search select2-search--inline">
+                    <textarea class="select2-search__field" type="search" tabindex="0" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" aria-autocomplete="list" autocomplete="off" aria-label="Search" aria-describedby="select2-states-ak-container" placeholder="" style="width: 0.75em;" aria-controls="select2-states-ak-results">
+                    </textarea>
+                    </span>
+                    </span><
+                    /span>
+                    <span class="dropdown-wrapper" aria-hidden="true">
+                    </span>
+                    </span>
+                    </span>
+                    </div>
+                    </div>
+                    }*@
+
+
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-inner">
+                    <button class="primry-btn-2 lg-btn w-unset" type="submit">Save Changes</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

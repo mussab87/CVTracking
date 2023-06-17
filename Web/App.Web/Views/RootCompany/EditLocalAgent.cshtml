@@ -1,0 +1,140 @@
+﻿@model UpdateLocalAgentRequest
+
+@{
+    ViewBag.Title = "Update Local Agent";
+}
+
+<partial name="PageBannerStartPartialView" />
+
+<!-- ========== Dashboard Area end============= -->
+<div class="dashboard-area company-dashboard pt-120 mb-120">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="my-profile-inner ">
+
+                    <div class="form-wrapper">
+                        <div class="section-title two">
+                            <h5>Local Agent</h5>
+                            <div class="dash"></div>
+                        </div>
+                        <form asp-action="EditLocalAgent" method="post" class="profile-form" enctype="multipart/form-data">
+                            <div class="section-title2">
+                                <h5>Local Agent Information:</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="LocalAgentNameEnglish"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/company-2.svg" alt="">
+                                            <input asp-for="LocalAgentNameEnglish" type="text" placeholder="Local Agent Name">
+                                        </div>
+                                        <span asp-validation-for="LocalAgentNameEnglish" class="alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="LocalAgentNameArabic"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/company-2.svg" alt="">
+                                            <input asp-for="LocalAgentNameArabic" type="text" placeholder="Local Agent Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="LocalAgentLicenseNumber"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/company-2.svg" alt="">
+                                            <input asp-for="LocalAgentLicenseNumber" type="text" placeholder="Local Agent License Number">
+                                        </div>
+                                        <span asp-validation-for="LocalAgentLicenseNumber" class="alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="LocalAgentCountryCityId"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/category-2.svg" alt="">
+                                            <select asp-for="LocalAgentCountryCityId" class="select1" asp-items="@ViewBag.Cities">
+                                                <option value="0">Select Country</option>
+                                            </select>
+                                            <a asp-action="CountryList" asp-controller="CountryCity" class="primry-btn-1 lg-btn w-unset" type="button">
+                                                Add
+                                            </a>
+                                        </div>
+                                        <span asp-validation-for="LocalAgentCountryCityId" class="alert-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="LocalAgentAddress"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/map-2.svg" alt="">
+                                            <input asp-for="LocalAgentAddress" type="text" placeholder="Local Agent Address">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner mb-25">
+                                        <label asp-for="LocalAgentContacts"></label>
+                                        <div class="input-area">
+                                            <img src="~/assets/images/icon/phone-2.svg" alt="">
+                                            <input asp-for="LocalAgentContacts" type="text" placeholder="Local Agent Contacts">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-inner mb-40">
+                                        <label asp-for="LocalAgentComments"></label>
+                                        <textarea asp-for="LocalAgentComments" placeholder="Write Notes Here"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="company-images-area mb-50">
+                                        <div class="row g-lg-4 gy-5">
+                                            <div class="col-lg-6 devaider1 position-relative">
+                                                <div class="company-logo-area">
+                                                    <h5>Local Agent Logo: </h5>
+                                                    <input type="file" id="fileload" name="fileload" hidden>
+                                                    <div class="drag-area">
+                                                        <p>Upload Logo</p>
+                                                        <a onclick="Locallogo()" class="upload-btn"><i class="bi bi-plus-lg"></i></a>
+
+                                                    </div>
+                                                    <span>Maximum File Upload: 1 MB</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="company-cover-photo-area">
+                                                    <h5>Old Logo Photo: </h5>
+                                                    <div class="drag-area" id="dragArea2" style="width: 150px;">
+                                                        <img src="@Model.LocalAgentLogo" style="width: 130px;height: 120px;">
+                                                        <input type="hidden" asp-for="LocalAgentLogo" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-inner">
+                                        <button class="primry-btn-2 lg-btn w-unset" type="submit">Update Changes</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ========== Dashboard Area end============= -->

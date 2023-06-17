@@ -5,7 +5,8 @@ namespace App.Domain.Entities { }
 
 public class LocalAgent : EntityBase
 {
-    public string LocalAgentName { get; set; }
+    public string LocalAgentNameEnglish { get; set; }
+    public string LocalAgentNameArabic { get; set; }
     public string LocalAgentLicenseNumber { get; set; }
     public int? LocalAgentCountryCityId { get; set; }
     [ForeignKey("LocalAgentCountryCityId")]

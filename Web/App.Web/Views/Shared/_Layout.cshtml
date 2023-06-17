@@ -12,6 +12,12 @@
     {
         logo = HttpContextAccessor.HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent").ForeignAgentLogo;
     }
+
+    if (HttpContextAccessor.HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent") != null
+    && signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.LocalAgent))
+    {
+        logo = HttpContextAccessor.HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent").LocalAgentLogo;
+    }
 }
 <html lang="en">
 <partial name="_HeaderPartial" />
@@ -36,6 +42,11 @@
             @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.ForeignAgent))
             {
                 <a asp-controller="ForeignAgent" asp-action="ForeignAgentHome"><img alt="image" style="width:100px; height: 90px" src="@logo"></a>
+            }
+
+            @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.LocalAgent))
+            {
+                <a asp-controller="ForeignAgent" asp-action="LocalAgentHome"><img alt="image" style="width:100px; height: 90px" src="@logo"></a>
             }
 
         </div>
@@ -77,6 +88,11 @@
             @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.ForeignAgent))
             {
                 <partial name="_MenuForeignAgent" />
+            }
+
+            @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.LocalAgent))
+            {
+                <partial name="_MenuLocalAgent" />
             }
             <!-- #Menu -->
         </div>

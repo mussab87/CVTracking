@@ -39,5 +39,10 @@ public class MappingProfile : Profile
         CreateMap<CV, CVDto>().ReverseMap();
 
         CreateMap<CandidateSkills, SkillsDto>().ReverseMap();
+
+        CreateMap<LocalAgent, LocalAgentDto>().ReverseMap();
+        CreateMap<LocalAgent, AddLocalAgentRequest>().ReverseMap();
+        CreateMap<UpdateLocalAgentRequest, LocalAgentDto>().ReverseMap();
+        CreateMap<UpdateLocalAgentRequest, LocalAgent>().ReverseMap();
     }
 }

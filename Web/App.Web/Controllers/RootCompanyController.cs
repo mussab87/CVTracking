@@ -28,10 +28,15 @@ namespace App.Web.Controllers
             var ForeignCount = new GetForeignAgentListQuery() { rootCompanyId = (int)UserRootCompany.Id };
             var ForeignAgentListByRootCompany = await _mediator.Send(ForeignCount);
 
+            //get LocalAgentsCount
+            var LocalCount = new GetLocalAgentListQuery() { rootCompanyId = (int)UserRootCompany.Id };
+            var LocalAgentListByRootCompany = await _mediator.Send(ForeignCount);
+
             var RootCompanyCount = new RootCompanyCountDto()
             {
                 UserCount = _userManager.Users.Where(u => u.RootCompanyId == UserRootCompany.Id).ToList().Count(),
-                FoeignAgentCount = ForeignAgentListByRootCompany.Count()
+                FoeignAgentCount = ForeignAgentListByRootCompany.Count(),
+                LocalAgentCount = LocalAgentListByRootCompany.Count()
             };
 
             return View(RootCompanyCount);
@@ -511,7 +516,7 @@ namespace App.Web.Controllers
 
                 // If the user has assigned into selected foreignCompany, set IsSelected property to true, so the checkbox
                 // next to the user is checked on the UI
-                if (rootCompanyUsers.Any(c => c.ForeignAgentId == foreignId))
+                if (user.ForeignAgentId == foreignId)
                 {
                     userForeign.IsSelected = true;
                 }
@@ -543,23 +548,16 @@ namespace App.Web.Controllers
                 }
             }
 
-            foreach (var userSelected in model.usersAgents)
+            foreach (var userSelected in model.usersAgents.Where(u => u.IsSelected == true).ToList())
             {
                 var user = await _userManager.FindByIdAsync(userSelected.UserId);
-
                 user.ForeignAgentId = model.foreignAgentId;
-
                 var result = await _userManager.UpdateAsync(user);
-
-                if (result.Succeeded)
-                {
-                    TempData["Message"] = 1;
-                    return RedirectToAction(nameof(ForeignAgentList));
-                }
             }
 
-            TempData["Message"] = 5;
-            return View(model);
+            TempData["Message"] = 1;
+            return RedirectToAction(nameof(ForeignAgentList));
+
         }
 
         [HttpGet]
@@ -699,6 +697,266 @@ namespace App.Web.Controllers
         [HttpPost]
         [Authorize("RootCompany-ForeignAgentCvList")]
         public async Task<IActionResult> ForeignAgentCvList(string foreignId)
+        {
+            await getForeignAgentsLookup();
+
+            ////get all CV for the ForeignAgent
+            var query = new GetAllCvListQuery() { ForeignAgentId = Convert.ToInt32(foreignId) };
+            var ForeignAgentCvList = await _mediator.Send(query);
+
+            return View("CVHRPool", ForeignAgentCvList.Where(cv => cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin).ToList());
+        }
+
+
+        //[HttpPost]
+        //[Authorize("RootCompany-DeleteForeignAgent")]
+        //public async Task<IActionResult> DeleteForeignAgent(int id)
+        //{
+        //    var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+
+        //    var command = new DeleteRootCompanyRequest() { Id = id };
+        //    await _mediator.Send(command);
+
+        //    TempData["Message"] = 1;
+
+        //    return RedirectToAction(nameof(ForeignAgentList));
+
+        //}
+        #endregion
+
+        #region LocalAgentSection
+        [HttpGet]
+        [Authorize("RootCompany-LocalAgentList")]
+        public async Task<IActionResult> LocalAgentList()
+        {
+            var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+
+            var query = new GetLocalAgentListQuery() { rootCompanyId = (int)userRootCompanyId };
+            var LocalAgentListByRootCompany = await _mediator.Send(query);
+
+            //get all users inside selected rootCompany           
+            var rootCompanyUsers = _userManager.Users.Where(u => u.RootCompanyId == userRootCompanyId);
+
+            //forloop inside users for check localAgents
+            foreach (var user in rootCompanyUsers)
+            {
+                foreach (var local in LocalAgentListByRootCompany)
+                {
+                    if (user.LocalAgentId == local.Id)
+                        local.LocalAgentUsers.Add(user);
+                }
+
+            }
+
+            return View(LocalAgentListByRootCompany);
+        }
+
+        [HttpGet]
+        [Authorize("RootCompany-LocalAgentAddUsers")]
+        public async Task<IActionResult> LocalAgentAddUsers(int localId)
+        {
+            var localAgentQuery = new GetLocalAgentByIdQuery() { LocalAgentId = localId };
+            var localAgent = await _mediator.Send(localAgentQuery);
+
+            if (localAgent == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {localId} cannot be found";
+                return View("NotFound");
+            }
+
+            //get all users inside selected rootCompany
+            var userRootCompany = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+            var rootCompanyUsers = _userManager.Users.Where(u => u.RootCompanyId == userRootCompany);
+
+            UserAgentDto model = new()
+            {
+                foreignAgentId = localId
+            };
+
+            // Loop through each user
+            foreach (var user in rootCompanyUsers)
+            {
+                UserAgent userForeign = new()
+                {
+                    UserId = user.Id,
+                    userName = user.FirstName + user.LastName
+                };
+
+                // If the user has assigned into selected localCompany, set IsSelected property to true, so the checkbox
+                // next to the user is checked on the UI
+                if (user.LocalAgentId == localId)
+                {
+                    userForeign.IsSelected = true;
+                }
+
+                model.usersAgents.Add(userForeign);
+            }
+
+            return PartialView("_LocalAgentAddUsers", model);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LocalAgentAddUsers(UserAgentDto model)
+        {
+
+            //get all users inside selected rootCompany
+            var userRootCompany = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+            var rootCompanyUsers = _userManager.Users.Where(u => u.RootCompanyId == userRootCompany
+                                        && u.LocalAgentId == model.foreignAgentId).ToList();
+
+            //remove existing ForeignCompany Users
+            if (rootCompanyUsers.Count() > 0)
+            {
+                foreach (var item in rootCompanyUsers)
+                {
+                    var user = await _userManager.FindByIdAsync(item.Id);
+                    user.LocalAgentId = null;
+                    await _userManager.UpdateAsync(user);
+                }
+            }
+
+            foreach (var userSelected in model.usersAgents.Where(u => u.IsSelected == true).ToList())
+            {
+                var user = await _userManager.FindByIdAsync(userSelected.UserId);
+
+                user.LocalAgentId = model.foreignAgentId;
+
+                var result = await _userManager.UpdateAsync(user);
+            }
+            TempData["Message"] = 1;
+            return RedirectToAction(nameof(LocalAgentList));
+        }
+
+        [HttpGet]
+        [Authorize("RootCompany-AddNewLocalAgent")]
+        public async Task<IActionResult> AddNewLocalAgent()
+        {
+            var query = new GetCityListQuery();
+            var Cities = await _mediator.Send(query);
+            ViewData["Cities"] = new SelectList(Cities, "Id", "NameEnglish");
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewLocalAgent(AddLocalAgentRequest model, IFormFile fileload)
+        {
+            if (!ModelState.IsValid)
+            {
+                await GetCities();
+                return View(model);
+
+            }
+
+            //if(model.ForeignAgentCountryCityId ==)
+
+            var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+
+            string fileName = null;
+            if (fileload != null)
+            {
+                fileName = await SaveLogoFileLocalAgent(fileload);
+                model.LocalAgentLogo = fileName;
+            }
+
+            //save new rootCompany
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            model.CreatedById = LoggedInuser.Id;
+            model.CreatedDate = DateTime.Now;
+            model.RootCompanyId = (int)userRootCompanyId;
+
+            var newForeignAgent = await _mediator.Send(model);
+            TempData["Message"] = 1;
+
+            await GetCities();
+
+            return View();
+        }
+
+
+        static async Task<string> SaveLogoFileLocalAgent(IFormFile fileload)
+        {
+            string path = Path.Combine("wwwroot/LocalLogo/");
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            FileInfo fileInfo = new FileInfo(fileload.FileName);
+
+            string fileName = fileload.FileName.Split(".")[0] + string.Format(@"{0}", Guid.NewGuid()) + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.CreateNew))
+            {
+                await fileload.CopyToAsync(stream);
+            }
+
+            return fileNameWithPath.Replace("wwwroot", "../..");
+        }
+
+        [HttpGet]
+        [Authorize("RootCompany-EditLocalAgent")]
+        public async Task<IActionResult> EditLocalAgent(int id)
+        {
+            var foreignAgentQuery = new GetLocalAgentByIdQuery() { LocalAgentId = id };
+            var foreignAgent = await _mediator.Send(foreignAgentQuery);
+
+            await GetCities();
+
+            return View(_mapper.Map<UpdateLocalAgentRequest>(foreignAgent));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditLocalAgent(UpdateLocalAgentRequest model, IFormFile fileload)
+        {
+            if (!ModelState.IsValid)
+            {
+                await GetCities();
+                return View(model);
+            }
+
+            //check file changed at first step
+            string fileName = null;
+            if (fileload != null)
+            {
+                fileName = await SaveLogoFileLocalAgent(fileload);
+                model.LocalAgentLogo = fileName;
+            }
+
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            model.LastModifiedById = LoggedInuser.Id;
+            model.LastModifiedDate = DateTime.Now;
+
+            await _mediator.Send(model);
+            TempData["Message"] = 1;
+
+            return RedirectToAction(nameof(LocalAgentList));
+        }
+
+        [HttpGet]
+        [Authorize("RootCompany-LocalAgentCVHRPool")]
+        public async Task<IActionResult> LocalAgentCVHRPool()
+        {
+            //await getForeignAgentsLookup();
+
+            return View();
+        }
+
+        private async Task LocalAgentLookup()
+        {
+            var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
+            //get rootCompany foreignAgent list
+            var query = new GetForeignAgentListQuery() { rootCompanyId = (int)userRootCompanyId };
+            var ForeignAgentListByRootCompany = await _mediator.Send(query);
+
+            ViewData["RootForeignAgents"] = new SelectList(ForeignAgentListByRootCompany, "Id", "ForeignAgentName");
+        }
+
+        [HttpPost]
+        [Authorize("RootCompany-LocalAgentCvList")]
+        public async Task<IActionResult> LocalAgentCvList(string foreignId)
         {
             await getForeignAgentsLookup();
 

@@ -1,6 +1,6 @@
-﻿@model RootCompanyCountDto
+﻿@model FoerignAgentCountDto
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Foreign Home Page";
 }
 
 <!-- ========== Home1 Category Start============= -->
@@ -17,9 +17,9 @@
             </div>
         </div>
         <div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-3 cf justify-content-center">
-            @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.Admin))
+            @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.ForeignAgent))
             {
-                @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-ListUsers").Result.Succeeded)
+                @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-ForeignAgentAllCVList").Result.Succeeded)
                 {
                     <div class="col">
                         <div class="single-category">
@@ -32,67 +32,51 @@
                                 </div>
                             </div>
                             <div class="category-content">
-                                <h5><a asp-controller="RootCompany" asp-action="ListUsers">System Users</a></h5>
-                                <p>Number of Users: <span>@Model.UserCount</span></p>
+                                <h5><a asp-controller="ForeignAgent" asp-action="ForeignAgentAllCVList">CV Portal</a></h5>
+                                <p>Number of CVs: <span>@Model.CvCount</span></p>
                             </div>
                         </div>
                     </div>
                 }
-                @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-ForeignAgentList").Result.Succeeded)
+                @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-ForeignAgentPostToAdminApplicants").Result.Succeeded)
                 {
                     <div class="col">
                         <div class="single-category">
                             <div class="category-top">
                                 <div class="icon">
-                                    <img src="~/assets/images/icon/technology.svg" alt="">
+                                    <img src="~/assets/images/icon/receotionist.svg" alt="">
                                 </div>
                                 <div class="sl-no">
                                     <h6>02</h6>
                                 </div>
                             </div>
                             <div class="category-content">
-                                <h5><a asp-controller="RootCompany" asp-action="ForeignAgentList">Foreign Agents</a></h5>
-                                <p>Foreign Agents: <span>@Model.FoeignAgentCount</span></p>
+                                <h5><a asp-controller="ForeignAgent" asp-action="ForeignAgentPostToAdminApplicants">Post to Admin</a></h5>
+                                <p>Post to Admin: <span>@Model.PostToAdminCount</span></p>
                             </div>
                         </div>
                     </div>
                 }
-                @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-LocalAgentList").Result.Succeeded)
+                @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-ForeignAgentSelectedApplicants").Result.Succeeded)
                 {
                     <div class="col">
                         <div class="single-category">
                             <div class="category-top">
                                 <div class="icon">
-                                    <img src="~/assets/images/icon/design-job.svg" alt="">
+                                    <img src="~/assets/images/icon/cv-review.svg" alt="">
                                 </div>
                                 <div class="sl-no">
-                                    <h6>05</h6>
+                                    <h6>03</h6>
                                 </div>
                             </div>
                             <div class="category-content">
-                                <h5><a asp-controller="RootCompany" asp-action="LocalAgentList">Local Agents</a></h5>
-                                <p>Local Agents: <span>@Model.LocalAgentCount </span></p>
+                                <h5><a asp-controller="ForeignAgent" asp-action="ForeignAgentSelectedApplicants">Selected CVs</a></h5>
+                                <p>All Selected CVs: <span>@Model.SelectedCvCount</span></p>
                             </div>
                         </div>
                     </div>
                 }
                 @*<div class="col">
-            <div class="single-category">
-            <div class="category-top">
-            <div class="icon">
-            <img src="~/assets/images/icon/medical.svg" alt="">
-            </div>
-            <div class="sl-no">
-            <h6>03</h6>
-            </div>
-            </div>
-            <div class="category-content">
-            <h5><a href="job-listing1.html">Medical & Nurse</a></h5>
-            <p>Job Available: <span>33</span></p>
-            </div>
-            </div>
-            </div>*@
-                @* <div class="col">
             <div class="single-category">
             <div class="category-top">
             <div class="icon">
@@ -107,9 +91,24 @@
             <p>Job Available: <span>56</span></p>
             </div>
             </div>
-            </div>*@
-
-                @* <div class="col">
+            </div>
+            <div class="col">
+            <div class="single-category">
+            <div class="category-top">
+            <div class="icon">
+            <img src="~/assets/images/icon/design-job.svg" alt="">
+            </div>
+            <div class="sl-no">
+            <h6>05</h6>
+            </div>
+            </div>
+            <div class="category-content">
+            <h5><a href="job-listing1.html">Design Jobs</a></h5>
+            <p>Job Available: <span>18 </span></p>
+            </div>
+            </div>
+            </div>
+            <div class="col">
             <div class="single-category">
             <div class="category-top">
             <div class="icon">
@@ -124,25 +123,25 @@
             <p>Job Available: <span>97</span></p>
             </div>
             </div>
-            </div>*@
+            </div>
 
-                <div class="col">
-                    <div class="single-category">
-                        <div class="category-top">
-                            <div class="icon">
-                                <img src="~/assets/images/icon/receotionist.svg" alt="">
-                            </div>
-                            <div class="sl-no">
-                                <h6>08</h6>
-                            </div>
-                        </div>
-                        <div class="category-content">
-                            <h5><a href="job-listing1.html">Receptionist Job</a></h5>
-                            <p>Job Available: <span>55</span></p>
-                        </div>
-                    </div>
-                </div>
-                @*<div class="col">
+            <div class="col">
+            <div class="single-category">
+            <div class="category-top">
+            <div class="icon">
+            <img src="~/assets/images/icon/receotionist.svg" alt="">
+            </div>
+            <div class="sl-no">
+            <h6>08</h6>
+            </div>
+            </div>
+            <div class="category-content">
+            <h5><a href="job-listing1.html">Receptionist Job</a></h5>
+            <p>Job Available: <span>55</span></p>
+            </div>
+            </div>
+            </div>
+            <div class="col">
             <div class="single-category">
             <div class="category-top">
             <div class="icon">
@@ -157,8 +156,8 @@
             <p>Job Available: <span>05</span></p>
             </div>
             </div>
-            </div>*@
-                @*<div class="col">
+            </div>
+            <div class="col">
             <div class="single-category">
             <div class="category-top">
             <div class="icon">
