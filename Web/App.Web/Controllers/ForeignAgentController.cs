@@ -350,7 +350,7 @@ namespace App.Web.Controllers
             {
                 var lastCvRefNo = ForeignAgentCvList.OrderBy(r => r.CV.Id).Last().CV.CvReferenceNumber;
                 var removeTwoDigit = lastCvRefNo.Remove(0, 2);
-                refNo = twoDigitFromName + (removeTwoDigit + 1);
+                refNo = twoDigitFromName + "0000" + (Convert.ToInt64(removeTwoDigit) + 1).ToString();
             }
             else
             {
