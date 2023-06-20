@@ -128,7 +128,7 @@
 
 
     $(".select2").select2({
-        placeholder: "Select Skils",
+        //placeholder: "Select Skils",
         allowClear: true
     });
     $('.js-example-basic-single').select2({

@@ -2,6 +2,7 @@
 
 public class ForeignAgentHRPoolDto
 {
+    public int? Id { get; set; }
     public ForeignAgent ForeignAgent { get; set; }
     public CV CV { get; set; }
     public CVStatus CVStatus { get; set; }
@@ -11,8 +12,14 @@ public class ForeignAgentHRPoolDto
 
     public List<PreviousEmployment> previousEmployment { get; set; }
 
+    public LocalAgent LocalAgent { get; set; }
+
     public int[] Skills { get; set; }
 
     public bool RootSelected { get; set; }
+
+    public int? LocalId { get; set; }
+
+    public List<SkillSelectedDto> skillList { get; set; }
 }
 

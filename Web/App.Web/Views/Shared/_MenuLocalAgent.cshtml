@@ -39,6 +39,7 @@
                         @if (AuthorizationService.AuthorizeAsync(User, "LocalAgent-LocalAgentAllCVList").Result.Succeeded)
                         {
                             <li><a asp-controller="LocalAgent" asp-action="LocalAgentAllCVList">CV Portal</a></li>
+                            @*<li><a asp-controller="LocalAgent" asp-action="LocalAgentSelectedCV">CV Portal</a></li>*@
                         }
 
                     </ul>

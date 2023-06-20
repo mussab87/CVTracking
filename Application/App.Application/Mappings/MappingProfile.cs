@@ -44,5 +44,7 @@ public class MappingProfile : Profile
         CreateMap<LocalAgent, AddLocalAgentRequest>().ReverseMap();
         CreateMap<UpdateLocalAgentRequest, LocalAgentDto>().ReverseMap();
         CreateMap<UpdateLocalAgentRequest, LocalAgent>().ReverseMap();
+
+        CreateMap<HRPool, LocalAgentHRPoolDto>().ReverseMap();
     }
 }

@@ -63,7 +63,7 @@ public class LocalCVDto
 
     //done
     [Display(Name = "Education")]
-    public int? Education { get; set; }
+    public string Education { get; set; }
 
     //done
     [Display(Name = "Nationality")]

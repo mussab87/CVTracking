@@ -32,6 +32,7 @@ public class GetForeignCvByIdQueryHandler : IRequestHandler<GetForeignCvByIdQuer
 
         //get candidate skils
         var skills = await _candidateSkillsRepository.GetCVCandidateSkills(request.cvId);
+        var allSkills = new List<SkillSelectedDto>();
         int[] skillList = null;
         if (skills.Count > 0)
         {
@@ -40,6 +41,16 @@ public class GetForeignCvByIdQueryHandler : IRequestHandler<GetForeignCvByIdQuer
             {
                 var skillId = skills[i].CandidateSkillsId;
                 skillList[i] = skillId;
+            }
+
+            //fill skills
+            foreach (var skill in skills)
+            {
+                var skillobj = new SkillSelectedDto();
+                skillobj.Text = skill.CandidateSkills.SkillEnglish;
+                skillobj.Value = skill.CandidateSkills.SkillArabic;
+
+                allSkills.Add(skillobj);
             }
         }
 
@@ -51,6 +62,8 @@ public class GetForeignCvByIdQueryHandler : IRequestHandler<GetForeignCvByIdQuer
         foreignAgentHRPoolDto.previousEmployment = cvPreviousEmployment;
         foreignAgentHRPoolDto.cvHRpool = foregnAgentCv;
         foreignAgentHRPoolDto.Skills = skillList;
+
+        foreignAgentHRPoolDto.skillList = allSkills;
 
         return foreignAgentHRPoolDto;
     }

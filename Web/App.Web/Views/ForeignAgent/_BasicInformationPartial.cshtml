@@ -10,6 +10,8 @@
                         @*<h5>personal Photo: </h5>*@
                         @if (passportimg != null)
                         {
+                            Model.personalImg = true;
+                            <input type="hidden" asp-for="@Model.personalImg" value="@Model.personalImg">
                             <div class="author-img">
                                 <img src="@passportimg.Path" style="height:140px;width:135px;border-radius:5px" />
                             </div>

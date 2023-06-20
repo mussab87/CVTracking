@@ -12013,8 +12013,8 @@ header.style-7 .main-menu ul li.menu-item-has-children > i {
 
     .resume-area .section-title h6 {
         font-family: var(--font-exo2);
-        font-weight: 600;
-        font-size: 1.063rem;
+        font-weight: 700;
+        font-size: 1.63rem;
         color: var(--title-color1);
         margin-bottom: 0;
         background-color: var(--white);
@@ -12115,6 +12115,8 @@ header.style-7 .main-menu ul li.menu-item-has-children > i {
 
         .resume-area .single-information-area .informations ul li span {
             color: var(--title-color1);
+            font-size: 17px;
+            font-weight: 500;
         }
 
 .resume-area .single-information-area .educational-qualification {

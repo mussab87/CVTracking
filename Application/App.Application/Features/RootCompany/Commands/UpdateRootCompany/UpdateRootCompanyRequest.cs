@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System.ComponentModel.DataAnnotations;
 
-namespace App.Application.Features.Country.Commands.UpdateRootCompany { }
+namespace App.Application.Features.UpdateRootCompany.Commands.UpdateRootCompany { }
 
 public class UpdateRootCompanyRequest : IRequest
 {

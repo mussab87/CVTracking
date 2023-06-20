@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 
-namespace App.Application.Features.Country.Commands.UpdateRootCompany { }
+namespace App.Application.Features.UpdateRootCompany.Commands.UpdateRootCompany { }
 public class UpdateRootCompanyHandler : IRequestHandler<UpdateRootCompanyRequest>
 {
     readonly IRootCompanyRepository _rootCompanyRepository;

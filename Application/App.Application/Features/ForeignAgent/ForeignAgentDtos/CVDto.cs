@@ -63,15 +63,17 @@ public class CVDto
 
     //done
     [Display(Name = "Education")]
-    public int? Education { get; set; }
+    public string Education { get; set; }
 
     //done
     [Display(Name = "Nationality")]
     public int? NationalityId { get; set; }
+    public string Nationality { get; set; }
 
     //done
     [Display(Name = "Religion")]
     public int? ReligionId { get; set; }
+    public string Religion { get; set; }
 
     //done
     [Display(Name = "Date Of Birth")]
@@ -87,6 +89,7 @@ public class CVDto
     [Display(Name = "Martial Status")]
     [Required(ErrorMessage = "Martial Status is Required")]
     public int? MartialStatusId { get; set; }
+    public string martial { get; set; }
 
     //done
     [Required(ErrorMessage = "Gender is Required")]

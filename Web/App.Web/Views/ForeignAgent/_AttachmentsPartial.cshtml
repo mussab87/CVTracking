@@ -44,6 +44,8 @@
                                     var posterimg = Model.cvAttachments.Where(p => p.AttachmentType.TypeName == cvAttachmentType.PosterPhoto.ToString()).FirstOrDefault();
                                     if (posterimg != null)
                                     {
+                                        Model.posterImg = true;
+                                        <input type="hidden" asp-for="@Model.posterImg" value="@Model.posterImg">
                                         <input type="hidden">
                                         <img id="posterimg" src="@posterimg.Path" alt="EP7670594" class="mui-image-img  css-jlmoib" style="position: relative; width: 100%; height: 100%; object-fit: cover; transition-property: top, opacity; transition-duration: 320ms, 1500ms; transition-timing-function: cubic-bezier(0.7, 0, 0.6, 1); opacity: 1; top: 0px; border-radius: 2%; animation: 3000ms cubic-bezier(0.7, 0, 0.6, 1) 0s 1 normal none running materialize;width: 393px;height: 595px;">
                                     }
@@ -72,6 +74,8 @@
                                     var passportimg = Model.cvAttachments.Where(p => p.AttachmentType.TypeName == cvAttachmentType.PassportCopy.ToString()).FirstOrDefault();
                                     if (passportimg is not null)
                                     {
+                                        Model.passportImg = true;
+                                        <input type="hidden" asp-for="@Model.passportImg" value="@Model.passportImg">
                                         @*<input type="hidden" asp-for="cvAttachments.Where(i=>i.Id == passportimg.Id).FirstOrDefault().Id">*@
                                         <img id="passportimg" src="@passportimg.Path" alt="EP7670594" class="mui-image-img  css-jlmoib" style="position: relative; width: 100%; height: 100%; object-fit: cover; transition-property: top, opacity; transition-duration: 320ms, 1500ms; transition-timing-function: cubic-bezier(0.7, 0, 0.6, 1); opacity: 1; top: 0px; border-radius: 2%; margin-top: 40px; animation: 3000ms cubic-bezier(0.7, 0, 0.6, 1) 0s 1 normal none running materialize;">
                                     }

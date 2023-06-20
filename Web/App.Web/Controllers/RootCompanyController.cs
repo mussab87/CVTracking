@@ -692,6 +692,11 @@ namespace App.Web.Controllers
             var ForeignAgentListByRootCompany = await _mediator.Send(query);
 
             ViewData["RootForeignAgents"] = new SelectList(ForeignAgentListByRootCompany, "Id", "ForeignAgentName");
+
+            //local agents
+            var queryLocal = new GetLocalAgentListQuery() { rootCompanyId = (int)userRootCompanyId };
+            var LocalAgentListByRootCompany = await _mediator.Send(queryLocal);
+            ViewData["RootLocalAgents"] = new SelectList(LocalAgentListByRootCompany, "Id", "LocalAgentNameEnglish");
         }
 
         [HttpPost]
@@ -701,10 +706,31 @@ namespace App.Web.Controllers
             await getForeignAgentsLookup();
 
             ////get all CV for the ForeignAgent
-            var query = new GetAllCvListQuery() { ForeignAgentId = Convert.ToInt32(foreignId) };
-            var ForeignAgentCvList = await _mediator.Send(query);
+            List<ForeignAgentHRPoolDto> ForeignAgentCvList = await GetPostToAdminForeignCVList(Convert.ToInt32(foreignId));
 
-            return View("CVHRPool", ForeignAgentCvList.Where(cv => cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin).ToList());
+            return View("CVHRPool", ForeignAgentCvList.Where(cv => cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin || cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal).ToList());
+        }
+
+        private async Task<List<ForeignAgentHRPoolDto>> GetPostToAdminForeignCVList(int foreignId)
+        {
+            var query = new GetAllCvListQuery() { ForeignAgentId = foreignId };
+            var ForeignAgentCvList = await _mediator.Send(query);
+            return ForeignAgentCvList;
+        }
+
+        [HttpPost]
+        [Authorize("RootCompany-SendCVToLocalAgent")]
+        public async Task<IActionResult> SendCVToLocalAgent(List<ForeignAgentHRPoolDto> hrPool)
+        {
+            await getForeignAgentsLookup();
+
+            //update hrPool by send to local 
+            var command = new SendCVToLocalRequest() { ForeignAgentHRPoolDto = hrPool };
+            var commandREesult = await _mediator.Send(command);
+            ////get all CV for the ForeignAgent
+            List<ForeignAgentHRPoolDto> ForeignAgentCvList = await GetPostToAdminForeignCVList(hrPool[0].ForeignAgent.Id);
+
+            return View("CVHRPool", ForeignAgentCvList.Where(cv => cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin || cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal).ToList());
         }
 
 

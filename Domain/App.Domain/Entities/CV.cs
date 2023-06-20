@@ -21,7 +21,7 @@ public class CV : EntityBase
     public bool? EnglishLanguage { get; set; }
     public bool? ArabicLanguage { get; set; }
 
-    public int? Education { get; set; }
+    public string Education { get; set; }
 
     public int? NationalityId { get; set; }
     [ForeignKey("NationalityId")]

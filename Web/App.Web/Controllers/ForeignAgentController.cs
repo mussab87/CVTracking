@@ -192,6 +192,7 @@ namespace App.Web.Controllers
 
         private AddAddNewForeignCvRequest FillExistForeignCv(ApplicationUser LoggedInuser, ForegnAgentDto userForeignAgent, ForeignAgentHRPoolDto GetCVById, List<Attachment> existCvAttachments)
         {
+
             return new()
             {
                 cv = _mapper.Map<CVDto>(GetCVById.CV),
@@ -221,7 +222,7 @@ namespace App.Web.Controllers
         async Task addNewCv(AddAddNewForeignCvRequest model, IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto, bool actionType, int[] skills)
         {
             //add cv status
-            AddCVStatus(model, personalphoto, posterphoto, passportphoto, skills);
+            AddCVStatus(model, personalphoto, posterphoto, passportphoto, skills, actionType);
 
             //add cv attachment
             List<Attachment> attachmentsList = new();
@@ -276,9 +277,11 @@ namespace App.Web.Controllers
 
         }
 
-        static void AddCVStatus(AddAddNewForeignCvRequest model, IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto, int[] skills)
+        static void AddCVStatus(AddAddNewForeignCvRequest model, IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto, int[] skills, bool actionType)
         {
-            if (personalphoto == null ||
+            if (actionType)
+            {
+                if (personalphoto == null ||
                             posterphoto == null ||
                             passportphoto == null ||
                             model.cv.CandidateNameEnglish == null ||
@@ -293,8 +296,30 @@ namespace App.Web.Controllers
                             model.previousEmployment[0].Position == null ||
                             model.previousEmployment[0].Period == 0 ||
                             model.previousEmployment[0].CountryOfEmploymentId == null)
-                model.cvStatusId = (int)cvStatus.InComplete;
-            else model.cvStatusId = (int)cvStatus.Free;
+                    model.cvStatusId = (int)cvStatus.InComplete;
+                else model.cvStatusId = (int)cvStatus.Free;
+            }
+            else
+            {
+                if (model.personalImg == null ||
+                            model.posterImg == null ||
+                            model.passportImg == null ||
+                            model.cv.CandidateNameEnglish == null ||
+                            model.cv.DateOfBirth == null ||
+                            model.cv.PlaceOfBirthId == null ||
+                            model.cv.MartialStatusId == null ||
+                            model.cv.NoOfChildren == null ||
+                            model.cv.Weight == null ||
+                            model.cv.Height == null ||
+                            model.cv.PassportNumber == null ||
+                            skills.Length < 0 ||
+                            model.previousEmployment[0].Position == null ||
+                            model.previousEmployment[0].Period == 0 ||
+                            model.previousEmployment[0].CountryOfEmploymentId == null)
+                    model.cvStatusId = (int)cvStatus.InComplete;
+                else model.cvStatusId = (int)cvStatus.Free;
+            }
+
         }
 
         private async Task<bool> CheckCvBeforeSave(AddAddNewForeignCvRequest model, IFormFile personalphoto, IFormFile posterphoto, IFormFile passportphoto, int[] skills, bool AddNewUpdatetype)
