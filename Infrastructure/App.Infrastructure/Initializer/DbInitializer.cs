@@ -17,7 +17,7 @@ public class DbInitializer : IDbInitializer
         _userManager = userManager;
     }
 
-    public void InitializeAsync()
+    public async void InitializeAsync()
     {
         if (_roleManager.FindByNameAsync(Roles.SuperAdmin).Result == null)
         {
@@ -26,7 +26,22 @@ public class DbInitializer : IDbInitializer
             _roleManager.CreateAsync(new IdentityRole(Roles.ForeignAgent)).GetAwaiter().GetResult();
             _roleManager.CreateAsync(new IdentityRole(Roles.LocalAgent)).GetAwaiter().GetResult();
         }
-        else { return; }
+        else
+        {
+            //var existAdmin = await _userManager.FindByNameAsync("admin");
+            //if (existAdmin != null)
+            //{
+            //    var claims = _userManager.GetClaimsAsync(existAdmin);
+            //    if (claims != null)
+            //        await _userManager.RemoveClaimsAsync(existAdmin, claims.Result);
+
+            //    var allPermission = GetAllClaimsPermissions.GetAllControllerActionsUpdated();
+            //    await _userManager.AddClaimsAsync(existAdmin, allPermission);
+            //}
+
+            return;
+        }
+
 
         ApplicationUser adminUser = new ApplicationUser()
         {
@@ -66,13 +81,13 @@ public class DbInitializer : IDbInitializer
 
         //Add permissions into superAdmin user
         // Get all the user existing claims and delete them
-        //var claims = await _userManager.GetClaimsAsync(adminUser);
-        //if(claims != null)
-        //     await _userManager.RemoveClaimsAsync(adminUser, claims);
+        //var claims = _userManager.GetClaimsAsync(adminUser);
+        //if (claims != null)
+        //    _userManager.RemoveClaimsAsync(adminUser, claims.Result);
 
         //// Add all the claims that are selected on the UI
-        //var allPermissions = GetAllClaimsPermissions.GetAllControllerActionsUpdated();
-        //await _userManager.AddClaimsAsync(adminUser, allPermissions);        
+        //var allPermission = GetAllClaimsPermissions.GetAllControllerActionsUpdated();
+        //_userManager.AddClaimsAsync(adminUser, allPermission);
     }
 
 

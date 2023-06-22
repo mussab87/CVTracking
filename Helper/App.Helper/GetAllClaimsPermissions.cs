@@ -35,14 +35,15 @@ public static class GetAllClaimsPermissions
 
         var AllClaims = new List<Claim>();
 
-        var query = controlleractionlist.GroupBy(x => x.Action).Select(y => y.FirstOrDefault());
-        foreach (var item in query)
+        //var query = controlleractionlist.GroupBy(x => x.Action).Select(y => y.FirstOrDefault());
+        foreach (var item in controlleractionlist)
         {
             if (item.Controller == "RootCompanyController")
             {
                 var ClaimNameRoot = "RootCompany" + "-" + item.Action; //+ "-" + item.Controller;
                 var claimRoot = new Claim(ClaimNameRoot, ClaimNameRoot);
-                AllClaims.Add(claimRoot);
+                if (!AllClaims.Exists(c => c.Value == claimRoot.Value))
+                    AllClaims.Add(claimRoot);
 
                 continue;
             }
@@ -51,7 +52,8 @@ public static class GetAllClaimsPermissions
             {
                 var ClaimNameRoot = "ForeignAgent" + "-" + item.Action; //+ "-" + item.Controller;
                 var claimRoot = new Claim(ClaimNameRoot, ClaimNameRoot);
-                AllClaims.Add(claimRoot);
+                if (!AllClaims.Exists(c => c.Value == claimRoot.Value))
+                    AllClaims.Add(claimRoot);
 
                 continue;
             }
@@ -60,16 +62,18 @@ public static class GetAllClaimsPermissions
             {
                 var ClaimNameRoot = "LocalAgent" + "-" + item.Action; //+ "-" + item.Controller;
                 var claimRoot = new Claim(ClaimNameRoot, ClaimNameRoot);
-                AllClaims.Add(claimRoot);
+                if (!AllClaims.Exists(c => c.Value == claimRoot.Value))
+                    AllClaims.Add(claimRoot);
 
                 continue;
             }
 
             var ClaimName = "Permission-" + item.Action; //+ "-" + item.Controller;
             var claim = new Claim(ClaimName, ClaimName);
-            AllClaims.Add(claim);
+            if (!AllClaims.Exists(c => c.Value == claim.Value))
+                AllClaims.Add(claim);
         }
-        return AllClaims;
+        return AllClaims; //.Distinct().ToList<Claim>()
     }
     #endregion
 }

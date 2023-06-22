@@ -12,22 +12,42 @@
         <div class="row g-lg-4 gy-5 mb-90">
             <div class="col-lg-12">
                 <div class="applied-job-area">
-                    <div class="table-wrapper">
-                        <div class="table-title-filter">
-                            <div class="section-title">
-                                <h5>
-                                     Users List:
-                                    @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-AddNewAccount").Result.Succeeded)
-                                    {
-                                        <a asp-controller="RootCompany" asp-action="AddNewAccount" class="primry-btn-2 w-unset">Add New User</a>
-                                    }
-
-                                </h5>
-
-
-
+                    <div class="table-wrapper2">
+                        <div class="title-and-btn">
+                            <div class="title">
+                                <h4>Users List:</h4>
                             </div>
+                            <div class="job-post-btn">
+                                @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-AddNewAccount").Result.Succeeded)
+                                {
+
+                                    <a asp-controller="RootCompany" asp-action="AddNewAccount" class="primry-btn-2">Add New User</a>
+
+                                }
+
+                                @*@if (AuthorizationService.AuthorizeAsync(User, "Permission-AddCity").Result.Succeeded)
+                                {
+                                <a asp-controller="CountryCity" asp-action="AddCity" class="primry-btn-2">Add City</a>
+                                }*@
+                            </div>
+
+
                         </div>
+                        @* <div class="table-title-filter">
+                        <div class="section-title">
+                        <h5>
+                        Users List:
+                        @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-AddNewAccount").Result.Succeeded)
+                        {
+                        <a asp-controller="RootCompany" asp-action="AddNewAccount" class="primry-btn-2 w-unset">Add New User</a>
+                        }
+
+                        </h5>
+
+
+
+                        </div>
+                        </div>*@
                         @if (Model.Any())
                         {
                             <table class="eg-table table category-table mb-30" id="tbl">

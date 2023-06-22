@@ -1,14 +1,24 @@
 ﻿
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace App.Domain.Entities { }
 
 public class SelectedCv : EntityBase
 {
+    public int LocalAgentId { get; set; }
+    [ForeignKey("LocalAgentId")]
     public LocalAgent LocalAgent { get; set; }
-    public HRPool HRPoolID { get; set; }
+
+    public int HRPoolId { get; set; }
+    [ForeignKey("HRPoolId")]
+    public HRPool HRPool { get; set; }
+
     /// <summary>
     /// Selected - unless he make unselect the remove from SelectedCv
     /// 5 working days form selection date after that it will be return back into HRPool with status of free
     /// </summary>
+    public int LocalAgentStatusId { get; set; }
+    [ForeignKey("LocalAgentStatusId")]
     public CVStatus LocalAgentStatus { get; set; }
     public DateTime SelectedDateTime { get; set; }
 

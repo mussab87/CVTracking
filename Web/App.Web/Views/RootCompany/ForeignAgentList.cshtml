@@ -107,7 +107,7 @@
 
 
             <div class="col-lg-12">
-                <div class="table-wrapper2">
+                <div class="table-wrapper">
                     <div class="title-and-btn">
                         <div class="title">
                             <h4>All Foreign Agents:</h4>
@@ -158,156 +158,157 @@
                     </form>
                     </div>*@
                     <div id="PlaceForeignrHere"></div>
-                    @if (Model.Any())
-                    {
-                        <table class="eg-table table job-list-table mb-0" id="tbl">
-                            <thead>
-                                <tr>
-                                    <th hidden>
-                                        Id
-                                    </th>
-                                    <th>#</th>
-                                    <th>
-                                        Foreign Agent Name
-                                    </th>
-                                    <th>License Number</th>
-                                    <th>
-                                        Country
-                                    </th>
-                                    <th>
-                                        City
-                                    </th>
-                                    <th>Address</th>
-                                    <th>Logo</th>
-                                    <th>
-                                        Contact
-                                    </th>
-                                    <th>Comments</th>
-                                    <th>Users</th>
-                                    <th>Manage</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var foreign in Model)
-                                {
-                                    i++;
+                    <div class="scroll-table">
+                        @if (Model.Any())
+                        {
+                            <table class="eg-table table job-list-table mb-0" id="tbl">
+                                <thead>
                                     <tr>
-                                        <td hidden>@foreign.Id</td>
-                                        <td>@i</td>
-                                        <td>
-                                            @foreign.ForeignAgentName
-                                        </td>
-                                        <td>
-                                            @foreign.ForeignAgentLicenseNumber
-                                        </td>
-                                        <td>
-                                            @if (foreign.ForeignAgentCountryCity != null)
-                                            {
-                                                @foreign.ForeignAgentCountryCity.CountryCity.NameEnglish
-                                            }
-                                            else
-                                            {
-                                                <text>None</text>
-                                            }
-
-                                        </td>
-                                        <td>
-                                            @if (foreign.ForeignAgentCountryCity != null)
-                                            {
-                                                @foreign.ForeignAgentCountryCity.NameEnglish
-                                            }
-                                            else
-                                            {
-                                                <text>None</text>
-                                            }
-
-                                        </td>
-                                        <td>@foreign.ForeignAgentAddress</td>
-                                        <td>
-                                            @if (foreign.ForeignAgentLogo != null)
-                                            {
-                                                <img src="@foreign.ForeignAgentLogo" style="width: 60px;height: 70px;">
-                                            }
-                                            else
-                                            {
-                                                <text>Not Uploaded</text>
-                                            }
-
-                                        </td>
-                                        <td>@foreign.ForeignAgentContacts</td>
-                                        <td>@foreign.ForeignAgentComments</td>
-                                        <td>
-                                            @if (foreign.ForeignAgentUsers.Count > 0)
-                                            {
-                                                <table class="table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th hidden>UserId</th>
-                                                            <th style="color: black">User</th>
-                                                            <th style="color: black">Status</th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-
-                                                        @foreach (var user in foreign.ForeignAgentUsers)
-                                                        {
-                                                            <tr>
-                                                                <td hidden>@user.Id</td>
-                                                                <td>@user.FirstName @user.LastName</td>
-                                                                <td>@user.UserStatus</td>
-                                                                <td>
-                                                                    <a asp-action="EditUser" asp-controller="RootCompany"
-                                                                       asp-route-id="@user.Id"
-                                                                       class="btn btn-info text-white"
-                                                                       style="cursor:pointer">
-                                                                        <i class="bi bi-pencil-square"></i>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            }
-                                            else
-                                            {
-                                                <text>No Users</text>
-                                            }
-                                        </td>
-
-                                        <td>
-                                            @*<form method="post" asp-controller="RootCompany" asp-action="DeleteRootCompany" asp-route-id="@foreign.Id">*@
-
-                                            <a asp-action="EditForeignAgent" asp-controller="RootCompany"
-                                               asp-route-id="@foreign.Id" class="btn btn-info text-white" style="cursor:pointer">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
-                                            <hr>
-                                            @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-ForeignAgentAddUsers").Result.Succeeded)
-                                            {
-                                                <div class="col-md-12 pt-10">
-                                                    <div class="form-inner">
-                                                        <button id="userForeignAgentbtn" class="primry-btn-1 lg-btn w-unset" type="button"
-                                                                data-toggle="ajax-modal"
-                                                                data-target="#foreignaddUser"
-                                                                data-url="@Url.Action($"ForeignAgentAddUsers?foreignId={foreign.Id}")">
-                                                            Add Users
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            }
-
-                                        </td>
+                                        <th hidden>
+                                            Id
+                                        </th>
+                                        <th>#</th>
+                                        <th>
+                                            Foreign Agent Name
+                                        </th>
+                                        <th>License Number</th>
+                                        <th>
+                                            Country
+                                        </th>
+                                        <th>
+                                            City
+                                        </th>
+                                        <th>Address</th>
+                                        <th>Logo</th>
+                                        <th>
+                                            Contact
+                                        </th>
+                                        <th>Comments</th>
+                                        <th>Users</th>
+                                        <th>Manage</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
-                    }
-                    else
-                    {
-                        <p><h4 style="text-align:center">No Data to Display</h4></p>
-                    }
+                                </thead>
+                                <tbody>
+                                    @foreach (var foreign in Model)
+                                    {
+                                        i++;
+                                        <tr>
+                                            <td hidden>@foreign.Id</td>
+                                            <td>@i</td>
+                                            <td>
+                                                @foreign.ForeignAgentName
+                                            </td>
+                                            <td>
+                                                @foreign.ForeignAgentLicenseNumber
+                                            </td>
+                                            <td>
+                                                @if (foreign.ForeignAgentCountryCity != null)
+                                                {
+                                                    @foreign.ForeignAgentCountryCity.CountryCity.NameEnglish
+                                                }
+                                                else
+                                                {
+                                                    <text>None</text>
+                                                }
 
+                                            </td>
+                                            <td>
+                                                @if (foreign.ForeignAgentCountryCity != null)
+                                                {
+                                                    @foreign.ForeignAgentCountryCity.NameEnglish
+                                                }
+                                                else
+                                                {
+                                                    <text>None</text>
+                                                }
+
+                                            </td>
+                                            <td>@foreign.ForeignAgentAddress</td>
+                                            <td>
+                                                @if (foreign.ForeignAgentLogo != null)
+                                                {
+                                                    <img src="@foreign.ForeignAgentLogo" style="width: 60px;height: 70px;">
+                                                }
+                                                else
+                                                {
+                                                    <text>Not Uploaded</text>
+                                                }
+
+                                            </td>
+                                            <td>@foreign.ForeignAgentContacts</td>
+                                            <td>@foreign.ForeignAgentComments</td>
+                                            <td>
+                                                @if (foreign.ForeignAgentUsers.Count > 0)
+                                                {
+                                                    <table class="table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th hidden>UserId</th>
+                                                                <th style="color: black">User</th>
+                                                                <th style="color: black">Status</th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            @foreach (var user in foreign.ForeignAgentUsers)
+                                                            {
+                                                                <tr>
+                                                                    <td hidden>@user.Id</td>
+                                                                    <td>@user.FirstName @user.LastName</td>
+                                                                    <td>@user.UserStatus</td>
+                                                                    <td>
+                                                                        <a asp-action="EditUser" asp-controller="RootCompany"
+                                                                           asp-route-id="@user.Id"
+                                                                           class="btn btn-info text-white"
+                                                                           style="cursor:pointer">
+                                                                            <i class="bi bi-pencil-square"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                }
+                                                else
+                                                {
+                                                    <text>No Users</text>
+                                                }
+                                            </td>
+
+                                            <td>
+                                                @*<form method="post" asp-controller="RootCompany" asp-action="DeleteRootCompany" asp-route-id="@foreign.Id">*@
+
+                                                <a asp-action="EditForeignAgent" asp-controller="RootCompany"
+                                                   asp-route-id="@foreign.Id" class="btn btn-info text-white" style="cursor:pointer">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+                                                <hr>
+                                                @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-ForeignAgentAddUsers").Result.Succeeded)
+                                                {
+                                                    <div class="col-md-12 pt-10">
+                                                        <div class="form-inner">
+                                                            <button id="userForeignAgentbtn" class="primry-btn-1 lg-btn w-unset" type="button"
+                                                                    data-toggle="ajax-modal"
+                                                                    data-target="#foreignaddUser"
+                                                                    data-url="@Url.Action($"ForeignAgentAddUsers?foreignId={foreign.Id}")">
+                                                                Add Users
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p><h4 style="text-align:center">No Data to Display</h4></p>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

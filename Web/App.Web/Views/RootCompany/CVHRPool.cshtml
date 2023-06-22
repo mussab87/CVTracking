@@ -207,14 +207,20 @@
                             </tbody>
 
                         </table>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-inner">
-                                    <button class="primry-btn-2 lg-btn w-unset" type="submit">Send Selected into Local Agent</button>
+                        @if (Model is not null)
+                        {
+                            @if (Model.Any(cv => cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin))
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-inner">
+                                            <button class="primry-btn-2 lg-btn w-unset" type="submit">Send Selected into Local Agent</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            }
+                        }
+
                     </form>
 
 

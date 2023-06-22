@@ -1276,3 +1276,91 @@ function confirmPostToAdmin(cvid) {
             return;
         });
 }
+
+function confirmSelectedcv(hrpoolId, cvId, foreignId) {
+    debugger
+    swal({
+        title: 'Are you sure want to select this CV?',
+        /*html: '<label>Enter Back Forward Comments</label><textarea id="txtcomment" class="form-control input-lg"></textarea>',*/
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Select CV',
+        type: 'warning'
+    },
+        function (resolve) {
+            if (resolve) {
+                $.ajax({
+                    url: "/LocalAgent/LocalAgentSelectCV?id=" + hrpoolId + "&cvId=" + cvId + "&foreignId=" + foreignId,
+                    method: "GET",
+                    success: function (data) {
+                        //alert(data);
+                        alert("CV has been selected successfully");
+                        location.reload();
+                    }
+                });
+            }
+            return;
+        });
+}
+
+function confirmUnSelectcv(hrpoolId, cvId, foreignId) {
+    swal({
+        title: 'Are you sure want to Unselect this CV?',
+        /*html: '<label>Enter Back Forward Comments</label><textarea id="txtcomment" class="form-control input-lg"></textarea>',*/
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, UnSelect CV',
+        type: 'warning'
+    },
+        function (resolve) {
+            if (resolve) {
+                $.ajax({
+                    url: "/LocalAgent/LocalAgentUnSelectCV?id=" + hrpoolId + "&cvId=" + cvId + "&foreignId=" + foreignId,
+                    method: "GET",
+                    success: function (data) {
+                        //alert(data);
+                        alert("CV has been selected successfully");
+                        location.reload();
+                    }
+                });
+            }
+            return;
+        });
+}
+
+function sponsorData(hrpoolId, cvId, foreignId) {
+    swal({
+        title: 'Enter Sponsor Information:',
+        html: '<label>Sponsor Name:</label><input type="text" id="txtsponsorname" class="form-control input-lg" />'
+            + '<label>Sponsor ID No:</label><input type="text" id="txtsponsorId" class="form-control input-lg" />'
+            + '<label>Sponsor Visa No:</label><input type="text" id="txtsponsorvisaNo" class="form-control input-lg" />'
+            + '<label>Sponsor Contact No:</label><input type="text" id="txtsponsorContactNo" class="form-control input-lg" />',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Save Changes',
+        type: 'warning'
+    },
+        function (resolve) {
+            if (resolve) {
+                sponsorname = $('#txtsponsorname').val();
+                idnumber = $('#txtsponsorId').val();
+                visano = $('#txtsponsorvisaNo').val();
+                contact = $('#txtsponsorContactNo').val();
+
+                $.ajax({
+                    url: "/LocalAgent/LocalAgentProcessSponsorData?id=" + hrpoolId + "&cvId=" + cvId
+                        + "&sponsorname=" + sponsorname
+                        + "&idnumber=" + idnumber
+                        + "&visano=" + visano
+                        + "&contact=" + contact,
+                    method: "GET",
+                    success: function (data) {
+                        //alert(data);
+                        alert("CV has been updated successfully");
+                        location.reload();
+                    }
+                });
+            }
+            return;
+        });
+}

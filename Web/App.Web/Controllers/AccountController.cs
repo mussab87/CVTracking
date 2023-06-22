@@ -82,10 +82,9 @@ namespace App.Web.Controllers
                             await SetRootCompanyForeignAgentSession(user, null, "localAgent");
                             return RedirectToAction("LocalAgentHome", "LocalAgent");
                         }
-
                     }
-
                 }
+                TempData["Message"] = 9;
                 return LocalRedirect(returnUrl);
             }
 

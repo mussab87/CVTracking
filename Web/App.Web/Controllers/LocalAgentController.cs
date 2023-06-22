@@ -1,13 +1,8 @@
-﻿using App.Application.Features.RootCompany.Queries.GetRootCompanyByUserId;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Drawing;
-using System.Text.Json;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace App.Web.Controllers
 {
@@ -53,6 +48,71 @@ namespace App.Web.Controllers
             var GetAllCvResult = await _mediator.Send(queryGetAllCv);
 
             return View(GetAllCvResult);
+        }
+
+        [HttpGet]
+        [Authorize("LocalAgent-LocalAgentSelectCV")]
+        public async Task<IActionResult> LocalAgentSelectCV(int id, int cvId, int foreignId)
+        {
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            var userLocalAgentId = HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent");
+
+            //add selected cv into selected table 
+            var command = new AddLocalSelectedCVRequest()
+            {
+                HRPoolId = id,
+                LocalAgentId = userLocalAgentId.Id,
+                CreatedById = LoggedInuser.Id
+            };
+            var commandResult = await _mediator.Send(command);
+
+            TempData["Message"] = 1;
+            return RedirectToAction("LocalAgentAllCVList");
+        }
+
+        [HttpGet]
+        [Authorize("LocalAgent-LocalAgentUnSelectCV")]
+        public async Task<IActionResult> LocalAgentUnSelectCV(int id, int cvId, int foreignId)
+        {
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            var userLocalAgentId = HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent");
+
+            //add selected cv into selected table 
+            var command = new UpdateLocalUnSelectedCVRequest()
+            {
+                HRPoolId = id,
+                LocalAgentId = userLocalAgentId.Id,
+                CreatedById = LoggedInuser.Id
+            };
+            var commandResult = await _mediator.Send(command);
+
+            TempData["Message"] = 1;
+            return RedirectToAction("LocalAgentAllCVList");
+        }
+
+        [HttpGet]
+        [Authorize("LocalAgent-LocalAgentProcessSponsorData")]
+        public async Task<IActionResult> LocalAgentProcessSponsorData(int id, int cvId, int foreignId, string sponsorname, string idnumber,
+                            string visano, string contact)
+        {
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            var userLocalAgentId = HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent");
+
+            //add selected cv into selected table 
+            var command = new UpdateLocalSelectedCvSponsorDataRequest()
+            {
+                HRPoolId = id,
+                LocalAgentId = userLocalAgentId.Id,
+                CreatedById = LoggedInuser.Id,
+                sponsorName = sponsorname,
+                sponsorIDNumber = idnumber,
+                sponsorContact = contact,
+                sponsorVisaNumber = visano,
+            };
+            var commandResult = await _mediator.Send(command);
+
+            TempData["Message"] = 1;
+            return RedirectToAction("LocalAgentAllCVList");
         }
 
 

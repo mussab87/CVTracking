@@ -4,6 +4,24 @@
     var personalimg = Model.cvAttachments.Where(p => p.AttachmentType.TypeName == cvAttachmentType.PersonalPhoto.ToString()).FirstOrDefault();
     var posterimg = Model.cvAttachments.Where(p => p.AttachmentType.TypeName == cvAttachmentType.PosterPhoto.ToString()).FirstOrDefault();
     var passportimg = Model.cvAttachments.Where(p => p.AttachmentType.TypeName == cvAttachmentType.PassportCopy.ToString()).FirstOrDefault();
+
+    string logo = null;
+    if (HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany") != null
+    && signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.Admin))
+    {
+        logo = HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").RootCompanyLogo;
+    }
+
+    if (HttpContextAccessor.HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent") != null)
+    {
+        logo = HttpContextAccessor.HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent").ForeignAgentLogo;
+    }
+
+    if (HttpContextAccessor.HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent") != null
+    && signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.LocalAgent))
+    {
+        logo = HttpContextAccessor.HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent").LocalAgentLogo;
+    }
 }
 
 <!-- ========== Dashboard Area end============= -->
@@ -23,7 +41,7 @@
                     </a>
                     </div>*@
                     <div class="row g-4 mb-40">
-                        <div class="col-lg-12">
+                        <div class="col-lg-8">
                             <div class="author-area">
                                 <div class="author-img">
                                     <img src="@personalimg.Path" alt="">
@@ -34,16 +52,14 @@
                                 </div>
                             </div>
                         </div>
-                        @*<div class="col-lg-6">
-                        <div class="contact-area">
-                        <h4>Contact Info</h4>
-                        <ul>
-                        <li>Phone:<a href="#">+880-177 443 5455 <span><img src="assets/images/icon/phone-5.svg" alt=""></span></a></li>
-                        <li>Email:<a href="#">info@example.com <span><img src="assets/images/icon/envlop-5.svg" alt=""></span></a></li>
-                        <li>Website:<a href="#">www.infositeexample.com <span><img src="assets/images/icon/web-5.svg " alt=""></span></a></li>
-                        </ul>
+                        <div class="col-lg-4">
+                            <div class="author-area">
+                                <div class="author-img">
+                                    <img src="@logo" alt="">
+                                </div>
+
+                            </div>
                         </div>
-                        </div>*@
                     </div>
                     @* <div class="col-lg-12">
                     <div class="single-information-area">

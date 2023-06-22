@@ -16,7 +16,7 @@ public class LocalAgentHRPoolDto
 
     public int[] Skills { get; set; }
 
-    public bool RootSelected { get; set; }
+    public bool LocalSelected { get; set; }
 
     public int? LocalId { get; set; }
 

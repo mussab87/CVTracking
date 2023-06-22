@@ -76,6 +76,26 @@
                         </div>
                     </div>
                 }
+
+                @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-CVHRPool").Result.Succeeded)
+                {
+                    <div class="col">
+                        <div class="single-category">
+                            <div class="category-top">
+                                <div class="icon">
+                                    <img src="~/assets/images/icon/receotionist.svg" alt="">
+                                </div>
+                                <div class="sl-no">
+                                    <h6></h6>
+                                </div>
+                            </div>
+                            <div class="category-content">
+                                <h5><a asp-controller="RootCompany" asp-action="CVHRPool">CV HR Pool</a></h5>
+                                <p> <span>Foreign/Local Agents </span></p>
+                            </div>
+                        </div>
+                    </div>
+                }
                 @*<div class="col">
             <div class="single-category">
             <div class="category-top">
@@ -126,22 +146,7 @@
             </div>
             </div>*@
 
-                <div class="col">
-                    <div class="single-category">
-                        <div class="category-top">
-                            <div class="icon">
-                                <img src="~/assets/images/icon/receotionist.svg" alt="">
-                            </div>
-                            <div class="sl-no">
-                                <h6>08</h6>
-                            </div>
-                        </div>
-                        <div class="category-content">
-                            <h5><a href="job-listing1.html">Receptionist Job</a></h5>
-                            <p>Job Available: <span>55</span></p>
-                        </div>
-                    </div>
-                </div>
+
                 @*<div class="col">
             <div class="single-category">
             <div class="category-top">
