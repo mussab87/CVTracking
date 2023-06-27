@@ -93,7 +93,7 @@ namespace App.Web.Controllers
         [HttpGet]
         [Authorize("LocalAgent-LocalAgentProcessSponsorData")]
         public async Task<IActionResult> LocalAgentProcessSponsorData(int id, int cvId, int foreignId, string sponsorname, string idnumber,
-                            string visano, string contact)
+                            string visano, string contact, string sponsordateofbirth)
         {
             var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
             var userLocalAgentId = HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent");
@@ -108,6 +108,7 @@ namespace App.Web.Controllers
                 sponsorIDNumber = idnumber,
                 sponsorContact = contact,
                 sponsorVisaNumber = visano,
+                SponsorDateOfBirth = Convert.ToDateTime(sponsordateofbirth)
             };
             var commandResult = await _mediator.Send(command);
 

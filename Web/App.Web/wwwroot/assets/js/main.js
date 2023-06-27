@@ -163,40 +163,74 @@
 
 
     jQuery('#cv_DateOfBirth').datepicker({
-        format: 'dd-mm-yyyy',
-        startDate: '+1d'
+        changeMonth: true,
+        changeYear: true,
+        format: 'dd/mm/yyyy',
+        startDate: '+1d',
+        yearRange: "-90:+00"
     });
     jQuery('#cv_PassportDateOfIssue').datepicker({
-        format: 'dd-mm-yyyy',
-        startDate: '+1d'
+        changeMonth: true,
+        changeYear: true,
+        format: 'dd/mm/yyyy',
+        startDate: '+1d',
+        yearRange: "-90:+00"
     });
     jQuery('#cv_PassportDateOfExpiry').datepicker({
-        format: 'dd-mm-yyyy',
-        startDate: '+1d'
+        changeMonth: true,
+        changeYear: true,
+        format: 'dd/mm/yyyy',
+        startDate: '+1d',
+        yearRange: "-90:+00"
+    });
+    jQuery('#sponsorDateOfBirth').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        format: 'dd/mm/yyyy',
+        startDate: '+1d',
+        yearRange: "-90:+00"
     });
     jQuery('#datepicker5').datepicker({
-        format: 'dd-mm-yyyy',
-        startDate: '+1d'
+        changeMonth: true,
+        changeYear: true,
+        format: 'dd/mm/yyyy',
+        startDate: '+1d',
+        yearRange: "-90:+00"
     });
     jQuery('#datepicker6').datepicker({
-        format: 'dd-mm-yyyy',
-        startDate: '+1d'
+        changeMonth: true,
+        changeYear: true,
+        format: 'dd/mm/yyyy',
+        startDate: '+1d',
+        yearRange: "-90:+00"
     });
     jQuery('#datepicker7').datepicker({
-        format: 'dd-mm-yyyy',
-        startDate: '+1d'
+        changeMonth: true,
+        changeYear: true,
+        format: 'dd/mm/yyyy',
+        startDate: '+1d',
+        yearRange: "-90:+00"
     });
     jQuery('#datepicker9').datepicker({
-        format: 'dd-mm-yyyy',
-        startDate: '+1d'
+        changeMonth: true,
+        changeYear: true,
+        format: 'dd/mm/yyyy',
+        startDate: '+1d',
+        yearRange: "-90:+00"
     });
     jQuery('#datepicker10').datepicker({
-        format: 'dd-mm-yyyy',
-        startDate: '+1d'
+        changeMonth: true,
+        changeYear: true,
+        format: 'dd/mm/yyyy',
+        startDate: '+1d',
+        yearRange: "-90:+00"
     });
     jQuery('#datepicker11').datepicker({
-        format: 'dd-mm-yyyy',
-        startDate: '+1d'
+        changeMonth: true,
+        changeYear: true,
+        format: 'dd/mm/yyyy',
+        startDate: '+1d',
+        yearRange: "-90:+00"
     });
 
 
@@ -1334,7 +1368,8 @@ function sponsorData(hrpoolId, cvId, foreignId) {
         html: '<label>Sponsor Name:</label><input type="text" id="txtsponsorname" class="form-control input-lg" />'
             + '<label>Sponsor ID No:</label><input type="text" id="txtsponsorId" class="form-control input-lg" />'
             + '<label>Sponsor Visa No:</label><input type="text" id="txtsponsorvisaNo" class="form-control input-lg" />'
-            + '<label>Sponsor Contact No:</label><input type="text" id="txtsponsorContactNo" class="form-control input-lg" />',
+            + '<label>Sponsor Contact No:</label><input type="text" id="txtsponsorContactNo" class="form-control input-lg" />'
+            + '<label>Sponsor Date of Birth:</label><img src="~/assets/images/icon/calender2.svg" alt=""><input type="date" id="sponsorDateOfBirth" placeholder="03/08/1986" required>',
         input: 'text',
         showCancelButton: true,
         confirmButtonText: 'Save Changes',
@@ -1346,13 +1381,15 @@ function sponsorData(hrpoolId, cvId, foreignId) {
                 idnumber = $('#txtsponsorId').val();
                 visano = $('#txtsponsorvisaNo').val();
                 contact = $('#txtsponsorContactNo').val();
+                sponsordateofbirth = $('#sponsorDateOfBirth').val();
 
                 $.ajax({
                     url: "/LocalAgent/LocalAgentProcessSponsorData?id=" + hrpoolId + "&cvId=" + cvId
                         + "&sponsorname=" + sponsorname
                         + "&idnumber=" + idnumber
                         + "&visano=" + visano
-                        + "&contact=" + contact,
+                        + "&contact=" + contact
+                        + "&sponsordateofbirth=" + sponsordateofbirth,
                     method: "GET",
                     success: function (data) {
                         //alert(data);

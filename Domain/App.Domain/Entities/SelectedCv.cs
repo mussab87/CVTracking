@@ -27,6 +27,7 @@ public class SelectedCv : EntityBase
     public string SponsorIdNumber { get; set; }
     public string VisaNumber { get; set; }
     public string SponsorContact { get; set; }
+    public DateTime? SponsorDateOfBirth { get; set; }
 
     /// <summary>
     /// after entering sponsor details it will be moved into Admin RootCompany for confirmation befor appear to ForeignAgent

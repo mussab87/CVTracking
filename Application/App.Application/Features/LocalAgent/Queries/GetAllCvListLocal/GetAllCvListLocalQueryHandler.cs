@@ -9,12 +9,14 @@ public class GetAllCvListLocalQueryHandler : IRequestHandler<GetAllCvListLocalQu
     private readonly ILocalAgentRepository _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ICVRepository _ICVRepository;
+    readonly ILocalSelectedCVRepository _selectedCv;
 
-    public GetAllCvListLocalQueryHandler(ILocalAgentRepository unitOfWork, IMapper mapper, ICVRepository iCVRepository)
+    public GetAllCvListLocalQueryHandler(ILocalAgentRepository unitOfWork, IMapper mapper, ICVRepository iCVRepository, ILocalSelectedCVRepository selectedCv)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _ICVRepository = iCVRepository;
+        _selectedCv = selectedCv;
     }
 
     public async Task<List<LocalAgentHRPoolDto>> Handle(GetAllCvListLocalQuery request,
@@ -29,6 +31,13 @@ public class GetAllCvListLocalQueryHandler : IRequestHandler<GetAllCvListLocalQu
             var Cvattachments = await _ICVRepository.GetCvAttachmentByCvId(cv.CV.Id);
 
             cv.cvAttachments = Cvattachments;
+
+            //get selectedCV
+            var selectedCV = await _selectedCv.GetAsync(predicate: cv => cv.HRPoolId == cv.HRPoolId);
+            if (selectedCV != null && selectedCV.Count > 0)
+            {
+                cv.selected = selectedCV[0];
+            }
         }
 
         return result;

@@ -684,6 +684,15 @@ namespace App.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Authorize("RootCompany-CVLocalHRPool")]
+        public async Task<IActionResult> CVLocalHRPool()
+        {
+            await getForeignAgentsLookup();
+
+            return View();
+        }
+
         private async Task getForeignAgentsLookup()
         {
             var userRootCompanyId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").Id;
@@ -711,11 +720,35 @@ namespace App.Web.Controllers
             return View("CVHRPool", ForeignAgentCvList.Where(cv => cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin || cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal).ToList());
         }
 
+        [HttpPost]
+        [Authorize("RootCompany-LocalAgentCvList")]
+        public async Task<IActionResult> LocalAgentCvList(string localId)
+        {
+            await getForeignAgentsLookup();
+
+            ////get all CV for the LocalAgent
+            List<LocalAgentHRPoolDto> LocalAgentCvList = await GetlocalCVList(Convert.ToInt32(localId));
+
+            return View("CVLocalHRPool", LocalAgentCvList.Where(
+                cv => cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin
+                || cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal
+                || cv.CVStatus.StatusNo == (int)cvStatus.Selected
+                || cv.CVStatus.StatusNo == (int)cvStatus.Employeed
+                || cv.CVStatus.StatusNo == (int)cvStatus.Processing).ToList());
+        }
+
         private async Task<List<ForeignAgentHRPoolDto>> GetPostToAdminForeignCVList(int foreignId)
         {
             var query = new GetAllCvListQuery() { ForeignAgentId = foreignId };
             var ForeignAgentCvList = await _mediator.Send(query);
             return ForeignAgentCvList;
+        }
+
+        private async Task<List<LocalAgentHRPoolDto>> GetlocalCVList(int localId)
+        {
+            var query = new GetAllCvListLocalQuery() { LocalAgentId = localId };
+            var LocalAgentCvList = await _mediator.Send(query);
+            return LocalAgentCvList;
         }
 
         [HttpPost]
@@ -965,7 +998,7 @@ namespace App.Web.Controllers
         [Authorize("RootCompany-LocalAgentCVHRPool")]
         public async Task<IActionResult> LocalAgentCVHRPool()
         {
-            //await getForeignAgentsLookup();
+            await getForeignAgentsLookup();
 
             return View();
         }
@@ -980,18 +1013,18 @@ namespace App.Web.Controllers
             ViewData["RootForeignAgents"] = new SelectList(ForeignAgentListByRootCompany, "Id", "ForeignAgentName");
         }
 
-        [HttpPost]
-        [Authorize("RootCompany-LocalAgentCvList")]
-        public async Task<IActionResult> LocalAgentCvList(string foreignId)
-        {
-            await getForeignAgentsLookup();
+        //[HttpPost]
+        //[Authorize("RootCompany-LocalAgentCvList")]
+        //public async Task<IActionResult> LocalAgentCvList(string foreignId)
+        //{
+        //    await getForeignAgentsLookup();
 
-            ////get all CV for the ForeignAgent
-            var query = new GetAllCvListQuery() { ForeignAgentId = Convert.ToInt32(foreignId) };
-            var ForeignAgentCvList = await _mediator.Send(query);
+        //    ////get all CV for the ForeignAgent
+        //    var query = new GetAllCvListQuery() { ForeignAgentId = Convert.ToInt32(foreignId) };
+        //    var ForeignAgentCvList = await _mediator.Send(query);
 
-            return View("CVHRPool", ForeignAgentCvList.Where(cv => cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin).ToList());
-        }
+        //    return View("CVHRPool", ForeignAgentCvList.Where(cv => cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin).ToList());
+        //}
 
 
         //[HttpPost]

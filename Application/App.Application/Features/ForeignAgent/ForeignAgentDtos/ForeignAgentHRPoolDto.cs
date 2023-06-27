@@ -21,5 +21,7 @@ public class ForeignAgentHRPoolDto
     public int? LocalId { get; set; }
 
     public List<SkillSelectedDto> skillList { get; set; }
+
+    public SelectedCv selected { get; set; }
 }
 

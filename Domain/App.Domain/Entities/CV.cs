@@ -16,7 +16,9 @@ public class CV : EntityBase
     public string PassportNumber { get; set; }
     public DateTime? PassportDateOfIssue { get; set; }
     public DateTime? PassportDateOfExpiry { get; set; }
-    public string PlaceOfIssue { get; set; }
+    public int? PlaceOfIssueId { get; set; }
+    [ForeignKey("PlaceOfIssueId")]
+    public City PlaceOfIssue { get; set; }
 
     public bool? EnglishLanguage { get; set; }
     public bool? ArabicLanguage { get; set; }

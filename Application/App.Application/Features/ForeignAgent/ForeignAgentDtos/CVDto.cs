@@ -51,7 +51,7 @@ public class CVDto
 
     //done
     [Display(Name = "Passport Place Of Issue")]
-    public string PlaceOfIssue { get; set; }
+    public int? PlaceOfIssueId { get; set; }
 
     //done
     [Display(Name = "English")]

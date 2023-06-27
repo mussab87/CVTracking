@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230627113743_026")]
+    partial class _026
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -329,8 +332,8 @@ namespace App.Infrastructure.Migrations
                     b.Property<int?>("PlaceOfBirthId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlaceOfIssueId")
-                        .HasColumnType("int");
+                    b.Property<string>("PlaceOfIssue")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ReligionId")
                         .HasColumnType("int");
@@ -349,8 +352,6 @@ namespace App.Infrastructure.Migrations
                     b.HasIndex("NationalityId");
 
                     b.HasIndex("PlaceOfBirthId");
-
-                    b.HasIndex("PlaceOfIssueId");
 
                     b.HasIndex("ReligionId");
 
@@ -1302,10 +1303,6 @@ namespace App.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("PlaceOfBirthId");
 
-                    b.HasOne("City", "PlaceOfIssue")
-                        .WithMany()
-                        .HasForeignKey("PlaceOfIssueId");
-
                     b.HasOne("Religion", "Religion")
                         .WithMany()
                         .HasForeignKey("ReligionId");
@@ -1319,8 +1316,6 @@ namespace App.Infrastructure.Migrations
                     b.Navigation("Nationality");
 
                     b.Navigation("PlaceOfBirth");
-
-                    b.Navigation("PlaceOfIssue");
 
                     b.Navigation("Religion");
                 });
