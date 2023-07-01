@@ -29,6 +29,9 @@ public class SelectedCv : EntityBase
     public string SponsorContact { get; set; }
     public DateTime? SponsorDateOfBirth { get; set; }
 
+    public string MusanedContractNo { get; set; }
+    public DateTime? MusanedContractDate { get; set; } = DateTime.Now;
+
     /// <summary>
     /// after entering sponsor details it will be moved into Admin RootCompany for confirmation befor appear to ForeignAgent
     /// 0- pending confirmation

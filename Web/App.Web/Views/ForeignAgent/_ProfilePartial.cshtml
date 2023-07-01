@@ -28,31 +28,31 @@
                     <label asp-for="cv.NationalityId"></label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/nid.svg" alt="">
-                        <select asp-for="cv.NationalityId" class="select1" asp-items="@ViewBag.Countries">
+                        <select asp-for="cv.NationalityId" class="select2" asp-items="@ViewBag.Countries">
                             <option value="">Select Nationality </option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-inner mb-25">
-                    <label asp-for="cv.PlaceOfBirthId"></label>
-                    <div class="input-area">
-                        <img src="~/assets/images/icon/home-2.svg" alt="">
-                        <select asp-for="cv.PlaceOfBirthId" class="select1" asp-items="@ViewBag.Cities">
-                            <option value="">Select Place of Birth </option>
-                        </select>
-                    </div>
-                    <span asp-validation-for="cv.PlaceOfBirthId" class="alert-danger"></span>
-                </div>
+            @* <div class="col-md-6">
+            <div class="form-inner mb-25">
+            <label asp-for="cv.PlaceOfBirthId"></label>
+            <div class="input-area">
+            <img src="~/assets/images/icon/home-2.svg" alt="">
+            <select asp-for="cv.PlaceOfBirthId" class="select1" asp-items="@ViewBag.Cities">
+            <option value="">Select Place of Birth </option>
+            </select>
             </div>
+            <span asp-validation-for="cv.PlaceOfBirthId" class="alert-danger"></span>
+            </div>
+            </div>*@
 
             <div class="col-md-6">
                 <div class="form-inner mb-25">
                     <label asp-for="cv.MartialStatusId"></label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/marital-2.svg" alt="">
-                        <select asp-for="cv.MartialStatusId" class="select1" asp-items="@ViewBag.martialStatus">
+                        <select asp-for="cv.MartialStatusId" class="select2" asp-items="@ViewBag.martialStatus">
                             <option value="">Select Martial Status </option>
                         </select>
                     </div>
@@ -74,7 +74,7 @@
                     <label asp-for="cv.Gender">Gender</label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/gender.svg " alt="">
-                        <select asp-for="cv.Gender" class="select1">
+                        <select asp-for="cv.Gender" class="select2">
                             <option value="">Select Gender</option>
                             <option value="0">@Gender.Male</option>
                             <option value="1">@Gender.Female</option>
@@ -89,7 +89,7 @@
                     <label asp-for="cv.ReligionId"></label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/religion.svg" alt="">
-                        <select asp-for="cv.ReligionId" class="select1" asp-items="@ViewBag.Religion">
+                        <select asp-for="cv.ReligionId" class="select2" asp-items="@ViewBag.Religion">
                             <option value="">Select Religion </option>
                         </select>
                     </div>
@@ -114,39 +114,35 @@
                     <span asp-validation-for="cv.PassportNumber" class="alert-danger"></span>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-inner mb-25">
-                    <label asp-for="cv.PlaceOfIssueId"></label>
-                    <div class="input-area">
-                        <img src="~/assets/images/icon/home-2.svg" alt="">
-                        <select asp-for="cv.PlaceOfIssueId" class="select1" asp-items="@ViewBag.Cities">
-                            <option value="">Select Place of Birth </option>
-                        </select>
-                    </div>
-                    @*<div class="input-area">
-                    <img src="~/assets/images/icon/hight.svg" alt="">
-                    <input type="text" asp-for="cv.PlaceOfIssue" placeholder="Place Of Issue">
-                    </div>*@
-                </div>
+            @*<div class="col-md-6">
+            <div class="form-inner mb-25">
+            <label asp-for="cv.PlaceOfIssueId"></label>
+            <div class="input-area">
+            <img src="~/assets/images/icon/home-2.svg" alt="">
+            <select asp-for="cv.PlaceOfIssueId" class="select1" asp-items="@ViewBag.Cities">
+            <option value="">Select Place of Birth </option>
+            </select>
             </div>
-            <div class="col-md-6">
-                <div class="form-inner mb-25">
-                    <label asp-for="cv.PassportDateOfIssue"></label>
-                    <div class="input-area">
-                        <img src="~/assets/images/icon/calender2.svg" alt="">
-                        <input type="text" asp-for="cv.PassportDateOfIssue" placeholder="03/08/1986">
-                    </div>
-                </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-inner mb-25">
-                    <label asp-for="cv.PassportDateOfExpiry"></label>
-                    <div class="input-area">
-                        <img src="~/assets/images/icon/calender2.svg" alt="">
-                        <input type="text" asp-for="cv.PassportDateOfExpiry" placeholder="03/08/1986">
-                    </div>
-                </div>
+            </div>*@
+            @*<div class="col-md-6">
+            <div class="form-inner mb-25">
+            <label asp-for="cv.PassportDateOfIssue"></label>
+            <div class="input-area">
+            <img src="~/assets/images/icon/calender2.svg" alt="">
+            <input type="text" asp-for="cv.PassportDateOfIssue" placeholder="03/08/1986">
             </div>
+            </div>
+            </div>*@
+            @* <div class="col-md-6">
+            <div class="form-inner mb-25">
+            <label asp-for="cv.PassportDateOfExpiry"></label>
+            <div class="input-area">
+            <img src="~/assets/images/icon/calender2.svg" alt="">
+            <input type="text" asp-for="cv.PassportDateOfExpiry" placeholder="03/08/1986">
+            </div>
+            </div>
+            </div>*@
             <div class="col-md-6">
                 <div class="form-inner mb-25">
                     <label asp-for="cv.Height"></label>

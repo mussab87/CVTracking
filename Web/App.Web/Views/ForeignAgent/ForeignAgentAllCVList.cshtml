@@ -209,6 +209,11 @@
                                                     {
                                                         <button class="eg-btn purple-btn">Local Agent</button>
                                                     }
+
+                                                    @if (cv.CVStatus.StatusNo == (int)cvStatus.Uploaded)
+                                                    {
+                                                        <button class="eg-btn green-btn">@cv.CVStatus.Status</button>
+                                                    }
                                                 </td>
                                                 <td>
                                                     <form method="post" asp-controller="ForeignAgent" asp-action="DeleteCity" asp-route-id="@cv.CV.Id">

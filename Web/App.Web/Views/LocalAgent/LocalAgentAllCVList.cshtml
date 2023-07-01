@@ -169,6 +169,14 @@
                                                         </button>
                                                     }
 
+                                                    @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Uploaded)
+                                                    {
+
+                                                        <button type="button" class="btn btn-success">
+                                                            @cvStatus.Uploaded
+                                                        </button>
+                                                    }
+
                                                 </td>
 
                                                 <td>
@@ -195,7 +203,7 @@
                                                             </button>
                                                         }
                                                         if (Model[j].CVStatus.StatusNo != (int)cvStatus.Selected && Model[j].CVStatus.StatusNo != (int)cvStatus.SendToLocal
-                                                        && Model[j].CVStatus.StatusNo != (int)cvStatus.Employeed)
+                                                        && Model[j].CVStatus.StatusNo != (int)cvStatus.Employeed && Model[j].CVStatus.StatusNo != (int)cvStatus.Uploaded)
                                                         {
                                                             <hr>
                                                             <button type="button" class="btn btn-outline-success"

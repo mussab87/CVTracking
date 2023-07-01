@@ -734,6 +734,7 @@ namespace App.Web.Controllers
                 || cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal
                 || cv.CVStatus.StatusNo == (int)cvStatus.Selected
                 || cv.CVStatus.StatusNo == (int)cvStatus.Employeed
+                || cv.CVStatus.StatusNo == (int)cvStatus.Uploaded
                 || cv.CVStatus.StatusNo == (int)cvStatus.Processing).ToList());
         }
 
@@ -1011,6 +1012,31 @@ namespace App.Web.Controllers
             var ForeignAgentListByRootCompany = await _mediator.Send(query);
 
             ViewData["RootForeignAgents"] = new SelectList(ForeignAgentListByRootCompany, "Id", "ForeignAgentName");
+        }
+
+        [HttpGet]
+        [Authorize("RootCompany-UploadMusanedContract")]
+        public async Task<IActionResult> UploadMusanedContract(string id, string cvId, string foreignId, string selectedCvId, string localId, string musanednumber,
+                            string contractdate)
+        {
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            var userLocalAgentId = HttpContext.Session.GetObject<RootCompanyDto>("RootCompany");
+
+            //add Musaned details into selected table  and update status into Uploaded
+            var command = new UpdateSelectedCvMusanedDataRequest()
+            {
+                HRPoolId = Convert.ToInt32(id),
+                CVId = Convert.ToInt32(cvId),
+                ForeignId = Convert.ToInt32(foreignId),
+                selectedCvId = Convert.ToInt32(selectedCvId),
+                ModifiedById = LoggedInuser.Id,
+                MusanedNumber = musanednumber,
+                ContractDate = Convert.ToDateTime(contractdate)
+            };
+            var commandResult = await _mediator.Send(command);
+
+            TempData["Message"] = 1;
+            return RedirectToAction("LocalAgentCvList", new { localId = localId.ToString() });
         }
 
         //[HttpPost]

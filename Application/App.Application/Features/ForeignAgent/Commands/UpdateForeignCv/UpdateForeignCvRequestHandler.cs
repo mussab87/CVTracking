@@ -130,9 +130,13 @@ public class UpdateForeignCvRequestHandler : IRequestHandler<UpdateForeignCvRequ
                 {
                     //get new attachment
                     var newPath = request.cvAttachments.Where(cv => cv.AttachmentTypeId == (int)cvAttachmentType.PersonalPhoto).FirstOrDefault();
-                    //update old attachment record
-                    imgpersonal.Attachment.Path = newPath.Path;
-                    await _attachmentRepository.UpdateAsync(imgpersonal.Attachment);
+                    if (newPath is not null)
+                    {
+                        //update old attachment record
+                        imgpersonal.Attachment.Path = newPath.Path;
+                        await _attachmentRepository.UpdateAsync(imgpersonal.Attachment);
+                    }
+
                 }
             }
 
@@ -155,9 +159,13 @@ public class UpdateForeignCvRequestHandler : IRequestHandler<UpdateForeignCvRequ
                 {
                     //get new attachment
                     var newPath = request.cvAttachments.Where(cv => cv.AttachmentTypeId == (int)cvAttachmentType.PosterPhoto).FirstOrDefault();
-                    //update old attachment record
-                    imgposter.Attachment.Path = newPath.Path;
-                    await _attachmentRepository.UpdateAsync(imgposter.Attachment);
+                    if (newPath is not null)
+                    {
+                        //update old attachment record
+                        imgposter.Attachment.Path = newPath.Path;
+                        await _attachmentRepository.UpdateAsync(imgposter.Attachment);
+                    }
+
                 }
             }
 
@@ -180,9 +188,12 @@ public class UpdateForeignCvRequestHandler : IRequestHandler<UpdateForeignCvRequ
                 {
                     //get new attachment
                     var newPath = request.cvAttachments.Where(cv => cv.AttachmentTypeId == (int)cvAttachmentType.PassportCopy).FirstOrDefault();
-                    //update old attachment record
-                    imgpassport.Attachment.Path = newPath.Path;
-                    await _attachmentRepository.UpdateAsync(imgpassport.Attachment);
+                    if (newPath is not null)
+                    {
+                        //update old attachment record
+                        imgpassport.Attachment.Path = newPath.Path;
+                        await _attachmentRepository.UpdateAsync(imgpassport.Attachment);
+                    }
                 }
             }
 

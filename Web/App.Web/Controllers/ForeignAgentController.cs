@@ -161,13 +161,13 @@ namespace App.Web.Controllers
             if (model.cv.Id == null)
             {
                 //check cv fields first before going to save 
-                if (await CheckCvBeforeSave(model, personalphoto, posterphoto, passportphoto, states, true) == false)
-                {
-                    ModelState.AddModelError("CustomError", "You must enter all required fields before click on save");
-                    await GetDropDownList(model);
-                    ViewBag.error = "yes";
-                    return View(model);
-                }
+                //if (await CheckCvBeforeSave(model, personalphoto, posterphoto, passportphoto, states, true) == false)
+                //{
+                //    ModelState.AddModelError("CustomError", "You must enter all required fields before click on save");
+                //    //await GetDropDownList(model);
+                //    //ViewBag.error = "yes";
+                //    //return View(model);
+                //}
 
                 await addNewCv(model, personalphoto, posterphoto, passportphoto, true, states);
                 await GetDropDownList(model);
@@ -176,13 +176,13 @@ namespace App.Web.Controllers
 
             //update exist cv data
             //check cv fields first before going to save 
-            if (await CheckCvBeforeSave(model, personalphoto, posterphoto, passportphoto, states, false) == false)
-            {
-                ModelState.AddModelError("CustomError", "You must enter all required fields before click on save");
-                await GetDropDownList(model);
-                ViewBag.error = "yes";
-                return View(model);
-            }
+            //if (await CheckCvBeforeSave(model, personalphoto, posterphoto, passportphoto, states, false) == false)
+            //{
+            //    ModelState.AddModelError("CustomError", "You must enter all required fields before click on save");
+            //    //await GetDropDownList(model);
+            //    //ViewBag.error = "yes";
+            //    //return View(model);
+            //}
 
             await addNewCv(model, personalphoto, posterphoto, passportphoto, false, states);
 
@@ -286,7 +286,7 @@ namespace App.Web.Controllers
                             passportphoto == null ||
                             model.cv.CandidateNameEnglish == null ||
                             model.cv.DateOfBirth == null ||
-                            model.cv.PlaceOfBirthId == null ||
+                            //model.cv.PlaceOfBirthId == null ||
                             model.cv.MartialStatusId == null ||
                             model.cv.NoOfChildren == null ||
                             model.cv.Weight == null ||
@@ -306,7 +306,7 @@ namespace App.Web.Controllers
                             model.passportImg == null ||
                             model.cv.CandidateNameEnglish == null ||
                             model.cv.DateOfBirth == null ||
-                            model.cv.PlaceOfBirthId == null ||
+                            //model.cv.PlaceOfBirthId == null ||
                             model.cv.MartialStatusId == null ||
                             model.cv.NoOfChildren == null ||
                             model.cv.Weight == null ||
@@ -331,7 +331,7 @@ namespace App.Web.Controllers
                             passportphoto == null ||
                             model.cv.CandidateNameEnglish == null ||
                             model.cv.DateOfBirth == null ||
-                            model.cv.PlaceOfBirthId == null ||
+                            //model.cv.PlaceOfBirthId == null ||
                             model.cv.MartialStatusId == null ||
                             model.cv.NoOfChildren == null ||
                             model.cv.Weight == null ||
@@ -351,7 +351,7 @@ namespace App.Web.Controllers
                             model.passportImg == null ||
                             model.cv.CandidateNameEnglish == null ||
                             model.cv.DateOfBirth == null ||
-                            model.cv.PlaceOfBirthId == null ||
+                            //model.cv.PlaceOfBirthId == null ||
                             model.cv.MartialStatusId == null ||
                             model.cv.NoOfChildren == null ||
                             model.cv.Weight == null ||

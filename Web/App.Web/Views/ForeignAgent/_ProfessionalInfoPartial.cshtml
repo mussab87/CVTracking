@@ -35,7 +35,7 @@
                                 <label>Country Of Employment</label>
                                 <div class="input-area">
                                     <img src="~/assets/images/icon/nid.svg" alt="">
-                                    <select asp-for="@Model.previousEmployment[i].CountryOfEmploymentId" class="select1"
+                                    <select asp-for="@Model.previousEmployment[i].CountryOfEmploymentId" class="select2"
                                             asp-items="@ViewBag.Countries" required title="Please enter your this Field">
                                         <option value="">Select Country of Employment </option>
                                     </select>
@@ -81,7 +81,7 @@
                             <label>Country Of Employment</label>
                             <div class="input-area">
                                 <img src="~/assets/images/icon/nid.svg" alt="">
-                                <select asp-for="previousEmployment[0].CountryOfEmploymentId" class="select1"
+                                <select asp-for="previousEmployment[0].CountryOfEmploymentId" class="select2"
                                         asp-items="@ViewBag.Countries" required title="Please enter your this Field">
                                     <option value="">Select Country of Employment </option>
                                 </select>

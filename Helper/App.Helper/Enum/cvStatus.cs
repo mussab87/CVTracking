@@ -11,7 +11,8 @@ public enum cvStatus
     Selected = 5, //Local Agent
     Processing = 6, //complete details in Local Agent
     Employeed = 7, //Local Agent
-    Backout = 8,   //Foreign Agent
+    Uploaded = 8, //All
+    Backout = 9,   //Foreign Agent
 
 }
 

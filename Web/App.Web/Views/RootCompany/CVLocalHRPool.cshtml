@@ -94,7 +94,7 @@
                                 <div class="form-inner">
                                     <div class="input-area">
                                         <img src="~/assets/images/icon/search-2.svg" alt="">
-                                        <select asp-items="@ViewBag.RootLocalAgents" class="select1" id="localId" name="localId">
+                                        <select asp-items="@ViewBag.RootLocalAgents" class="select2" id="localId" name="localId">
                                             <option value="">Select Local Agent</option>
                                         </select>
                                     </div>
@@ -128,12 +128,17 @@
 
                                 @if (Model is not null)
                                 {
+                                    var backgroundColor = "";
                                     if (Model.Any())
                                         @for (int j = 0; j < Model.Count(); j++)
                                         {
 
                                             i++;
-                                            <tr class="style-2">
+                                            if (Model[j].CVStatus.StatusNo == (int)cvStatus.Uploaded)
+                                            {
+                                                backgroundColor = "#def5de";
+                                            }
+                                            <tr style="background-color: @backgroundColor" class="style-2">
 
                                                 <td hidden>
                                                     @Model[j].CV.Id
@@ -195,6 +200,14 @@
                                                                 <button type="button" class="alert-success">
                                                                     @cvStatus.Employeed / @Model[j].LocalAgent.LocalAgentNameEnglish
                                                                 </button>
+                                                                @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-UploadMusanedContract").Result.Succeeded)
+                                                                {
+                                                                    <hr />
+                                                                    <a onclick="UploadMusanedContract(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id, @Model[j].selected.Id, @Model[j].LocalAgent.Id, '@Model[j].ForeignAgent.ForeignAgentName')"
+                                                                       style="cursor:pointer; color:brown">
+                                                                        Musaned Contract
+                                                                    </a>
+                                                                }
                                                             }
 
                                                             if (Model[j].CVStatus.StatusNo == (int)cvStatus.Selected

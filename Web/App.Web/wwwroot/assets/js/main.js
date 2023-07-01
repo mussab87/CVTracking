@@ -129,7 +129,8 @@
 
     $(".select2").select2({
         //placeholder: "Select Skils",
-        allowClear: true
+        width: '100%'
+        //allowClear: true
     });
     $('.js-example-basic-single').select2({
         width: '100%',
@@ -1394,6 +1395,46 @@ function sponsorData(hrpoolId, cvId, foreignId) {
                     success: function (data) {
                         //alert(data);
                         alert("CV has been updated successfully");
+                        location.reload();
+                    }
+                });
+            }
+            return;
+        });
+}
+
+function UploadMusanedContract(hrpoolId, cvId, foreignId, selectedCvId, localId, foreignAgentName) {
+    debugger;
+    var nowDate = new Date().toLocaleDateString();
+    swal({
+        title: 'Enter Musaned Contract Details:',
+        html: '<label>Foreign Agent:</label><b>' + foreignAgentName + '</b>'
+            + '<label>Musaned Contract Number:</label><input type="number" id="txtmusanednumber" class="form-control input-lg" />'
+            + '<label>Musaned Contract Date:</label><input type="date" id="txtcontractDate" value="' + nowDate + '" >',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Save Changes',
+        type: 'warning'
+    },
+        function (resolve) {
+            if (resolve) {
+                musanednumber = $('#txtmusanednumber').val();
+                contractdate = $('#txtcontractDate').val();
+
+
+                $.ajax({
+                    url: "/RootCompany/UploadMusanedContract?id=" + hrpoolId
+                        + "&cvId=" + cvId
+                        + "&foreignId=" + foreignId
+                        + "&selectedCvId=" + selectedCvId
+                        + "&localId=" + localId
+                        + "&musanednumber=" + musanednumber
+                        + "&contractdate=" + contractdate,
+
+                    method: "GET",
+                    success: function (data) {
+                        //alert(data);
+                        alert("CV status has been updated successfully");
                         location.reload();
                     }
                 });
