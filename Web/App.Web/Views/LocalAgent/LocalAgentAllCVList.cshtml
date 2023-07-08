@@ -155,10 +155,10 @@
                                                             @cvStatus.Processing.ToString()
                                                         </button>
                                                         <hr />
-                                                        <a onclick="sponsorData(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)"
-                                                           style="cursor:pointer; color:brown">
+                                                        <button type="button" onclick="sponsorData(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)"
+                                                                class="btn btn-info btn-md">
                                                             Sponsor Info
-                                                        </a>
+                                                        </button>
                                                     }
 
                                                     @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Employeed)
@@ -224,6 +224,13 @@
                                                                 UnSelect
                                                             </button>
                                                         }
+                                                        @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Uploaded)
+                                                        {
+                                                            <hr />
+                                                            <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy")', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
+                                                                Sponsor
+                                                            </button>
+                                                        }
                                                     }
                                                     <div class="form-inner mb-25">
                                                         @*@if (Model[j].LocalAgent.Id > 0 && Model[j].LocalAgent is not null)
@@ -266,8 +273,6 @@
                         </div>
                         </div>*@
                     </form>
-
-
                 </div>
             </div>
         </div>

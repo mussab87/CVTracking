@@ -28,6 +28,7 @@ public class SelectedCv : EntityBase
     public string VisaNumber { get; set; }
     public string SponsorContact { get; set; }
     public DateTime? SponsorDateOfBirth { get; set; }
+    public DateTime? SponsorDateOfBirthHijri { get; set; }
 
     public string MusanedContractNo { get; set; }
     public DateTime? MusanedContractDate { get; set; } = DateTime.Now;

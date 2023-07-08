@@ -15,5 +15,6 @@ public class UpdateLocalSelectedCvSponsorDataRequest : IRequest<int>
     public string sponsorVisaNumber { get; set; }
     public string sponsorContact { get; set; }
     public DateTime? SponsorDateOfBirth { get; set; }
+    public DateTime? SponsorDateOfBirthHijri { get; set; }
 }
 

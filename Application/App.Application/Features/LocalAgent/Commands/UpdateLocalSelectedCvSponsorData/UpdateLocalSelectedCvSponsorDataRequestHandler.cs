@@ -37,6 +37,7 @@ public class UpdateLocalSelectedCvSponsorDataRequestHandler : IRequestHandler<Up
         selectedCv[0].VisaNumber = request.sponsorVisaNumber;
         selectedCv[0].SponsorContact = request.sponsorContact;
         selectedCv[0].SponsorDateOfBirth = request.SponsorDateOfBirth;
+        selectedCv[0].SponsorDateOfBirthHijri = request.SponsorDateOfBirthHijri;
         //update selected cv in table
         await _unitOfWork.UpdateAsync(selectedCv[0]);
 

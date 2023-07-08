@@ -1363,45 +1363,45 @@ function confirmUnSelectcv(hrpoolId, cvId, foreignId) {
         });
 }
 
-function sponsorData(hrpoolId, cvId, foreignId) {
-    swal({
-        title: 'Enter Sponsor Information:',
-        html: '<label>Sponsor Name:</label><input type="text" id="txtsponsorname" class="form-control input-lg" />'
-            + '<label>Sponsor ID No:</label><input type="text" id="txtsponsorId" class="form-control input-lg" />'
-            + '<label>Sponsor Visa No:</label><input type="text" id="txtsponsorvisaNo" class="form-control input-lg" />'
-            + '<label>Sponsor Contact No:</label><input type="text" id="txtsponsorContactNo" class="form-control input-lg" />'
-            + '<label>Sponsor Date of Birth:</label><img src="~/assets/images/icon/calender2.svg" alt=""><input type="date" id="sponsorDateOfBirth" placeholder="03/08/1986" required>',
-        input: 'text',
-        showCancelButton: true,
-        confirmButtonText: 'Save Changes',
-        type: 'warning'
-    },
-        function (resolve) {
-            if (resolve) {
-                sponsorname = $('#txtsponsorname').val();
-                idnumber = $('#txtsponsorId').val();
-                visano = $('#txtsponsorvisaNo').val();
-                contact = $('#txtsponsorContactNo').val();
-                sponsordateofbirth = $('#sponsorDateOfBirth').val();
+//function sponsorData(hrpoolId, cvId, foreignId) {
+//    swal({
+//        title: 'Enter Sponsor Information:',
+//        html: '<label>Sponsor Name:</label><input type="text" id="txtsponsorname" class="form-control input-lg" />'
+//            + '<label>Sponsor ID No:</label><input type="text" id="txtsponsorId" class="form-control input-lg" />'
+//            + '<label>Sponsor Visa No:</label><input type="text" id="txtsponsorvisaNo" class="form-control input-lg" />'
+//            + '<label>Sponsor Telephone No:</label><input type="text" id="txtsponsorContactNo" class="form-control input-lg" />'
+//            + '<label>Sponsor Date of Birth:</label><input type="text" id="sponsorDateOfBirth" name="sponsorDateOfBirth" class="form-control input-lg" onclick="showHijriDatePicker()" />',
+//        input: 'text',
+//        showCancelButton: true,
+//        confirmButtonText: 'Save Changes',
+//        type: 'warning'
+//    },
+//        function (resolve) {
+//            if (resolve) {
+//                sponsorname = $('#txtsponsorname').val();
+//                idnumber = $('#txtsponsorId').val();
+//                visano = $('#txtsponsorvisaNo').val();
+//                contact = $('#txtsponsorContactNo').val();
+//                sponsordateofbirth = $('#sponsorDateOfBirth').val();
 
-                $.ajax({
-                    url: "/LocalAgent/LocalAgentProcessSponsorData?id=" + hrpoolId + "&cvId=" + cvId
-                        + "&sponsorname=" + sponsorname
-                        + "&idnumber=" + idnumber
-                        + "&visano=" + visano
-                        + "&contact=" + contact
-                        + "&sponsordateofbirth=" + sponsordateofbirth,
-                    method: "GET",
-                    success: function (data) {
-                        //alert(data);
-                        alert("CV has been updated successfully");
-                        location.reload();
-                    }
-                });
-            }
-            return;
-        });
-}
+//                $.ajax({
+//                    url: "/LocalAgent/LocalAgentProcessSponsorData?id=" + hrpoolId + "&cvId=" + cvId
+//                        + "&sponsorname=" + sponsorname
+//                        + "&idnumber=" + idnumber
+//                        + "&visano=" + visano
+//                        + "&contact=" + contact
+//                        + "&sponsordateofbirth=" + sponsordateofbirth,
+//                    method: "GET",
+//                    success: function (data) {
+//                        //alert(data);
+//                        alert("CV has been updated successfully");
+//                        location.reload();
+//                    }
+//                });
+//            }
+//            return;
+//        });
+//}
 
 function UploadMusanedContract(hrpoolId, cvId, foreignId, selectedCvId, localId, foreignAgentName) {
     debugger;
@@ -1438,6 +1438,75 @@ function UploadMusanedContract(hrpoolId, cvId, foreignId, selectedCvId, localId,
                         location.reload();
                     }
                 });
+            }
+            return;
+        });
+}
+
+
+function getDateHijri() {
+    var calendar = $.calendars.instance('ummalqura', 'ar');
+    //$('.date').calendarsPicker({ calendar: calendar });
+    $('#sponsordateofbirth').calendarsPicker({ calendar: calendar });
+}
+
+function sponsorData(hrpoolId, cvId, foreignId) {
+    swal({
+        title: 'Enter Sponsor Information:',
+        html: '<label>Sponsor Name:</label><input type="text" id="txtsponsorname" class="form-control input-lg" />'
+            + '<label>Sponsor ID No:</label><input type="text" id="txtsponsorId" class="form-control input-lg" />'
+            + '<label>Sponsor Visa No:</label><input type="text" id="txtsponsorvisaNo" class="form-control input-lg" />'
+            + '<label>Sponsor Telephone No:</label><input type="text" id="txtsponsorContactNo" class="form-control input-lg" />'
+            + '<label>Sponsor Date of Birth:</label><input type="text" onclick="getDateHijri()" class="form-control" id="sponsordateofbirth" name="sponsordateofbirth" placeholder="Select Date of Birth">',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Save Changes',
+        //type: 'warning'
+    },
+        function (resolve) {
+            if (resolve) {
+                debugger;
+                sponsorname = $('#txtsponsorname').val();
+                idnumber = $('#txtsponsorId').val();
+                visano = $('#txtsponsorvisaNo').val();
+                contact = $('#txtsponsorContactNo').val();
+                sponsordateofbirth = $('#sponsordateofbirth').val();
+
+                $.ajax({
+                    url: "/LocalAgent/LocalAgentProcessSponsorData?id=" + hrpoolId + "&cvId=" + cvId
+                        + "&sponsorname=" + sponsorname
+                        + "&idnumber=" + idnumber
+                        + "&visano=" + visano
+                        + "&contact=" + contact
+                        + "&sponsordateofbirth=" + sponsordateofbirth,
+                    method: "GET",
+                    success: function (data) {
+                        //alert(data);
+                        alert("CV has been updated successfully");
+                        location.reload();
+                    }
+                });
+            }
+            return;
+        });
+}
+
+function showSponsor(name, visanumber, idnumber, contact, dateofbirthhijri, dateofbirth) {
+    swal({
+        title: 'Sponsor Information:',
+        html: '<label><b>Sponsor Name:</b></label>' + " " + name
+            + '<br /><label><b>Sponsor ID No:</b></label>' + " " + idnumber
+            + '<br /><label><b>Sponsor Visa No:</b></label>' + " " + visanumber
+            + '<br /><label><b>Sponsor Telephone No:</b></label>' + " " + contact
+            + '<br /><label><b>Date of Birth Hijri:</b></label>' + " " + dateofbirthhijri
+            + '<br /><label><b>Date of Birth:</b></label>' + " " + dateofbirth,
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Close',
+        //type: 'warning'
+    },
+        function (resolve) {
+            if (resolve) {
             }
             return;
         });

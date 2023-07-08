@@ -1177,6 +1177,9 @@ namespace App.Infrastructure.Migrations
                     b.Property<DateTime?>("SponsorDateOfBirth")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("SponsorDateOfBirthHijri")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("SponsorIdNumber")
                         .HasColumnType("nvarchar(max)");
 

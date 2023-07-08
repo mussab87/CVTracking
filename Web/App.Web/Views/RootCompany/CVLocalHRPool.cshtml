@@ -132,7 +132,7 @@
                                     if (Model.Any())
                                         @for (int j = 0; j < Model.Count(); j++)
                                         {
-
+                                            backgroundColor = "";
                                             i++;
                                             if (Model[j].CVStatus.StatusNo == (int)cvStatus.Uploaded)
                                             {
@@ -231,6 +231,13 @@
                                                             {
                                                                 <button type="button" class="alert-info">
                                                                     Wait Selection / @Model[j].LocalAgent.LocalAgentNameEnglish
+                                                                </button>
+                                                            }
+
+                                                            @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Uploaded)
+                                                            {
+                                                                <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy")', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
+                                                                    Sponsor
                                                                 </button>
                                                             }
 

@@ -3,6 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
+using System.Security.Cryptography;
 
 namespace App.Web.Controllers
 {
@@ -99,6 +101,10 @@ namespace App.Web.Controllers
             var userLocalAgentId = HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent");
 
             //add selected cv into selected table 
+
+            DateTime sponsorDateOfBirthgregorian, gregorianDateTime;
+            ConvertDateOfBirth(sponsordateofbirth, out sponsorDateOfBirthgregorian, out gregorianDateTime);
+
             var command = new UpdateLocalSelectedCvSponsorDataRequest()
             {
                 HRPoolId = id,
@@ -108,12 +114,26 @@ namespace App.Web.Controllers
                 sponsorIDNumber = idnumber,
                 sponsorContact = contact,
                 sponsorVisaNumber = visano,
-                SponsorDateOfBirth = Convert.ToDateTime(sponsordateofbirth)
+                SponsorDateOfBirth = gregorianDateTime,
+                SponsorDateOfBirthHijri = sponsorDateOfBirthgregorian
             };
             var commandResult = await _mediator.Send(command);
 
             TempData["Message"] = 1;
             return RedirectToAction("LocalAgentAllCVList");
+        }
+
+        static void ConvertDateOfBirth(string sponsordateofbirth, out DateTime sponsorDateOfBirthgregorian, out DateTime gregorianDateTime)
+        {
+            //convert date from hijri into georgian
+            System.Globalization.CultureInfo gregorianCulture = new System.Globalization.CultureInfo("en-US");
+            System.Globalization.CultureInfo hijriCulture = new System.Globalization.CultureInfo("ar-SA");
+
+            sponsorDateOfBirthgregorian = DateTime.ParseExact(sponsordateofbirth, "yyyy/MM/dd", gregorianCulture.DateTimeFormat,
+                System.Globalization.DateTimeStyles.AllowInnerWhite);
+
+            // Convert the Hijri date to the Gregorian calendar
+            gregorianDateTime = hijriCulture.Calendar.ToDateTime(sponsorDateOfBirthgregorian.Year, sponsorDateOfBirthgregorian.Month, sponsorDateOfBirthgregorian.Day, 0, 0, 0, 0);
         }
 
 

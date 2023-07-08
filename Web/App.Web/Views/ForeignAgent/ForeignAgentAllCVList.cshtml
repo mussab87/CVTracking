@@ -236,6 +236,14 @@
                                                                 </svg>
                                                             </a>
                                                         }
+
+                                                        @if (cv.CVStatus.StatusNo == (int)cvStatus.Uploaded)
+                                                        {
+                                                            <hr />
+                                                            <button type="button" onclick="showSponsor('@cv.selected.SponsorName', '@cv.selected.VisaNumber', '@cv.selected.SponsorIdNumber', '@cv.selected.SponsorContact', '@cv.selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy")', '@cv.selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
+                                                                Sponsor
+                                                            </button>
+                                                        }
                                                         @* <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete? : @cv.CV.CandidateNameEnglish')">
                                                 <i class="bi bi-trash"></i>
                                                 </button>*@

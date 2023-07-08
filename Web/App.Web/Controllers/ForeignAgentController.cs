@@ -33,7 +33,7 @@ namespace App.Web.Controllers
             {
                 CvCount = ForeignAgentCvList.Count(),
                 PostToAdminCount = ForeignAgentCvList.Where(s => s.CVStatus.StatusNo == (int)cvStatus.PostToAdmin).Count(),
-                SelectedCvCount = ForeignAgentCvList.Where(s => s.CVStatus.StatusNo == (int)cvStatus.Selected).Count()
+                SelectedCvCount = ForeignAgentCvList.Where(s => s.CVStatus.StatusNo == (int)cvStatus.Uploaded).Count()
             };
 
 
@@ -66,7 +66,7 @@ namespace App.Web.Controllers
             var query = new GetAllCvListQuery() { ForeignAgentId = (int)userForeignAgentId.Id };
             var ForeignAgentCvList = await _mediator.Send(query);
 
-            return View(ForeignAgentCvList.Where(s => s.CVStatus.StatusNo == (int)cvStatus.Selected));
+            return View(ForeignAgentCvList.Where(s => s.CVStatus.StatusNo == (int)cvStatus.Uploaded));
         }
 
         [HttpGet]
