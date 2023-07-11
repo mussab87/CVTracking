@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Globalization;
 using System.Security.Cryptography;
 
@@ -21,20 +22,19 @@ namespace App.Web.Controllers
         public async Task<IActionResult> LocalAgentHome()
         {
             var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            var userLocalAgentId = HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent").Id;
 
-            //get all CV for the ForeignAgent
-            //var query = new GetAllCvListQuery() { ForeignAgentId = (int)LoggedInuser.ForeignAgentId };
-            //var ForeignAgentCvList = await _mediator.Send(query);
+            var queryGetAllCv = new GetAllCvListLocalQuery() { LocalAgentId = userLocalAgentId };
+            var GetAllCvResult = await _mediator.Send(queryGetAllCv);
 
-            //var ForeignAgentCount = new FoerignAgentCountDto()
-            //{
-            //    CvCount = ForeignAgentCvList.Count(),
-            //    PostToAdminCount = ForeignAgentCvList.Where(s => s.CVStatus.StatusNo == (int)cvStatus.PostToAdmin).Count(),
-            //    SelectedCvCount = ForeignAgentCvList.Where(s => s.CVStatus.StatusNo == (int)cvStatus.Selected).Count()
-            //};
+            var query = new GetForeignAgentListQuery() { rootCompanyId = (int)LoggedInuser.RootCompanyId };
+            var ForeignAgentListByRootCompany = await _mediator.Send(query);
 
-            return View();
-            //return View(ForeignAgentCount);
+            LocalAgentHomeDto localAgentHomeDto = new();
+            localAgentHomeDto.LocalHrPool = GetAllCvResult;
+            localAgentHomeDto.ForegnAgent = ForeignAgentListByRootCompany;
+
+            return View(localAgentHomeDto);
         }
 
         #region LocalAgent CV Section

@@ -21,7 +21,7 @@ builder.Services.AddControllersWithViews(config =>
     //add custom filter before executing some of controller
 
     config.Filters.Add(new CustomControllerFilter(
-                    new string[] { "RootCompanyController", "ForeignAgentController" }));
+                    new string[] { "RootCompanyController", "ForeignAgentController", "LocalAgentController" }));
 });
 
 builder.Services.AddSession(options =>

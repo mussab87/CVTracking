@@ -1277,6 +1277,51 @@ function checkUncheckRootSelected() {
     }
 }
 
+function checkUncheckLocalHome() {
+    //var checkbox = document.getElementById("LocalHomefilterCheckbox" + foreignId);
+    debugger;
+    const filterCheckbox = document.querySelectorAll('#LocalHomefilterCheckbox');
+    const colMd6Elements = document.querySelectorAll('.col-md-6');
+
+    var chlength = filterCheckbox.length;
+    var selected = 0;
+    for (var i = 0; i < filterCheckbox.length; i++) {
+        if (filterCheckbox[i].checked) {
+            selected++;
+            colMd6Elements.forEach(element => {
+                const selectedVal = parseInt(filterCheckbox[i].dataset.value);
+                const elementVal = parseInt(element.dataset.price);
+                const shouldDisplay = selectedVal === elementVal;
+                if (shouldDisplay) {
+                    element.style.display = 'block';
+                }
+                else {
+                    element.style.display = 'none';
+                }
+                //element.style.display = shouldDisplay ? 'block' : 'none';
+            });
+        }
+    }
+
+    if (selected == 0) {
+        colMd6Elements.forEach(element => element.style.display = 'block');
+    }
+    //const price = parseInt(element.dataset.price);
+    //const shouldDisplay = parseInt(price) === parseInt(foreignId);
+    //element.style.display = shouldDisplay ? 'block' : 'none';
+
+
+    //if (checkbox.checked) {
+    //    colMd6Elements.forEach(element => {
+    //        const price = parseInt(element.dataset.price);
+    //        const shouldDisplay = parseInt(price) === parseInt(foreignId);
+    //        element.style.display = shouldDisplay ? 'block' : 'none';
+    //    });
+    //} else {
+    //    colMd6Elements.forEach(element => element.style.display = 'block');
+    //}
+}
+
 function checkUncheckArabic() {
     var checkbox = document.getElementById("ArabicLanguage");
 

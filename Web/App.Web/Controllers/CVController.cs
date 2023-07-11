@@ -1,10 +1,13 @@
 ﻿using App.Application.Features.RootCompany.Queries.GetRootCompanyByUserId;
+using App.Helper.Dto;
+using AspNetCore.Reporting;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SendGrid;
 using System.Security.Claims;
 
 namespace App.Web.Controllers
@@ -12,11 +15,13 @@ namespace App.Web.Controllers
     [AllowAnonymous]
     public class CVController : BaseController
     {
+        private readonly IWebHostEnvironment _webHostEnvironment;
         public CVController(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager,
            SignInManager<ApplicationUser> _signInManager,
            Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> _roleManager,
-           IConfiguration _config, IMediator _mediator, IMapper _mapper) : base(_userManager, _signInManager, _roleManager, _config, _mediator, _mapper)
+           IConfiguration _config, IMediator _mediator, IMapper _mapper, IWebHostEnvironment webHostEnvironment) : base(_userManager, _signInManager, _roleManager, _config, _mediator, _mapper)
         {
+            _webHostEnvironment = webHostEnvironment;
         }
 
         #region View CV
@@ -83,6 +88,22 @@ namespace App.Web.Controllers
             };
         }
 
+        #endregion
+
+        #region Print CV
+        public IActionResult OnPostGetPDF() => PrepareReport("PDF", "pdf", "application/pdf");
+        public IActionResult OnPostGetDOCX() => PrepareReport("WORDOPENXML", "docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        public IActionResult OnPostGetImg() => PrepareReport("Image", "jpg", "image/jpg");
+        //public IActionResult OnPostGetHTML() => PrepareReport("HTML5", "html", "text/html");        
+        //public IActionResult OnPostGetXLSX() => PrepareReport("EXCELOPENXML", "xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+        private IActionResult PrepareReport(string renderFormat, string extension, string mimeType)
+        {
+            using var report = new Microsoft.Reporting.NETCore.LocalReport();
+            ReportViewerCore.Report.Load(report, 5, 10);
+            var pdf = report.Render(renderFormat);
+            return File(pdf, mimeType, "report." + extension);
+        }
         #endregion
     }
 }
