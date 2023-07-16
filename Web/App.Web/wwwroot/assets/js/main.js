@@ -120,7 +120,7 @@
 
 
     // select2
-    //debugger;
+    //
     //if ($("#skills").val() != undefined) {
     //    var skills = JSON.parse($("#candidateSkills").val());
     //    $("#states[]").val(skills);
@@ -1118,7 +1118,7 @@
         $('.experiences-row').append(newRow);
 
 
-        debugger;
+
         var country = JSON.parse($("#countrylist").val());
 
         var element = 'previousEmployment_' + count.toString() + '__.CountryOfEmploymentId';
@@ -1279,7 +1279,7 @@ function checkUncheckRootSelected() {
 
 function checkUncheckLocalHome() {
     //var checkbox = document.getElementById("LocalHomefilterCheckbox" + foreignId);
-    debugger;
+
     const filterCheckbox = document.querySelectorAll('#LocalHomefilterCheckbox');
     const colMd6Elements = document.querySelectorAll('.col-md-6');
 
@@ -1449,7 +1449,7 @@ function confirmUnSelectcv(hrpoolId, cvId, foreignId) {
 //}
 
 function UploadMusanedContract(hrpoolId, cvId, foreignId, selectedCvId, localId, foreignAgentName) {
-    debugger;
+
     var nowDate = new Date().toLocaleDateString();
     swal({
         title: 'Enter Musaned Contract Details:',
@@ -1510,7 +1510,7 @@ function sponsorData(hrpoolId, cvId, foreignId) {
     },
         function (resolve) {
             if (resolve) {
-                debugger;
+
                 sponsorname = $('#txtsponsorname').val();
                 idnumber = $('#txtsponsorId').val();
                 visano = $('#txtsponsorvisaNo').val();
@@ -1555,4 +1555,10 @@ function showSponsor(name, visanumber, idnumber, contact, dateofbirthhijri, date
             }
             return;
         });
+}
+
+function sharewhatsapp(hrpoolId, cvId, foreignId) {
+    var link = window.location.origin + "/CV/ViewCV/" + hrpoolId + "?cvId=" + cvId + "&foreignId=" + foreignId;
+    var url = "https://web.whatsapp.com/send?text=" + encodeURIComponent(link);
+    window.open(url, "_blank");
 }

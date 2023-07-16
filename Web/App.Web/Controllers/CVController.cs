@@ -4,10 +4,12 @@ using AspNetCore.Reporting;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SendGrid;
+using System.IO;
 using System.Security.Claims;
 
 namespace App.Web.Controllers
@@ -28,8 +30,12 @@ namespace App.Web.Controllers
 
         public async Task<IActionResult> ViewCV(int id, int cvId, int foreignId)
         {
-            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            AddAddNewForeignCvRequest model2 = await GetCandidateCV(cvId, foreignId);
+            return View(model2);
+        }
 
+        private async Task<AddAddNewForeignCvRequest> GetCandidateCV(int cvId, int foreignId)
+        {
             var foreignAgentByIdCommand = new GetForeignAgentByIdQuery() { ForeignAgentId = foreignId };
             var foreignUser = await _mediator.Send(foreignAgentByIdCommand);
 
@@ -54,7 +60,7 @@ namespace App.Web.Controllers
             var queryreligion = new GetReligionListQuery();
             var religion = await _mediator.Send(queryreligion);
             model2.cv.Religion = religion.FirstOrDefault(n => n.Id == model2.cv.ReligionId).ReligionEnglish;
-            return View(model2);
+            return model2;
         }
 
         private async Task<List<Attachment>> getCVAttachments(ForeignAgentHRPoolDto GetCVById)
@@ -91,18 +97,64 @@ namespace App.Web.Controllers
         #endregion
 
         #region Print CV
-        public IActionResult OnPostGetPDF() => PrepareReport("PDF", "pdf", "application/pdf");
-        public IActionResult OnPostGetDOCX() => PrepareReport("WORDOPENXML", "docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-        public IActionResult OnPostGetImg() => PrepareReport("Image", "jpg", "image/jpg");
+        public async Task<FileResult> OnPostGetPDF(int id, int cvId, int foreignId)
+        {
+            return await PrepareReportAsync("PDF", "pdf", "application/pdf", id, cvId, foreignId, false);
+        }
+        public async Task<FileResult> OnPostGetImg(int id, int cvId, int foreignId)
+        {
+            return await PrepareReportAsync("Image", "jpg", "image/jpg", id, cvId, foreignId, true);
+        }
+
+        //public IActionResult OnPostGetDOCX() => PrepareReport("WORDOPENXML", "docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
         //public IActionResult OnPostGetHTML() => PrepareReport("HTML5", "html", "text/html");        
         //public IActionResult OnPostGetXLSX() => PrepareReport("EXCELOPENXML", "xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
-        private IActionResult PrepareReport(string renderFormat, string extension, string mimeType)
+        private async Task<FileResult> PrepareReportAsync(string renderFormat, string extension, string mimeType, int id, int cvId, int foreignId, bool img)
         {
-            using var report = new Microsoft.Reporting.NETCore.LocalReport();
-            ReportViewerCore.Report.Load(report, 5, 10);
-            var pdf = report.Render(renderFormat);
-            return File(pdf, mimeType, "report." + extension);
+            AddAddNewForeignCvRequest model = await GetCandidateCV(cvId, foreignId);
+
+            Microsoft.Reporting.NETCore.LocalReport report;
+            string nameOfFile;
+
+            string requestUrl = HttpContext.Request.GetDisplayUrl();
+            string splitImageUrl = $"http://{requestUrl.Split("/")[2]}/";
+
+            GenerateFile(renderFormat, extension, out report, out nameOfFile, model, splitImageUrl);
+
+            if (img)
+            {
+                byte[] pdf;
+                getReport(renderFormat, model, out report, splitImageUrl, out pdf);
+                return File(pdf, mimeType, $"{model.cv.CandidateNameEnglish}." + extension);
+            }
+
+            return File(nameOfFile, mimeType);
+        }
+
+        static void getReport(string renderFormat, AddAddNewForeignCvRequest model, out Microsoft.Reporting.NETCore.LocalReport report, string splitImageUrl, out byte[] pdf)
+        {
+            report = new Microsoft.Reporting.NETCore.LocalReport();
+            ReportViewerCore.Report.Load(report, model, splitImageUrl);
+            pdf = report.Render(renderFormat);
+        }
+
+        private static void GenerateFile(string renderFormat, string extension, out Microsoft.Reporting.NETCore.LocalReport report, out string nameOfFile, AddAddNewForeignCvRequest model, string splitImageUrl)
+        {
+            byte[] pdf;
+            getReport(renderFormat, model, out report, splitImageUrl, out pdf);
+
+            string path = Path.Combine("wwwroot/CV/");
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            string fileName = $"{Guid.NewGuid()}.{extension}";
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            System.IO.File.WriteAllBytes(fileNameWithPath, pdf);
+
+            nameOfFile = fileNameWithPath.Replace("wwwroot/", "");
         }
         #endregion
     }

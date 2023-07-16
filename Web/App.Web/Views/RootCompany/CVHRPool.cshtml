@@ -185,6 +185,25 @@
                                                             <path d="M7 2.72721C6.41984 2.72721 5.86344 2.96665 5.4532 3.39287C5.04297 3.81909 4.8125 4.39717 4.8125 4.99993C4.8125 5.6027 5.04297 6.18078 5.4532 6.60699C5.86344 7.03321 6.41984 7.27266 7 7.27266C7.58016 7.27266 8.13656 7.03321 8.5468 6.60699C8.95703 6.18078 9.1875 5.6027 9.1875 4.99993C9.1875 4.39717 8.95703 3.81909 8.5468 3.39287C8.13656 2.96665 7.58016 2.72721 7 2.72721ZM3.9375 4.99993C3.9375 4.15606 4.26016 3.34676 4.83449 2.75005C5.40882 2.15334 6.18777 1.81812 7 1.81812C7.81223 1.81812 8.59118 2.15334 9.16551 2.75005C9.73984 3.34676 10.0625 4.15606 10.0625 4.99993C10.0625 5.8438 9.73984 6.65311 9.16551 7.24982C8.59118 7.84652 7.81223 8.18175 7 8.18175C6.18777 8.18175 5.40882 7.84652 4.83449 7.24982C4.26016 6.65311 3.9375 5.8438 3.9375 4.99993Z"></path>
                                                         </svg>
                                                     </a>
+                                                    <a target="_blank" asp-action="OnPostGetPDF" asp-controller="CV"
+                                                       asp-route-id="@Model[j].Id"
+                                                       asp-route-cvId="@Model[j].CV.Id"
+                                                       asp-route-foreignId="@Model[j].ForeignAgent.Id" style="cursor:pointer">
+                                                        <i class="bi bi-file-pdf"></i>
+                                                    </a>
+                                                    <a target="_blank" asp-action="OnPostGetImg" asp-controller="CV"
+                                                       asp-route-id="@Model[j].Id"
+                                                       asp-route-cvId="@Model[j].CV.Id"
+                                                       asp-route-foreignId="@Model[j].ForeignAgent.Id" style="cursor:pointer">
+                                                        <i class="bi bi-image"></i>
+                                                    </a>
+                                                    <a href="#" onclick="sharewhatsapp('@Model[j].Id', '@Model[j].CV.Id', '@Model[j].ForeignAgent.Id')"
+                                                       style="cursor:pointer">
+                                                       @* <span>
+                                                            <img src="~/assets/images/icon/apply-ellipse.svg" alt="">
+                                                        </span>*@
+                                                        <i class="bi bi-whatsapp"></i>
+                                                    </a>
                                                     <hr>
                                                     <div class="form-inner mb-25">
                                                         @if (Model[j].LocalAgent.Id > 0 && Model[j].LocalAgent is not null)
