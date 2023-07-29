@@ -5,10 +5,9 @@
 
 //selecting all required elements
 
-
-var dropArea = document.querySelector(".drag-area"),
-    dragText = dropArea.querySelector("header"),
-    button = dropArea.querySelector("button"),
+var dropArea = document.querySelector(".drag-area") !== null ? document.querySelector(".drag-area") : null,
+    dragText = dropArea !== null ? dropArea.querySelector("header") : null,
+    button = dropArea !== null ? dropArea.querySelector("button") : null,
     input = document.getElementById("fileload");
 //inputpersonalphoto = document.getElementById("personalphoto"); //dropArea.querySelector("input");
 let file; //this is a global variable and we'll use it inside multiple functions
@@ -97,25 +96,30 @@ if (passportphoto != null) {
 
 
 //If user Drag File Over DropArea
-dropArea.addEventListener("dragover", (event) => {
-    event.preventDefault(); //preventing from default behaviour
-    dropArea.classList.add("active");
-    dragText.textContent = "Release to Upload File";
-});
+if (dropArea != null) {
+    dropArea.addEventListener("dragover", (event) => {
+        event.preventDefault(); //preventing from default behaviour
+        dropArea.classList.add("active");
+        dragText.textContent = "Release to Upload File";
+    });
 
-//If user leave dragged File from DropArea
-dropArea.addEventListener("dragleave", () => {
-    dropArea.classList.remove("active");
-    dragText.textContent = "Drag & Drop to Upload File";
-});
+    //If user leave dragged File from DropArea
+    dropArea.addEventListener("dragleave", () => {
+        dropArea.classList.remove("active");
+        dragText.textContent = "Drag & Drop to Upload File";
+    });
 
-//If user drop File on DropArea
-dropArea.addEventListener("drop", (event) => {
-    event.preventDefault(); //preventing from default behaviour
-    //getting user select file and [0] this means if user select multiple files then we'll select only the first one
-    file = event.dataTransfer.files[0];
-    showFile(); //calling function
-});
+    //If user drop File on DropArea
+    dropArea.addEventListener("drop", (event) => {
+        event.preventDefault(); //preventing from default behaviour
+        //getting user select file and [0] this means if user select multiple files then we'll select only the first one
+        file = event.dataTransfer.files[0];
+        showFile(); //calling function
+    });
+}
+
+
+
 
 function showFile(poster, passport) {
     let fileType = file.type; //getting selected file type

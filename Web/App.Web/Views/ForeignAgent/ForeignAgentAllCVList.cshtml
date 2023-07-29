@@ -203,28 +203,75 @@
                                                     @if (cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin)
                                                     {
                                                         <button class="eg-btn green-btn">@cv.CVStatus.Status</button>
+                                                        <hr />
+                                                        <label style="background-color:antiquewhite">@cvStatus.Available.ToString()</label>
                                                     }
 
-                                                    @if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal)
+                                                    @if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal && cv.SendByWhatapp is null)
                                                     {
-                                                        <button class="eg-btn purple-btn">Local Agent</button>
+                                                        <button class="eg-btn yellow-btn">Available </button>
+                                                        @*<hr />*@
+                                                        @*@if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-CancelCv").Result.Succeeded)
+                                            {*@
+                                                        @*<button class="eg-btn orange-btn" style="background-color:orangered" onclick="confirmPostToAdmin(@cv.CV.Id)">
+                                            Cancel
+                                            </button>*@
+                                                        @*}*@
+                                                    }
+                                                    else
+                                                    {
+                                                        @if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal && !(bool)cv.SendByWhatapp)
+                                                        {
+                                                            <button class="eg-btn yellow-btn">Available</button>
+                                                        }
+                                                        @if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal && (bool)cv.SendByWhatapp)
+                                                        {
+                                                            <button class="eg-btn yellow-btn">Pending </button>
+                                                        }
+                                                    }
+
+                                                    @if (cv.CVStatus.StatusNo == (int)cvStatus.Selected)
+                                                    {
+                                                        <button class="eg-btn green-btn">@cvStatus.Processing.ToString()</button>
                                                     }
 
                                                     @if (cv.CVStatus.StatusNo == (int)cvStatus.Uploaded)
                                                     {
                                                         <button class="eg-btn green-btn">@cv.CVStatus.Status</button>
                                                     }
+
+                                                    @if (cv.CVStatus.StatusNo == (int)cvStatus.Employeed)
+                                                    {
+                                                        <button class="eg-btn green-btn">@cv.CVStatus.Status</button>
+                                                    }
+
+                                                    @if (cv.IsCancel == true)
+                                                    {
+                                                        <label style="background-color:orangered; color:white">@cv.CVStatus.Status</label>
+                                                        <hr />
+                                                        <button type="button" style="background-color:lightyellow; color:orangered" onclick="showCancelReason('@cv.CanceledBy.FirstName @cv.CanceledBy.LastName', '@cv.CancelReason.CancelReasonEnglish', '@cv.CancelDateTime.Value.ToString("dd/MM/yyyy hh:mm")', '@cv.CancelNotes')" class="btn btn-success btn-md">
+                                                            Reason
+                                                        </button>
+                                                    }
                                                 </td>
                                                 <td>
-                                                    <form method="post" asp-controller="ForeignAgent" asp-action="DeleteCity" asp-route-id="@cv.CV.Id">
+                                                    <form method="post" asp-controller="ForeignAgent" asp-route-cvid="@cv.CV.Id" asp-route-hrpoolid="@cv.Id">
+                                                        @if (cv.IsCancel != true)
+                                                        {
+                                                            <a asp-action="ForeignAgentAddNewCV" asp-controller="ForeignAgent"
+                                                               asp-route-id="@cv.CV.Id" class="btn btn-info text-white" style="cursor:pointer">
+                                                                <i class="bi bi-pencil-square"></i>
+                                                            </a>
+                                                        }
 
-                                                        <a asp-action="ForeignAgentAddNewCV" asp-controller="ForeignAgent"
-                                                           asp-route-id="@cv.CV.Id" class="btn btn-info text-white" style="cursor:pointer">
-                                                            <i class="bi bi-pencil-square"></i>
-                                                        </a>
+
                                                         @if (cv.CVStatus.StatusNo != (int)cvStatus.InComplete)
                                                         {
-                                                            <hr>
+                                                            @if (cv.IsCancel != true)
+                                                            {
+                                                                <hr>
+                                                            }
+
                                                             <a target="_blank" asp-action="ViewCV" asp-controller="CV"
                                                                asp-route-id="@cv.Id"
                                                                asp-route-cvId="@cv.CV.Id"
@@ -256,9 +303,56 @@
                                                                 Sponsor
                                                             </button>
                                                         }
-                                                        @* <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete? : @cv.CV.CandidateNameEnglish')">
-                                                <i class="bi bi-trash"></i>
-                                                </button>*@
+
+
+                                                        @if (cv.CVStatus.StatusNo == (int)cvStatus.Free)
+                                                        {
+                                                            @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-DeleteCV").Result.Succeeded)
+                                                            {
+                                                                <hr>
+                                                                <button type="submit" asp-action="DeleteCV" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete permanently? : @cv.CV.CandidateNameEnglish')">
+                                                                    <i class="bi bi-trash"></i>
+                                                                </button>
+                                                            }
+                                                        }
+
+                                                        @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-CancelCV").Result.Succeeded)
+                                                        {
+                                                            if (cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin)
+                                                            {
+
+                                                                <hr>
+                                                                <a href="#" class="btn btn-danger" onclick="cancelCv('@cv.Id', '@cv.CV.Id')">
+                                                                    <i class="bi bi-trash"></i>
+                                                                </a>
+                                                            }
+                                                            if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal && cv.SendByWhatapp is null)
+                                                            {
+                                                                <hr>
+                                                                <a href="#" class="btn btn-danger" onclick="cancelCv('@cv.Id', '@cv.CV.Id')">
+                                                                    <i class="bi bi-trash"></i>
+                                                                </a>
+                                                            }
+                                                            if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal && (bool)cv.SendByWhatapp)
+                                                            {
+                                                                <hr>
+                                                                <a href="#" class="btn btn-danger" onclick="cancelCv('@cv.Id', '@cv.CV.Id')">
+                                                                    <i class="bi bi-trash"></i>
+                                                                </a>
+                                                            }
+
+                                                            if (cv.CVStatus.StatusNo == (int)cvStatus.Processing ||
+                                                            cv.CVStatus.StatusNo == (int)cvStatus.Employeed ||
+                                                            cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal ||
+                                                            cv.CVStatus.StatusNo == (int)cvStatus.Selected ||
+                                                            cv.CVStatus.StatusNo == (int)cvStatus.Uploaded)
+                                                            {
+                                                                <hr>
+                                                                <a href="#" class="btn btn-danger" onclick="cancelCv('@cv.Id', '@cv.CV.Id')">
+                                                                    <i class="bi bi-trash"></i>
+                                                                </a>
+                                                            }
+                                                        }
                                                     </form>
                                                 </td>
                                             </tr>

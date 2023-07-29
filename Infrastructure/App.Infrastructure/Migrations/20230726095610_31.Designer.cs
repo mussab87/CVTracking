@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230726095610_31")]
+    partial class _31
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -469,45 +472,6 @@ namespace App.Infrastructure.Migrations
                     b.ToTable("CVStatuses", (string)null);
                 });
 
-            modelBuilder.Entity("CancelReason", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnOrder(0);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CancelReasonArabic")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CancelReasonEnglish")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool?>("Status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("LastModifiedById");
-
-                    b.ToTable("CancelReasons", (string)null);
-                });
-
             modelBuilder.Entity("CandidateSkills", b =>
                 {
                     b.Property<int>("Id")
@@ -704,18 +668,6 @@ namespace App.Infrastructure.Migrations
                     b.Property<int?>("CVStatusId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CancelDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CancelNotes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CancelReasonId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CanceledById")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("CreatedById")
                         .HasColumnType("nvarchar(450)");
 
@@ -724,9 +676,6 @@ namespace App.Infrastructure.Migrations
 
                     b.Property<int?>("ForeignAgentId")
                         .HasColumnType("int");
-
-                    b.Property<bool?>("IsCancel")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedById")
                         .HasColumnType("nvarchar(450)");
@@ -748,10 +697,6 @@ namespace App.Infrastructure.Migrations
                     b.HasIndex("CVId");
 
                     b.HasIndex("CVStatusId");
-
-                    b.HasIndex("CancelReasonId");
-
-                    b.HasIndex("CanceledById");
 
                     b.HasIndex("CreatedById");
 
@@ -1472,21 +1417,6 @@ namespace App.Infrastructure.Migrations
                     b.Navigation("LastModifiedBy");
                 });
 
-            modelBuilder.Entity("CancelReason", b =>
-                {
-                    b.HasOne("ApplicationUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("ApplicationUser", "LastModifiedBy")
-                        .WithMany()
-                        .HasForeignKey("LastModifiedById");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("LastModifiedBy");
-                });
-
             modelBuilder.Entity("CandidateSkills", b =>
                 {
                     b.HasOne("ApplicationUser", "CreatedBy")
@@ -1569,14 +1499,6 @@ namespace App.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("CVStatusId");
 
-                    b.HasOne("CancelReason", "CancelReason")
-                        .WithMany()
-                        .HasForeignKey("CancelReasonId");
-
-                    b.HasOne("ApplicationUser", "CanceledBy")
-                        .WithMany()
-                        .HasForeignKey("CanceledById");
-
                     b.HasOne("ApplicationUser", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
@@ -1596,10 +1518,6 @@ namespace App.Infrastructure.Migrations
                     b.Navigation("CV");
 
                     b.Navigation("CVStatus");
-
-                    b.Navigation("CancelReason");
-
-                    b.Navigation("CanceledBy");
 
                     b.Navigation("CreatedBy");
 

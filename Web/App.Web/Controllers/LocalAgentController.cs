@@ -137,6 +137,25 @@ namespace App.Web.Controllers
         }
 
 
+        [HttpGet]
+        [Authorize("LocalAgent-SendCVByWhatsApp")]
+        public async Task<IActionResult> SendCVByWhatsApp(int id)
+        {
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            var userLocalAgentId = HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent");
+
+            var command = new UpdateLocalSendByWhatsAppRequest()
+            {
+                HRPoolId = id,
+                LocalAgentId = userLocalAgentId.Id,
+                CreatedById = LoggedInuser.Id,
+            };
+            var commandResult = await _mediator.Send(command);
+
+            TempData["Message"] = 1;
+            return Json("done");
+        }
+
         #endregion
     }
 }

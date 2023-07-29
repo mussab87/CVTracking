@@ -22,7 +22,8 @@ public class UpdateForeignCVStatusByHRPoolIdRequestHandler : IRequestHandler<Upd
 
     public async Task<int> Handle(UpdateForeignCVStatusByHRPoolIdRequest request, CancellationToken cancellationToken)
     {
-        var status = await _cvStatus.GetByIdAsync((int)cvStatus.PostToAdmin);
+        var status = _cvStatus.GetAsync(predicate: status => status.StatusNo == (int)cvStatus.PostToAdmin).Result.FirstOrDefault();
+        //_cvStatus.GetByIdAsync((int)cvStatus.PostToAdmin);
 
         //update HRPool status
         var existHRPoolToUpdate = _cVHRPool.GetAsync(predicate: cv => cv.CV.Id == request.CVId).Result.FirstOrDefault();

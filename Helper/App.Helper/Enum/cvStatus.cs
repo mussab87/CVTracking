@@ -13,6 +13,8 @@ public enum cvStatus
     Employeed = 7, //Local Agent
     Uploaded = 8, //All
     Backout = 9,   //Foreign Agent
+    Canceled = 10,
+    Available = 20, //Available
 
 }
 

@@ -25,6 +25,8 @@ public class LocalAgentRepository : RepositoryBase<LocalAgent>, ILocalAgentRepos
                     .Include(c => c.CV.MartialStatus)
                     .Include(c => c.CVStatus)
                     .Include(c => c.ForeignAgent)
+                    .Include(c => c.CanceledBy)
+                    .Include(c => c.CancelReason)
                     .Where(c => c.LocalAgentId == LocalAgentId).ToListAsync();
 
         return query;

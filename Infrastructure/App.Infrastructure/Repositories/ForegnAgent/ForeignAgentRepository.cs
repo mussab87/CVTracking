@@ -25,6 +25,8 @@ public class ForeignAgentRepository : RepositoryBase<ForeignAgent>, IForeignAgen
                     .Include(c => c.CV.MartialStatus)
                     .Include(c => c.CVStatus)
                     .Include(c => c.LocalAgent)
+                    .Include(c => c.CanceledBy)
+                    .Include(c => c.CancelReason)
                     .Where(c => c.ForeignAgent.Id == ForeignAgentId).ToListAsync();
 
         return query;

@@ -167,7 +167,22 @@
                                                 </div>
                                                 <div class="job-type-apply">
                                                     <div class="job-type">
-                                                        <span class="light-green">Free</span>
+                                                        @if (Model.LocalHrPool[j].SendByWhatapp is not null)
+                                                        {
+                                                            @if ((bool)Model.LocalHrPool[j].SendByWhatapp)
+                                                            {
+                                                                <span class="light-green">Pending</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="light-green">Available</span>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="light-green">Available</span>
+                                                        }
+
                                                         <a target="_blank" asp-action="OnPostGetPDF" asp-controller="CV"
                                                            asp-route-id="@Model.LocalHrPool[j].Id"
                                                            asp-route-cvId="@Model.LocalHrPool[j].CV.Id"
@@ -189,7 +204,7 @@
                                                     </div>
 
                                                     <div class="apply-btn">
-                                                        <a href="#" onclick="sharewhatsapp('@Model.LocalHrPool[j].Id', '@Model.LocalHrPool[j].CV.Id', '@Model.LocalHrPool[j].ForeignAgent.Id')"
+                                                        <a href="#" onclick="sharewhatsapp('@Model.LocalHrPool[j].Id', '@Model.LocalHrPool[j].CV.Id', '@Model.LocalHrPool[j].ForeignAgent.Id', '@Model.LocalHrPool[j].SendByWhatapp')"
                                                            style="cursor:pointer">
                                                             <span>
                                                                 <img src="~/assets/images/icon/apply-ellipse.svg" alt="">

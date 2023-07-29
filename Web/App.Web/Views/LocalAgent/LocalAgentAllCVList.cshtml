@@ -141,11 +141,41 @@
                                                     @Model[j].CV.PhoneNumber
                                                 </td>
                                                 <td data-label="Status">
-                                                    @if (Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
-                                                    {
+                                                    @*@if (Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
+                                        {
 
+                                        <button type="button" class="btn btn-warning">
+                                        Pending
+                                        </button>
+                                        }*@
+                                                    @if (Model[j].IsCancel == true)
+                                                    {
+                                                        <label style="background-color:orangered; color:white">@Model[j].CVStatus.Status</label>
+                                                        <hr />
+                                                        <button type="button" style="background-color:lightyellow; color:orangered" onclick="showCancelReason('@Model[j].CanceledBy.FirstName @Model[j].CanceledBy.LastName', '@Model[j].CancelReason.CancelReasonEnglish', '@Model[j].CancelDateTime.Value.ToString("dd/MM/yyyy hh:mm")', '@Model[j].CancelNotes')" class="btn btn-success btn-md">
+                                                            Reason
+                                                        </button>
+                                                    }
+
+                                                    @if (Model[j].SendByWhatapp is not null)
+                                                    {
+                                                        @if ((bool)Model[j].SendByWhatapp && Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
+                                                        {
+                                                            <button type="button" class="btn btn-outline-secondary">
+                                                                Pending
+                                                            </button>
+                                                        }
+                                                        else if (!(bool)Model[j].SendByWhatapp && Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
+                                                        {
+                                                            <button type="button" class="btn btn-warning">
+                                                                Available
+                                                            </button>
+                                                        }
+                                                    }
+                                                    else if (Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
+                                                    {
                                                         <button type="button" class="btn btn-warning">
-                                                            Pending
+                                                            Available
                                                         </button>
                                                     }
 
@@ -194,43 +224,47 @@
 
                                                     @if (AuthorizationService.AuthorizeAsync(User, "LocalAgent-LocalAgentSelectCV").Result.Succeeded)
                                                     {
-                                                        if (Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
+                                                        if (Model[j].IsCancel is not null && !Model[j].IsCancel == true)
                                                         {
-                                                            <hr>
-                                                            <button type="button" class="btn btn-outline-success"
-                                                                    onclick="confirmSelectedcv(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)">
-                                                                Select CV
-                                                            </button>
-                                                        }
-                                                        if (Model[j].CVStatus.StatusNo != (int)cvStatus.Selected && Model[j].CVStatus.StatusNo != (int)cvStatus.SendToLocal
-                                                        && Model[j].CVStatus.StatusNo != (int)cvStatus.Employeed && Model[j].CVStatus.StatusNo != (int)cvStatus.Uploaded)
-                                                        {
-                                                            <hr>
-                                                            <button type="button" class="btn btn-outline-success"
-                                                                    onclick="confirmSelectedcv(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)">
-                                                                Select CV
-                                                            </button>
-                                                        }
-                                                        @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Selected)
-                                                        {
-                                                            <hr>
+                                                            if (Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
+                                                            {
+                                                                <hr>
+                                                                <button type="button" class="btn btn-outline-success"
+                                                                        onclick="confirmSelectedcv(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)">
+                                                                    Select CV
+                                                                </button>
+                                                            }
+                                                            if (Model[j].CVStatus.StatusNo != (int)cvStatus.Selected && Model[j].CVStatus.StatusNo != (int)cvStatus.SendToLocal
+                                                            && Model[j].CVStatus.StatusNo != (int)cvStatus.Employeed && Model[j].CVStatus.StatusNo != (int)cvStatus.Uploaded)
+                                                            {
+                                                                <hr>
+                                                                <button type="button" class="btn btn-outline-success"
+                                                                        onclick="confirmSelectedcv(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)">
+                                                                    Select CV
+                                                                </button>
+                                                            }
+                                                            @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Selected)
+                                                            {
+                                                                <hr>
 
-                                                            <label style="color: green">
-                                                                @cvStatus.Selected.ToString()
-                                                            </label>
-                                                            <hr>
-                                                            <button type="button" class="btn btn-danger"
-                                                                    onclick="confirmUnSelectcv(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)">
-                                                                UnSelect
-                                                            </button>
+                                                                <label style="color: green">
+                                                                    @cvStatus.Selected.ToString()
+                                                                </label>
+                                                                <hr>
+                                                                <button type="button" class="btn btn-danger"
+                                                                        onclick="confirmUnSelectcv(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)">
+                                                                    UnSelect
+                                                                </button>
+                                                            }
+                                                            @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Uploaded)
+                                                            {
+                                                                <hr />
+                                                                <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy")', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
+                                                                    Sponsor
+                                                                </button>
+                                                            }
                                                         }
-                                                        @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Uploaded)
-                                                        {
-                                                            <hr />
-                                                            <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy")', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
-                                                                Sponsor
-                                                            </button>
-                                                        }
+
                                                     }
                                                     <div class="form-inner mb-25">
                                                         @*@if (Model[j].LocalAgent.Id > 0 && Model[j].LocalAgent is not null)

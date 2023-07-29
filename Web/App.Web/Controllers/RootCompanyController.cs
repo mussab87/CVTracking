@@ -717,7 +717,7 @@ namespace App.Web.Controllers
             ////get all CV for the ForeignAgent
             List<ForeignAgentHRPoolDto> ForeignAgentCvList = await GetPostToAdminForeignCVList(Convert.ToInt32(foreignId));
 
-            return View("CVHRPool", ForeignAgentCvList.Where(cv => cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin || cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal).ToList());
+            return View("CVHRPool", ForeignAgentCvList.Where(cv => cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin || cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal || cv.CVStatus.StatusNo == (int)cvStatus.Canceled).ToList());
         }
 
         [HttpPost]
@@ -735,7 +735,8 @@ namespace App.Web.Controllers
                 || cv.CVStatus.StatusNo == (int)cvStatus.Selected
                 || cv.CVStatus.StatusNo == (int)cvStatus.Employeed
                 || cv.CVStatus.StatusNo == (int)cvStatus.Uploaded
-                || cv.CVStatus.StatusNo == (int)cvStatus.Processing).ToList());
+                || cv.CVStatus.StatusNo == (int)cvStatus.Processing
+                || cv.CVStatus.StatusNo == (int)cvStatus.Canceled).ToList());
         }
 
         private async Task<List<ForeignAgentHRPoolDto>> GetPostToAdminForeignCVList(int foreignId)

@@ -171,6 +171,7 @@ namespace App.Web.Controllers
 
                 await addNewCv(model, personalphoto, posterphoto, passportphoto, true, states);
                 await GetDropDownList(model);
+                TempData["Message"] = 1;
                 return RedirectToAction("ForeignAgentAddNewCV", new { id = model.cv.Id });
             }
 
@@ -187,6 +188,7 @@ namespace App.Web.Controllers
             await addNewCv(model, personalphoto, posterphoto, passportphoto, false, states);
 
             await GetDropDownList(model);
+            TempData["Message"] = 2;
             return RedirectToAction("ForeignAgentAddNewCV", new { id = model.cv.Id });
         }
 
@@ -281,6 +283,9 @@ namespace App.Web.Controllers
         {
             if (actionType)
             {
+                if (model.cv.NoOfChildren is null)
+                    model.cv.NoOfChildren = "0";
+
                 if (personalphoto == null ||
                             posterphoto == null ||
                             passportphoto == null ||
@@ -301,6 +306,9 @@ namespace App.Web.Controllers
             }
             else
             {
+                if (model.cv.NoOfChildren is null)
+                    model.cv.NoOfChildren = "0";
+
                 if (model.personalImg == null ||
                             model.posterImg == null ||
                             model.passportImg == null ||
@@ -589,11 +597,101 @@ namespace App.Web.Controllers
                 { CVId = CvId, foreignAgentUserId = LoggedInuser.Id };
 
                 var UpdateQuery = await _mediator.Send(command);
+
+                TempData["Message"] = 2;
                 return Json(true);
             }
             catch (Exception)
             {
                 return Json(new { message = "Error" });
+            }
+
+        }
+
+        [HttpPost]
+        [Authorize("ForeignAgent-DeleteCV")]
+        public async Task<IActionResult> DeleteCV(string cvid, string hrpoolid)
+        {
+            try
+            {
+                if (cvid is null)
+                    return NotFound(new { message = "Error" });
+
+                var CvId = Convert.ToInt32(cvid);
+
+                //update cv status by hrpoolId
+                var command = new DeleteLocalCVRequest()
+                { CVId = CvId };
+
+                var UpdateQuery = await _mediator.Send(command);
+
+                TempData["Message"] = 3;
+                return RedirectToAction(nameof(ForeignAgentAllCVList));
+            }
+            catch (Exception)
+            {
+                return NotFound(new { message = "Error" });
+            }
+
+        }
+
+        [HttpGet]
+        [Authorize("ForeignAgent-CancelCV")]
+        public async Task<IActionResult> CancelCV(string hrpoolid, string cvId, string cancelreason, string notes)
+        {
+            try
+            {
+                if (hrpoolid is null)
+                    return NotFound(new { message = "Error" });
+
+                var hrpolid = Convert.ToInt32(hrpoolid);
+                var CvId = Convert.ToInt32(cvId);
+                var cancelReasonId = Convert.ToInt32(cancelreason);
+
+                //update cv status by hrpoolId
+                var LoggedInuser = await _userManager.GetUserAsync(User);
+                var command = new CancelForeignCVByHRPoolIdRequest()
+                {
+                    HRPoolId = hrpolid,
+                    CVId = CvId,
+                    IsCancel = true,
+                    CancelReasonId = cancelReasonId,
+                    CancelNotes = notes,
+                    CancelById = LoggedInuser.Id,
+                    CancelDateTime = DateTime.Now
+                };
+
+                var UpdateQuery = await _mediator.Send(command);
+
+                TempData["Message"] = 3;
+                return RedirectToAction(nameof(ForeignAgentAllCVList));
+            }
+            catch (Exception)
+            {
+                return NotFound(new { message = "Error" });
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetCancelReason()
+        {
+            try
+            {
+                var query = new GetCancelReasonListQuery();
+                var cancelReasonList = await _mediator.Send(query);
+
+                if (cancelReasonList.Any())
+                {
+                    return Json(cancelReasonList);
+                }
+
+                return Json(false);
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
 
         }

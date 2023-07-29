@@ -35,6 +35,7 @@ public class MappingProfile : Profile
         CreateMap<Religion, ReligionDto>().ReverseMap();
 
         CreateMap<MartialStatus, MartialStatusDto>().ReverseMap();
+        CreateMap<CancelReason, CancelReasonDto>().ReverseMap();
 
         CreateMap<CV, CVDto>().ReverseMap();
 

@@ -47,5 +47,7 @@ public class AppDbContext : AuditIdentityDbContext
     public DbSet<SelectedCv> SelectedCvs { get; set; }
     public DbSet<CandidateSkills> CandidateSkils { get; set; }
     public DbSet<CVCandidateSkills> CVCandidateSkils { get; set; }
+
+    public DbSet<CancelReason> CancelReasons { get; set; }
 }
 

@@ -1,4 +1,6 @@
-﻿namespace App.Application.Features.ForeignAgent.ForeignAgentDtos { }
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace App.Application.Features.ForeignAgent.ForeignAgentDtos { }
 
 public class ForeignAgentHRPoolDto
 {
@@ -23,5 +25,16 @@ public class ForeignAgentHRPoolDto
     public List<SkillSelectedDto> skillList { get; set; }
 
     public SelectedCv selected { get; set; }
+
+    public bool? SendByWhatapp { get; set; }
+
+    public bool? IsCancel { get; set; }
+    public int? CancelReasonId { get; set; }
+    public string CancelNotes { get; set; }
+    public string? CanceledById { get; set; }
+    public DateTime? CancelDateTime { get; set; }
+
+    public ApplicationUser CanceledBy { get; set; }
+    public CancelReason CancelReason { get; set; }
 }
 

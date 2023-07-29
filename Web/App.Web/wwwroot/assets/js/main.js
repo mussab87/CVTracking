@@ -1557,8 +1557,110 @@ function showSponsor(name, visanumber, idnumber, contact, dateofbirthhijri, date
         });
 }
 
-function sharewhatsapp(hrpoolId, cvId, foreignId) {
+function showCancelReason(cancelby, reason, canceldate, notes) {
+    swal({
+        title: 'Cancel Reason Details:',
+        html: '<label><b>Canceled By:</b></label>' + " " + cancelby
+            + '<br /><label><b>Canceled Reason:</b></label>' + " " + reason
+            + '<br /><label><b>Canceled Date:</b></label>' + " " + canceldate
+            + '<br /><label><b>Notes:</b></label>' + " " + notes,
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Close',
+        //type: 'warning'
+    },
+        function (resolve) {
+            if (resolve) {
+            }
+            return;
+        });
+}
+
+function sharewhatsapp(hrpoolId, cvId, foreignId, sendByWhatsApp) {
+    debugger
+    //update send bywhatsapp status
+    if (sendByWhatsApp == '' || sendByWhatsApp == '0') {
+        $.ajax({
+            url: "/LocalAgent/SendCVByWhatsApp?id=" + hrpoolId,
+            method: "GET",
+            success: function (data) {
+                if (data == "done") {
+                    console.log("Send WhatsApp Updated");
+                }
+            }
+        });
+    }
     var link = window.location.origin + "/CV/ViewCV/" + hrpoolId + "?cvId=" + cvId + "&foreignId=" + foreignId;
     var url = "https://web.whatsapp.com/send?text=" + encodeURIComponent(link);
     window.open(url, "_blank");
+}
+
+function cancelCv(hrpoolId, cvId) {
+    swal({
+        title: 'Enter Cancelation Reason',
+        html: '<label style="color: black;font- size: larger;">Cancelation Reason:</label><select id="cancelReasonDrop" class="form-control" onclick="getCancelReason()"><option value="0">Please select Cancel Reason</option></select> <br />'
+            + '<label style="color: black;font- size: larger;">Cancelation Notes:</label><input type="text" id="txtnotes" class="form-control input-lg" /> <br />',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Save Changes',
+        //onOpen: function () {
+        //    console.log('test');
+        //    getCancelReason();
+        //},
+        type: 'warning'
+    },
+        function (resolve) {
+            if (resolve) {
+                debugger;
+                var e = document.getElementById("cancelReasonDrop");
+                var value = e.options[e.selectedIndex].value;
+
+                cancelReason = value;
+                notes = $('#txtnotes').val();
+
+                $.ajax({
+                    url: "/ForeignAgent/CancelCV?hrpoolid=" + hrpoolId + "&cvId=" + cvId
+                        + "&cancelreason=" + cancelReason
+                        + "&notes=" + notes,
+                    method: "GET",
+                    success: function (data) {
+                        //alert(data);
+                        alert("CV has been canceled successfully");
+                        location.reload();
+                    }
+                });
+            }
+            return;
+        });
+}
+
+function getCancelReason() {
+    debugger;
+    var cancelReason = document.querySelector("#cancelReasonDrop").length; //$('#cancelReasonDrop').size(); //document.getElementById("MainCategoryId").value;
+    if (cancelReason == 1) {
+        $.post("/ForeignAgent/GetCancelReason",
+            function (data, status) {
+                //alert("Data: " + data + "\nStatus: " + status);
+
+                if (data !== false) {
+                    $("#cancelReasonDrop").empty();
+
+                    $('#cancelReasonDrop').append($('<option>', {
+                        value: 0,
+                        text: 'Please select Cancel Reason'
+                    }));
+
+                    $.each(data, function (index, i) {
+
+                        $('#cancelReasonDrop').append($('<option>', {
+                            value: i.id,
+                            text: i.cancelReasonEnglish
+                        }));
+                    });
+                }
+
+            });
+    }
+
+
 }

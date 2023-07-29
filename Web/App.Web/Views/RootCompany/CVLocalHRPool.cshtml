@@ -138,6 +138,10 @@
                                             {
                                                 backgroundColor = "#def5de";
                                             }
+                                            if (Model[j].CVStatus.StatusNo == (int)cvStatus.Canceled)
+                                            {
+                                                backgroundColor = "lightyellow";
+                                            }
                                             <tr style="background-color: @backgroundColor" class="style-2">
 
                                                 <td hidden>
