@@ -1,6 +1,11 @@
 ﻿@model LocalAgentHomeDto
 @{
     ViewData["Title"] = "Local Home Page";
+
+    if (Model.CountCancel is not null && Model.CountCancel.Count > 0)
+    {
+        HttpContextAccessor.HttpContext.Session.SetObject("CountCancel", Model.CountCancel);
+    }
 }
 <!-- ========== Inner Banner Start============= -->
 <div class="inner-banner">

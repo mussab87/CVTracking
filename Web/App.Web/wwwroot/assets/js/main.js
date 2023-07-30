@@ -1664,3 +1664,24 @@ function getCancelReason() {
 
 
 }
+
+function showLocalCancelDetails(cancelReason, SponsorName, contact, visanumber, dateofbirthhijri, idnumber) {
+    swal({
+        title: 'Sponsor Information:',
+        html: '<label><b>Sponsor Name:</b></label>' + " " + SponsorName
+            + '<br /><label><b>Sponsor ID No:</b></label>' + " " + idnumber
+            + '<br /><label><b>Sponsor Visa No:</b></label>' + " " + visanumber
+            + '<br /><label><b>Sponsor Telephone No:</b></label>' + " " + contact
+            + '<br /><label><b>Date of Birth Hijri:</b></label>' + " " + dateofbirthhijri
+            + '<br /><label><b>Cancellation Reason:</b></label>' + " " + cancelReason,
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Close',
+        //type: 'warning'
+    },
+        function (resolve) {
+            if (resolve) {
+            }
+            return;
+        });
+}

@@ -32,14 +32,61 @@ namespace App.Web.Controllers
             var LocalCount = new GetLocalAgentListQuery() { rootCompanyId = (int)UserRootCompany.Id };
             var LocalAgentListByRootCompany = await _mediator.Send(ForeignCount);
 
+            //get canceled notification details
+            List<CountCancelCVDto> CountCancel = await getCanceledCVListNotification(UserRootCompany);
+
             var RootCompanyCount = new RootCompanyCountDto()
             {
                 UserCount = _userManager.Users.Where(u => u.RootCompanyId == UserRootCompany.Id).ToList().Count(),
                 FoeignAgentCount = ForeignAgentListByRootCompany.Count(),
-                LocalAgentCount = LocalAgentListByRootCompany.Count()
+                LocalAgentCount = LocalAgentListByRootCompany.Count(),
+                CountCancel = CountCancel
             };
 
             return View(RootCompanyCount);
+        }
+
+        private async Task<List<CountCancelCVDto>> getCanceledCVListNotification(RootCompanyDto UserRootCompany)
+        {
+            //get rootCompany foreignAgent list
+            var query = new GetForeignAgentListQuery() { rootCompanyId = (int)UserRootCompany.Id };
+            var ForeignAgentLis = await _mediator.Send(query);
+            List<CountCancelCVDto> CountCancel = new();
+            if (ForeignAgentLis.Count > 0)
+            {
+                foreach (var cv in ForeignAgentLis)
+                {
+                    List<ForeignAgentHRPoolDto> ForeignAgentCvList =
+                                                await GetPostToAdminForeignCVList(Convert.ToInt32(cv.Id));
+                    if (ForeignAgentCvList.Count > 0)
+                    {
+                        foreach (var hrcv in ForeignAgentCvList.Where(c => c.CVStatus.StatusNo == (int)cvStatus.Canceled))
+                        {
+                            var personalImg = hrcv.cvAttachments
+                                            .Where(p => p.Attachment.AttachmentType.TypeName == cvAttachmentType.PersonalPhoto.ToString())
+                                            .FirstOrDefault();
+                            var objCancel = new CountCancelCVDto();
+
+                            objCancel.RootCompanyId = (int)UserRootCompany.Id;
+                            objCancel.LocalAgentId = hrcv.LocalAgent is not null ? hrcv.LocalAgent.Id : null;
+                            objCancel.ForeignAgentId = cv.Id;
+                            objCancel.ForeignAgentName = cv.ForeignAgentName;
+                            objCancel.HRPoolId = hrcv.Id;
+                            objCancel.CVId = hrcv.CV.Id;
+                            objCancel.SelectedId = hrcv.selected is not null ? hrcv.selected.Id : null;
+                            objCancel.ApplicantName = hrcv.CV.CandidateNameEnglish;
+                            objCancel.ApplicantPersonalImg = personalImg.Attachment.Path;
+                            objCancel.CVStatus = hrcv.CVStatus.Status;
+                            objCancel.LocalSelectedStatus = hrcv.selected is not null ? hrcv.selected.LocalAgentStatusId.ToString() : null;
+                            objCancel.CancellationDateTime = hrcv.CancelDateTime is not null ? hrcv.CancelDateTime : null;
+
+                            CountCancel.Add(objCancel);
+                        }
+                    }
+                }
+            }
+
+            return CountCancel;
         }
 
         #region User Section
