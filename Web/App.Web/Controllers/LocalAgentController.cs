@@ -69,7 +69,8 @@ namespace App.Web.Controllers
                     if (hrcv.selected is not null)
                     {
                         if (hrcv.selected.LocalAgentStatusId == (int)cvStatus.Selected
-                            || hrcv.selected.LocalAgentStatusId == (int)cvStatus.Employeed)
+                            || hrcv.selected.LocalAgentStatusId == (int)cvStatus.Employeed
+                            || hrcv.selected.LocalAgentStatusId == (int)cvStatus.Uploaded)
                         {
                             objCancel.CancelledReason = hrcv.CancelReason is not null ? hrcv.CancelReason.CancelReasonEnglish : null;
                             objCancel.SponsorName = hrcv.selected is not null ? hrcv.selected.SponsorName : null;

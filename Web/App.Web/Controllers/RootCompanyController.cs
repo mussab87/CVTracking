@@ -80,6 +80,20 @@ namespace App.Web.Controllers
                             objCancel.LocalSelectedStatus = hrcv.selected is not null ? hrcv.selected.LocalAgentStatusId.ToString() : null;
                             objCancel.CancellationDateTime = hrcv.CancelDateTime is not null ? hrcv.CancelDateTime : null;
 
+                            if (hrcv.selected is not null)
+                            {
+                                if (hrcv.selected.LocalAgentStatusId == (int)cvStatus.Selected
+                                    || hrcv.selected.LocalAgentStatusId == (int)cvStatus.Employeed
+                                    || hrcv.selected.LocalAgentStatusId == (int)cvStatus.Uploaded)
+                                {
+                                    objCancel.CancelledReason = hrcv.CancelReason is not null ? hrcv.CancelReason.CancelReasonEnglish : null;
+                                    objCancel.SponsorName = hrcv.selected is not null ? hrcv.selected.SponsorName : null;
+                                    objCancel.SponsorContact = hrcv.selected is not null ? hrcv.selected.SponsorContact : null;
+                                    objCancel.SponsorVisaNumber = hrcv.selected is not null ? hrcv.selected.VisaNumber : null;
+                                    objCancel.SponsorDateofBirth = hrcv.selected is not null ? hrcv.selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy") : null;
+                                    objCancel.SponsorIdNumber = hrcv.selected is not null ? hrcv.selected.SponsorIdNumber : null;
+                                }
+                            }
                             CountCancel.Add(objCancel);
                         }
                     }

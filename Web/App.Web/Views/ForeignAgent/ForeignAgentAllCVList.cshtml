@@ -255,7 +255,7 @@
                                                     }
                                                 </td>
                                                 <td>
-                                                    <form method="post" asp-controller="ForeignAgent" asp-route-cvid="@cv.CV.Id" asp-route-hrpoolid="@cv.Id">
+                                                    <form method="post" asp-controller="ForeignAgent" asp-action="DeleteCV" asp-route-id="@cv.CV.Id" asp-route-hrpoolid="@cv.Id">
                                                         @if (cv.IsCancel != true)
                                                         {
                                                             <a asp-action="ForeignAgentAddNewCV" asp-controller="ForeignAgent"
@@ -310,7 +310,7 @@
                                                             @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-DeleteCV").Result.Succeeded)
                                                             {
                                                                 <hr>
-                                                                <button type="submit" asp-action="DeleteCV" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete permanently? : @cv.CV.CandidateNameEnglish')">
+                                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete permanently? : @cv.CV.CandidateNameEnglish')">
                                                                     <i class="bi bi-trash"></i>
                                                                 </button>
                                                             }
@@ -333,13 +333,13 @@
                                                                     <i class="bi bi-trash"></i>
                                                                 </a>
                                                             }
-                                                            if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal && (bool)cv.SendByWhatapp)
-                                                            {
-                                                                <hr>
-                                                                <a href="#" class="btn btn-danger" onclick="cancelCv('@cv.Id', '@cv.CV.Id')">
-                                                                    <i class="bi bi-trash"></i>
-                                                                </a>
-                                                            }
+                                                            @*if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal && (bool)cv.SendByWhatapp)
+                                                {
+                                                <hr>
+                                                <a href="#" class="btn btn-danger" onclick="cancelCv('@cv.Id', '@cv.CV.Id')">
+                                                <i class="bi bi-trash"></i>
+                                                </a>
+                                                }*@
 
                                                             if (cv.CVStatus.StatusNo == (int)cvStatus.Processing ||
                                                             cv.CVStatus.StatusNo == (int)cvStatus.Employeed ||

@@ -224,7 +224,7 @@
 
                                                     @if (AuthorizationService.AuthorizeAsync(User, "LocalAgent-LocalAgentSelectCV").Result.Succeeded)
                                                     {
-                                                        if (Model[j].IsCancel is not null && !Model[j].IsCancel == true)
+                                                        if (Model[j].IsCancel is null || !Model[j].IsCancel == true)
                                                         {
                                                             if (Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
                                                             {

@@ -194,7 +194,7 @@
                                             <img src="@item.ApplicantPersonalImg" alt="">
                                         </div>
                                         <div class="content">
-                                            <h6><a href="#">@item.ApplicantName has been canceled from @item.ForeignAgentName</a></h6>
+                                            <h6><a href="#" onclick="showLocalCancelDetails('@item.CancelledReason', '@item.SponsorName', '@item.SponsorContact', '@item.SponsorVisaNumber', '@item.SponsorDateofBirth', '@item.SponsorIdNumber')">@item.ApplicantName has been canceled from @item.ForeignAgentName</a></h6>
                                             <span><img src="~/assets/images/icon/clock-1.svg" alt=""> @item.CancellationDateTime.Value.ToString("dd/MM/yyyy hh:mm")</span>
                                         </div>
                                     </li>

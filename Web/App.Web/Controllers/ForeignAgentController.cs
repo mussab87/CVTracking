@@ -610,14 +610,14 @@ namespace App.Web.Controllers
 
         [HttpPost]
         [Authorize("ForeignAgent-DeleteCV")]
-        public async Task<IActionResult> DeleteCV(string cvid, string hrpoolid)
+        public async Task<IActionResult> DeleteCV(string id, string hrpoolid)
         {
             try
             {
-                if (cvid is null)
+                if (id is null)
                     return NotFound(new { message = "Error" });
 
-                var CvId = Convert.ToInt32(cvid);
+                var CvId = Convert.ToInt32(id);
 
                 //update cv status by hrpoolId
                 var command = new DeleteLocalCVRequest()
