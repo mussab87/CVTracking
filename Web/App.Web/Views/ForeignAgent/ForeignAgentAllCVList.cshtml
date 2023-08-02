@@ -185,31 +185,31 @@
 
                                                     @if (cv.CVStatus.StatusNo == (int)cvStatus.InComplete)
                                                     {
-                                                        <button class="eg-btn orenge-btn">@cv.CVStatus.Status</button>
+                                                        <label style="background-color:orangered">@cv.CVStatus.Status</label>
                                                     }
 
                                                     @if (cv.CVStatus.StatusNo == (int)cvStatus.Free)
                                                     {
-                                                        <button class="eg-btn yellow-btn">@cv.CVStatus.Status</button>
+                                                        <label style="background-color:#DFA100">@cvStatus.Available</label>
                                                         <hr />
                                                         @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-PostToAdmin").Result.Succeeded)
                                                         {
-                                                            <button class="eg-btn purple-btn" onclick="confirmPostToAdmin(@cv.CV.Id)">
-                                                                Post to Admin
+                                                            <button class="eg-btn green-btn" onclick="confirmPostToAdmin(@cv.CV.Id)">
+                                                                Post Admin
                                                             </button>
                                                         }
                                                     }
 
                                                     @if (cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin)
                                                     {
-                                                        <button class="eg-btn green-btn">@cv.CVStatus.Status</button>
+                                                        <label style="background-color:lightseagreen">@cv.CVStatus.Status</label>
                                                         <hr />
-                                                        <label style="background-color:antiquewhite">@cvStatus.Available.ToString()</label>
+                                                        <label style="background-color:#DFA100">@cvStatus.Available.ToString()</label>
                                                     }
 
                                                     @if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal && cv.SendByWhatapp is null)
                                                     {
-                                                        <button class="eg-btn yellow-btn">Available </button>
+                                                        <label style="background-color:#DFA100">Available </label>
                                                         @*<hr />*@
                                                         @*@if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-CancelCv").Result.Succeeded)
                                             {*@
@@ -222,27 +222,27 @@
                                                     {
                                                         @if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal && !(bool)cv.SendByWhatapp)
                                                         {
-                                                            <button class="eg-btn yellow-btn">Available</button>
+                                                            <label style="background-color:#DFA100">Available </label>
                                                         }
                                                         @if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal && (bool)cv.SendByWhatapp)
                                                         {
-                                                            <button class="eg-btn yellow-btn">Pending </button>
+                                                            <label style="background-color:#DFA100">Pending</label>
                                                         }
                                                     }
 
                                                     @if (cv.CVStatus.StatusNo == (int)cvStatus.Selected)
                                                     {
-                                                        <button class="eg-btn green-btn">@cvStatus.Processing.ToString()</button>
+                                                        <label style="background-color:mediumseagreen">@cvStatus.Processing.ToString()</label>
                                                     }
 
                                                     @if (cv.CVStatus.StatusNo == (int)cvStatus.Uploaded)
                                                     {
-                                                        <button class="eg-btn green-btn">@cv.CVStatus.Status</button>
+                                                        <label style="background-color:mediumseagreen">@cv.CVStatus.Status</label>
                                                     }
 
                                                     @if (cv.CVStatus.StatusNo == (int)cvStatus.Employeed)
                                                     {
-                                                        <button class="eg-btn green-btn">@cv.CVStatus.Status</button>
+                                                        <label style="background-color:mediumseagreen">@cv.CVStatus.Status</label>
                                                     }
 
                                                     @if (cv.IsCancel == true)
@@ -318,21 +318,21 @@
 
                                                         @if (AuthorizationService.AuthorizeAsync(User, "ForeignAgent-CancelCV").Result.Succeeded)
                                                         {
-                                                            if (cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin)
-                                                            {
+                                                            @*if (cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin)
+                                                {
 
-                                                                <hr>
-                                                                <a href="#" class="btn btn-danger" onclick="cancelCv('@cv.Id', '@cv.CV.Id')">
-                                                                    <i class="bi bi-trash"></i>
-                                                                </a>
-                                                            }
-                                                            if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal && cv.SendByWhatapp is null)
-                                                            {
-                                                                <hr>
-                                                                <a href="#" class="btn btn-danger" onclick="cancelCv('@cv.Id', '@cv.CV.Id')">
-                                                                    <i class="bi bi-trash"></i>
-                                                                </a>
-                                                            }
+                                                <hr>
+                                                <a href="#" class="btn btn-danger" onclick="cancelCv('@cv.Id', '@cv.CV.Id')">
+                                                <i class="bi bi-trash"></i>
+                                                </a>
+                                                }*@
+                                                            @*if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal && cv.SendByWhatapp is null)
+                                                {
+                                                <hr>
+                                                <a href="#" class="btn btn-danger" onclick="cancelCv('@cv.Id', '@cv.CV.Id')">
+                                                <i class="bi bi-trash"></i>
+                                                </a>
+                                                }*@
                                                             @*if (cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal && (bool)cv.SendByWhatapp)
                                                 {
                                                 <hr>
@@ -345,7 +345,8 @@
                                                             cv.CVStatus.StatusNo == (int)cvStatus.Employeed ||
                                                             cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal ||
                                                             cv.CVStatus.StatusNo == (int)cvStatus.Selected ||
-                                                            cv.CVStatus.StatusNo == (int)cvStatus.Uploaded)
+                                                            cv.CVStatus.StatusNo == (int)cvStatus.Uploaded
+                                                            || cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin)
                                                             {
                                                                 <hr>
                                                                 <a href="#" class="btn btn-danger" onclick="cancelCv('@cv.Id', '@cv.CV.Id')">

@@ -13,6 +13,7 @@ public class HRPool : EntityBase
     public DateTime? SendToLocalDateTime { get; set; }
 
     public bool? SendByWhatapp { get; set; }
+    public DateTime? SendByWhatappDateTime { get; set; }
 
     public bool? IsCancel { get; set; }
     public int? CancelReasonId { get; set; }

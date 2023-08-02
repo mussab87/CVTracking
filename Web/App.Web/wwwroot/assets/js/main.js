@@ -1577,9 +1577,8 @@ function showCancelReason(cancelby, reason, canceldate, notes) {
 }
 
 function sharewhatsapp(hrpoolId, cvId, foreignId, sendByWhatsApp) {
-    debugger
     //update send bywhatsapp status
-    if (sendByWhatsApp == '' || sendByWhatsApp == '0') {
+    if (sendByWhatsApp == '' || sendByWhatsApp == '0' || sendByWhatsApp == "False") {
         $.ajax({
             url: "/LocalAgent/SendCVByWhatsApp?id=" + hrpoolId,
             method: "GET",
@@ -1591,8 +1590,38 @@ function sharewhatsapp(hrpoolId, cvId, foreignId, sendByWhatsApp) {
         });
     }
     var link = window.location.origin + "/CV/ViewCV/" + hrpoolId + "?cvId=" + cvId + "&foreignId=" + foreignId;
+    debugger;
     var url = "https://web.whatsapp.com/send?text=" + encodeURIComponent(link);
     window.open(url, "_blank");
+}
+
+function returnbacksharewhatsapp(hrpoolId, cvId, foreignId, sendByWhatsApp) {
+
+    swal({
+        title: 'Are you sure you want to return the status into Abailable?',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        type: 'warning'
+    },
+        function (resolve) {
+            if (resolve) {
+
+                $.ajax({
+                    url: "/LocalAgent/UnSendCVByWhatsApp?id=" + hrpoolId,
+                    method: "GET",
+                    success: function (data) {
+                        if (data == "done") {
+                            alert("CV status has been changed into Abailable");
+                            location.reload();
+                        }
+                    }
+                });
+            }
+            return;
+        });
+
+
 }
 
 function cancelCv(hrpoolId, cvId) {

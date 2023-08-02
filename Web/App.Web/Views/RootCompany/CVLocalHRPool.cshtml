@@ -174,9 +174,81 @@
                                                     @Model[j].CV.PhoneNumber
                                                 </td>
                                                 <td data-label="Payment Status">
-                                                    <button type="button" class="status green-color">
-                                                        @Model[j].CVStatus.Status
-                                                    </button>
+                                                    @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Canceled)
+                                                    {
+                                                        <label style="background-color:orangered">
+                                                            @Model[j].CVStatus.Status
+                                                        </label>
+
+                                                        <hr />
+                                                        <button type="button" style="background-color:lightyellow; color:orangered" onclick="showCancelReason('@Model[j].CanceledBy.FirstName @Model[j].CanceledBy.LastName', '@Model[j].CancelReason.CancelReasonEnglish', '@Model[j].CancelDateTime.Value.ToString("dd/MM/yyyy hh:mm")', '@Model[j].CancelNotes')" class="btn btn-success btn-md">
+                                                            Reason
+                                                        </button>
+                                                        @if (Model[j].selected is not null)
+                                                        {
+                                                            if (Model[j].selected.SponsorName is not null)
+                                                            {
+                                                                <hr />
+                                                                <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy")', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
+                                                                    Sponsor
+                                                                </button>
+                                                            }
+                                                        }
+
+                                                    }
+                                                    @if (Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
+                                                    {
+                                                        @if (Model[j].LocalAgent.Id > 0 && Model[j].LocalAgent is not null)
+                                                        {
+                                                            @if (Model[j].SendByWhatapp is not null && (bool)Model[j].SendByWhatapp)
+                                                            {
+                                                                <label style="background-color:#d1e7dd">
+                                                                    Pending
+                                                                </label>
+                                                            }
+                                                            else
+                                                            {
+                                                                <label style="background-color:#d1e7dd">
+                                                                    @cvStatus.Available.ToString()
+                                                                </label>
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @if (Model[j].CVStatus.StatusNo == (int)cvStatus.PostToAdmin)
+                                                    {
+                                                        <label style="background-color:#DFA100">
+                                                            @Model[j].CVStatus.Status
+                                                        </label>
+                                                    }
+
+                                                    @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Selected)
+                                                    {
+                                                        if (Model[j].selected.LocalAgentStatusId == (int)cvStatus.Processing)
+                                                        {
+                                                            <button type="button" class="alert-success">
+                                                                @cvStatus.Processing / @Model[j].LocalAgent.LocalAgentNameEnglish
+                                                            </button>
+                                                        }
+
+                                                        if (Model[j].selected.LocalAgentStatusId == (int)cvStatus.Selected)
+                                                        {
+                                                            <button type="button" class="alert-success">
+                                                                @cvStatus.Selected / @Model[j].LocalAgent.LocalAgentNameEnglish
+                                                            </button>
+                                                        }
+                                                        @*<label style="background-color:mediumseagreen">@cvStatus.Processing.ToString()</label>*@
+                                                    }
+
+                                                    @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Uploaded)
+                                                    {
+                                                        <label style="background-color:#198754;color:white">@Model[j].CVStatus.Status</label>
+                                                    }
+
+                                                    @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Employeed)
+                                                    {
+                                                        <label style="background-color:#198754;color:white">@Model[j].CVStatus.Status/@Model[j].LocalAgent.LocalAgentNameEnglish</label>
+                                                    }
                                                 </td>
                                                 @* <td data-label="Status">
                                     <button class="alert-success">@Model[j].CVStatus.Status</button>
@@ -209,16 +281,17 @@
                                                         <i class="bi bi-image"></i>
                                                         Img
                                                     </a>
-                                                    <hr>
+
                                                     <div class="form-inner mb-25">
                                                         @if (Model[j].selected is not null)
                                                         {
                                                             if (Model[j].CVStatus.StatusNo == (int)cvStatus.Employeed
                                                             && Model[j].selected.LocalAgentStatusId == (int)cvStatus.Employeed)
                                                             {
-                                                                <button type="button" class="alert-success">
-                                                                    @cvStatus.Employeed / @Model[j].LocalAgent.LocalAgentNameEnglish
-                                                                </button>
+
+                                                                @*<button type="button" class="alert-success">
+                                            @cvStatus.Employeed / @Model[j].LocalAgent.LocalAgentNameEnglish
+                                            </button>*@
                                                                 @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-UploadMusanedContract").Result.Succeeded)
                                                                 {
                                                                     <hr />
@@ -229,25 +302,26 @@
                                                                 }
                                                             }
 
-                                                            if (Model[j].CVStatus.StatusNo == (int)cvStatus.Selected
-                                                            && Model[j].selected.LocalAgentStatusId == (int)cvStatus.Processing)
-                                                            {
-                                                                <button type="button" class="alert-success">
-                                                                    @cvStatus.Processing / @Model[j].LocalAgent.LocalAgentNameEnglish
-                                                                </button>
-                                                            }
+                                                            @*if (Model[j].CVStatus.StatusNo == (int)cvStatus.Selected
+                                            && Model[j].selected.LocalAgentStatusId == (int)cvStatus.Processing)
+                                            {
+                                            <button type="button" class="alert-success">
+                                            @cvStatus.Processing / @Model[j].LocalAgent.LocalAgentNameEnglish
+                                            </button>
+                                            }*@
 
-                                                            if (Model[j].CVStatus.StatusNo == (int)cvStatus.Selected
-                                                            && Model[j].selected.LocalAgentStatusId == (int)cvStatus.Selected)
-                                                            {
-                                                                <button type="button" class="alert-success">
-                                                                    @cvStatus.Selected / @Model[j].LocalAgent.LocalAgentNameEnglish
-                                                                </button>
-                                                            }
+                                                            @*if (Model[j].CVStatus.StatusNo == (int)cvStatus.Selected
+                                            && Model[j].selected.LocalAgentStatusId == (int)cvStatus.Selected)
+                                            {
+                                            <button type="button" class="alert-success">
+                                            @cvStatus.Selected / @Model[j].LocalAgent.LocalAgentNameEnglish
+                                            </button>
+                                            }*@
 
                                                             if (Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal
                                                             && Model[j].selected.LocalAgentStatusId == (int)cvStatus.SendToLocal)
                                                             {
+                                                                <hr>
                                                                 <button type="button" class="alert-info">
                                                                     Wait Selection / @Model[j].LocalAgent.LocalAgentNameEnglish
                                                                 </button>
@@ -255,6 +329,7 @@
 
                                                             @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Uploaded)
                                                             {
+                                                                <hr>
                                                                 <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy")', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
                                                                     Sponsor
                                                                 </button>
@@ -263,6 +338,7 @@
                                                         }
                                                         else if (Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
                                                         {
+                                                            <hr>
                                                             <button type="button" class="alert-info">
                                                                 Wait Selection / @Model[j].LocalAgent.LocalAgentNameEnglish
                                                             </button>

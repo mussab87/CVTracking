@@ -1,20 +1,13 @@
-﻿using App.Application.Features.RootCompany.Queries.GetRootCompanyByUserId;
-using App.Helper.Dto;
-using AspNetCore.Reporting;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using SendGrid;
-using System.IO;
-using System.Security.Claims;
 
 namespace App.Web.Controllers
 {
-    [AllowAnonymous]
+
     public class CVController : BaseController
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -27,7 +20,7 @@ namespace App.Web.Controllers
         }
 
         #region View CV
-
+        [AllowAnonymous]
         public async Task<IActionResult> ViewCV(int id, int cvId, int foreignId)
         {
             AddAddNewForeignCvRequest model2 = await GetCandidateCV(cvId, foreignId);
@@ -60,6 +53,17 @@ namespace App.Web.Controllers
             var queryreligion = new GetReligionListQuery();
             var religion = await _mediator.Send(queryreligion);
             model2.cv.Religion = religion.FirstOrDefault(n => n.Id == model2.cv.ReligionId).ReligionEnglish;
+
+            if (model2.cvHRpool.LocalAgentId is not null)
+            {
+                GetLocalAgentByIdQuery getLocalQuery = new()
+                {
+                    LocalAgentId = (int)model2.cvHRpool.LocalAgentId
+                };
+                var localAgent = await _mediator.Send(getLocalQuery);
+
+                model2.cvHRpool.LocalAgent = _mapper.Map<LocalAgent>(localAgent);
+            }
             return model2;
         }
 
@@ -97,10 +101,12 @@ namespace App.Web.Controllers
         #endregion
 
         #region Print CV
+        [Authorize]
         public async Task<FileResult> OnPostGetPDF(int id, int cvId, int foreignId)
         {
             return await PrepareReportAsync("PDF", "pdf", "application/pdf", id, cvId, foreignId, false);
         }
+        [Authorize]
         public async Task<FileResult> OnPostGetImg(int id, int cvId, int foreignId)
         {
             return await PrepareReportAsync("Image", "jpg", "image/jpg", id, cvId, foreignId, true);

@@ -48,6 +48,19 @@ namespace App.Web.Controllers
             {
                 foreach (var hrcv in GetAllCvResult.Where(c => c.CVStatus.StatusNo == (int)cvStatus.Canceled))
                 {
+                    //get only notification for 10 days before date now
+                    var CancelDate = new DateTime(hrcv.CancelDateTime.Value.Date.Year,
+                                                        hrcv.CancelDateTime.Value.Date.Month,
+                                                        hrcv.CancelDateTime.Value.Date.Day);
+
+                    var dateNow = new DateTime(DateTime.Now.Date.Year,
+                                                        DateTime.Now.Date.Month,
+                                                        DateTime.Now.Date.Day);
+
+                    var datesExceed = (dateNow - CancelDate).Days;
+                    if (datesExceed >= 10)
+                        continue;
+
                     var personalImg = hrcv.cvAttachments
                                     .Where(p => p.Attachment.AttachmentType.TypeName == cvAttachmentType.PersonalPhoto.ToString())
                                     .FirstOrDefault();
@@ -139,6 +152,8 @@ namespace App.Web.Controllers
             };
             var commandResult = await _mediator.Send(command);
 
+            await ReturnBackFromSendByWhatsapp(id, LoggedInuser, userLocalAgentId);
+
             TempData["Message"] = 1;
             return RedirectToAction("LocalAgentAllCVList");
         }
@@ -200,11 +215,38 @@ namespace App.Web.Controllers
                 HRPoolId = id,
                 LocalAgentId = userLocalAgentId.Id,
                 CreatedById = LoggedInuser.Id,
+                SendStatus = true,
+                SendByWhatsAppDate = DateTime.Now
             };
             var commandResult = await _mediator.Send(command);
 
             TempData["Message"] = 1;
             return Json("done");
+        }
+
+        [HttpGet]
+        [Authorize("LocalAgent-UnSendCVByWhatsApp")]
+        public async Task<IActionResult> UnSendCVByWhatsApp(int id)
+        {
+            var LoggedInuser = await ShardFunctions.GetLoggedInUserAsync(_userManager, User);
+            var userLocalAgentId = HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent");
+            await ReturnBackFromSendByWhatsapp(id, LoggedInuser, userLocalAgentId);
+
+            TempData["Message"] = 1;
+            return Json("done");
+        }
+
+        private async Task ReturnBackFromSendByWhatsapp(int id, ApplicationUser LoggedInuser, LocalAgentDto userLocalAgentId)
+        {
+            var command = new UpdateLocalSendByWhatsAppRequest()
+            {
+                HRPoolId = id,
+                LocalAgentId = userLocalAgentId.Id,
+                CreatedById = LoggedInuser.Id,
+                SendStatus = false,
+                SendByWhatsAppDate = null
+            };
+            var commandResult = await _mediator.Send(command);
         }
 
         #endregion

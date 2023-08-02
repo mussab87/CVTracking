@@ -24,7 +24,8 @@ public class UpdateLocalSendByWhatsAppRequestHandler : IRequestHandler<UpdateLoc
             throw new NotFoundException(nameof(HRPool), request.HRPoolId);
         }
 
-        selectedCv[0].SendByWhatapp = true;
+        selectedCv[0].SendByWhatapp = request.SendStatus;
+        selectedCv[0].SendByWhatappDateTime = request.SendByWhatsAppDate;
         await _ICVHRPoolRepository.UpdateAsync(selectedCv[0]);
 
         return selectedCv[0].Id;

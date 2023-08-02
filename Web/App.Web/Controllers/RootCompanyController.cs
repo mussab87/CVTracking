@@ -62,6 +62,19 @@ namespace App.Web.Controllers
                     {
                         foreach (var hrcv in ForeignAgentCvList.Where(c => c.CVStatus.StatusNo == (int)cvStatus.Canceled))
                         {
+                            //get only notification for 10 days before date now
+                            var CancelDate = new DateTime(hrcv.CancelDateTime.Value.Date.Year,
+                                                                hrcv.CancelDateTime.Value.Date.Month,
+                                                                hrcv.CancelDateTime.Value.Date.Day);
+
+                            var dateNow = new DateTime(DateTime.Now.Date.Year,
+                                                                DateTime.Now.Date.Month,
+                                                                DateTime.Now.Date.Day);
+
+                            var datesExceed = (dateNow - CancelDate).Days;
+                            if (datesExceed >= 10)
+                                continue;
+
                             var personalImg = hrcv.cvAttachments
                                             .Where(p => p.Attachment.AttachmentType.TypeName == cvAttachmentType.PersonalPhoto.ToString())
                                             .FirstOrDefault();

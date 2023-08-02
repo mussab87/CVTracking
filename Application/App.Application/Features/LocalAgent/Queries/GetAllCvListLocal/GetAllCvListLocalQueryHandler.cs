@@ -82,7 +82,28 @@ public class GetAllCvListLocalQueryHandler : IRequestHandler<GetAllCvListLocalQu
                         await _ICVHRPoolRepository.UpdateAsync(c);
                     }
                 }
+            }
 
+            //check pending as local send by whatsapp
+            if (c.SendByWhatapp is not null && (bool)c.SendByWhatapp && c.CVStatus.StatusNo == (int)cvStatus.SendToLocal)
+            {
+                var selectedDate = new DateTime(c.SendByWhatappDateTime.Value.Date.Year,
+                                                        c.SendByWhatappDateTime.Value.Date.Month,
+                                                        c.SendByWhatappDateTime.Value.Date.Day);
+                //06/07/2023
+                var dateNow = new DateTime(DateTime.Now.Date.Year,
+                                                    DateTime.Now.Date.Month,
+                                                    DateTime.Now.Date.Day);
+
+                var datesExceed = (dateNow - selectedDate).Days;
+                if (datesExceed >= 4)
+                {
+                    var selectedWhatsAppCv = await _ICVHRPoolRepository.GetAsync(predicate: cv => cv.Id == c.Id);
+
+                    selectedWhatsAppCv[0].SendByWhatapp = false;
+                    selectedWhatsAppCv[0].SendByWhatappDateTime = null;
+                    await _ICVHRPoolRepository.UpdateAsync(selectedWhatsAppCv[0]);
+                }
             }
         }
     }

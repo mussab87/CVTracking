@@ -297,10 +297,10 @@ namespace App.Web.Controllers
                             model.cv.Weight == null ||
                             model.cv.Height == null ||
                             model.cv.PassportNumber == null ||
-                            skills.Length < 0 ||
-                            model.previousEmployment[0].Position == null ||
-                            model.previousEmployment[0].Period == 0 ||
-                            model.previousEmployment[0].CountryOfEmploymentId == null)
+                            skills.Length < 0) //||
+                                               //model.previousEmployment[0].Position == null ||
+                                               //model.previousEmployment[0].Period == 0 ||
+                                               //model.previousEmployment[0].CountryOfEmploymentId == null)
                     model.cvStatusId = (int)cvStatus.InComplete;
                 else model.cvStatusId = (int)cvStatus.Free;
             }
@@ -320,10 +320,10 @@ namespace App.Web.Controllers
                             model.cv.Weight == null ||
                             model.cv.Height == null ||
                             model.cv.PassportNumber == null ||
-                            skills.Length < 0 ||
-                            model.previousEmployment[0].Position == null ||
-                            model.previousEmployment[0].Period == 0 ||
-                            model.previousEmployment[0].CountryOfEmploymentId == null)
+                            skills.Length < 0) //||
+                                               //model.previousEmployment[0].Position == null ||
+                                               //model.previousEmployment[0].Period == 0 ||
+                                               //model.previousEmployment[0].CountryOfEmploymentId == null)
                     model.cvStatusId = (int)cvStatus.InComplete;
                 else model.cvStatusId = (int)cvStatus.Free;
             }

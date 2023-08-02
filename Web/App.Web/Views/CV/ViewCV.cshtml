@@ -11,16 +11,23 @@
     {
         logo = HttpContextAccessor.HttpContext.Session.GetObject<RootCompanyDto>("RootCompany").RootCompanyLogo;
     }
-
+    else
     if (HttpContextAccessor.HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent") != null)
     {
         logo = HttpContextAccessor.HttpContext.Session.GetObject<ForegnAgentDto>("ForeignAgent").ForeignAgentLogo;
     }
-
+    else
     if (HttpContextAccessor.HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent") != null
     && signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.LocalAgent))
     {
         logo = HttpContextAccessor.HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent").LocalAgentLogo;
+    }
+    else
+    {
+        if (Model.cvHRpool.LocalAgent is not null)
+        {
+            logo = Model.cvHRpool.LocalAgent.LocalAgentLogo;
+        }
     }
 }
 

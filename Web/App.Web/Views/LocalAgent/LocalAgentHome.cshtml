@@ -209,13 +209,16 @@
                                                     </div>
 
                                                     <div class="apply-btn">
-                                                        <a href="#" onclick="sharewhatsapp('@Model.LocalHrPool[j].Id', '@Model.LocalHrPool[j].CV.Id', '@Model.LocalHrPool[j].ForeignAgent.Id', '@Model.LocalHrPool[j].SendByWhatapp')"
-                                                           style="cursor:pointer">
-                                                            <span>
-                                                                <img src="~/assets/images/icon/apply-ellipse.svg" alt="">
-                                                            </span>
-                                                            <i class="bi bi-whatsapp"></i>
-                                                        </a>
+                                                        @if (AuthorizationService.AuthorizeAsync(User, "LocalAgent-SendCVByWhatsApp").Result.Succeeded)
+                                                        {
+                                                            <a href="#" onclick="sharewhatsapp('@Model.LocalHrPool[j].Id', '@Model.LocalHrPool[j].CV.Id', '@Model.LocalHrPool[j].ForeignAgent.Id', '@Model.LocalHrPool[j].SendByWhatapp')"
+                                                               style="cursor:pointer">
+                                                                <span>
+                                                                    <img src="~/assets/images/icon/apply-ellipse.svg" alt="">
+                                                                </span>
+                                                                <i class="bi bi-whatsapp"></i>
+                                                            </a>
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>

@@ -155,6 +155,17 @@
                                                         <button type="button" style="background-color:lightyellow; color:orangered" onclick="showCancelReason('@Model[j].CanceledBy.FirstName @Model[j].CanceledBy.LastName', '@Model[j].CancelReason.CancelReasonEnglish', '@Model[j].CancelDateTime.Value.ToString("dd/MM/yyyy hh:mm")', '@Model[j].CancelNotes')" class="btn btn-success btn-md">
                                                             Reason
                                                         </button>
+
+                                                        @if (Model[j].selected is not null)
+                                                        {
+                                                            if (Model[j].selected.SponsorName is not null)
+                                                            {
+                                                                <hr />
+                                                                <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy")', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
+                                                                    Sponsor
+                                                                </button>
+                                                            }
+                                                        }
                                                     }
 
                                                     @if (Model[j].SendByWhatapp is not null)
@@ -164,12 +175,21 @@
                                                             <button type="button" class="btn btn-outline-secondary">
                                                                 Pending
                                                             </button>
+                                                            <hr />
+                                                            @if (AuthorizationService.AuthorizeAsync(User, "LocalAgent-UnSendCVByWhatsApp").Result.Succeeded)
+                                                            {
+                                                                <a href="#" onclick="returnbacksharewhatsapp('@Model[j].Id', '@Model[j].CV.Id', '@Model[j].ForeignAgent.Id', '@Model[j].SendByWhatapp')"
+                                                                   style="cursor:pointer">
+                                                                    Return to Available
+
+                                                                </a>
+                                                            }
                                                         }
                                                         else if (!(bool)Model[j].SendByWhatapp && Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
                                                         {
-                                                            <button type="button" class="btn btn-warning">
+                                                            <label style="background-color:lightseagreen">
                                                                 Available
-                                                            </button>
+                                                            </label>
                                                         }
                                                     }
                                                     else if (Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
@@ -181,30 +201,29 @@
 
                                                     @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Selected)
                                                     {
-                                                        <button type="button" class="btn btn-warning">
+                                                        <label style="background-color:#DFA100">
                                                             @cvStatus.Processing.ToString()
-                                                        </button>
+                                                        </label>
                                                         <hr />
-                                                        <button type="button" onclick="sponsorData(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)"
-                                                                class="btn btn-info btn-md">
-                                                            Sponsor Info
-                                                        </button>
+                                                        <a href="#" onclick="sponsorData(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)">
+                                                            Sponsor
+                                                        </a>
                                                     }
 
                                                     @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Employeed)
                                                     {
 
-                                                        <button type="button" class="btn btn-success">
+                                                        <label style="background-color:#198754;color:white">
                                                             Employeed
-                                                        </button>
+                                                        </label>
                                                     }
 
                                                     @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Uploaded)
                                                     {
 
-                                                        <button type="button" class="btn btn-success">
+                                                        <label style="background-color:#198754;color:white">
                                                             @cvStatus.Uploaded
-                                                        </button>
+                                                        </label>
                                                     }
 
                                                 </td>
