@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App.Web.Controllers
 {
-    [Authorize]
+    //[Authorize]
+    [AllowAnonymous]
     public class HomeController : BaseController
     {
         public HomeController(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager,
@@ -22,14 +23,19 @@ namespace App.Web.Controllers
             {
                 controller = "SuperAdmin";
                 action = "Index";
+
+                return RedirectToAction(action, controller);
             }
             if (_signInManager.IsSignedIn(User) && _signInManager.Context.User.IsInRole(Roles.Admin))
             {
                 controller = "RootCompany";
                 action = "RootCompany";
+
+                return RedirectToAction(action, controller);
             }
 
-            return RedirectToAction(action, controller);
+            return View();
+            //return RedirectToAction(action, controller);
         }
     }
 }

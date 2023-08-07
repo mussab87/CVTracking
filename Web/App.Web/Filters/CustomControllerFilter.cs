@@ -39,7 +39,6 @@ public class CustomControllerFilter : IActionFilter
                     context.Result = new RedirectToActionResult("Logout", "Account", null);
                 }
             }
-
         }
     }
 

@@ -47,6 +47,8 @@
     var table = $('#tbl');
 
     table.DataTable({
+        //scrollY: "60vh",
+        //scrollCollapse: false,
         sort: true,
         responsive: true,
         dom: 'Bfrtip',
@@ -69,7 +71,7 @@
             },
             //For repeating heading.
             repeatingHead: {
-                logo: 'https://www.google.co.in/logos/doodles/2018/world-cup-2018-day-22-5384495837478912-s.png',
+                logo: '',
                 logoPosition: 'center',
                 logoStyle: 'height:150px;width:200px',
                 title: '<h3>@ViewBag.title</h3>'
