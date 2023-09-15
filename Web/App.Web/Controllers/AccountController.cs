@@ -85,7 +85,7 @@ namespace App.Web.Controllers
                     }
                 }
                 TempData["Message"] = 9;
-                return LocalRedirect(returnUrl);
+                return View(model);
             }
 
             // If we got this far, something failed, redisplay form

@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.Web.Controllers
@@ -36,6 +37,33 @@ namespace App.Web.Controllers
 
             return View();
             //return RedirectToAction(action, controller);
+        }
+
+        //public IActionResult Lang(string returnUrl, bool en)
+        //{
+        //    var selectedLanguage = en ? "en" : "ar";
+        //    if (en)
+        //    {
+        //        Response.Cookies.Append(
+        //            CookieRequestCultureProvider.DefaultCookieName,
+        //            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(selectedLanguage)),
+        //            new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+        //            );
+        //    }
+
+        //    return LocalRedirect(returnUrl + $"?culture={selectedLanguage}");
+        //}
+
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                );
+
+            return LocalRedirect(returnUrl);
         }
     }
 }

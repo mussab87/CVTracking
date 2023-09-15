@@ -2,9 +2,11 @@
 @{
     Layout = null;
     ViewData["Title"] = "Login";
+
+    var isRTL = CultureInfo.CurrentCulture.Name.StartsWith("ar");
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@(isRTL ? "ar" : "en")" dir="@(isRTL ? "RTL" : "LTR")">
 
 <partial name="_HeaderPartial" />
 
@@ -19,25 +21,25 @@
                 <div class="col-lg-12">
                     <div class="form-wrapper">
                         <div class="form-title">
-                            <h3>Log In Here!</h3>
+                            <h3>@localizer["LogInHere"]</h3>
                             <span></span>
                         </div>
                         <form asp-action="Login">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-inner mb-25">
-                                        <label asp-for="Username">Username</label>
+                                        <label asp-for="Username">@localizer["username"]</label>
                                         <div class="input-area">
                                             <img src="~/assets/images/icon/user.svg" alt="">
-                                            <input type="text" asp-for="Username" placeholder="Username" />
+                                            <input type="text" asp-for="Username" placeholder="@localizer["username"]" />
                                         </div>
                                         <span asp-validation-for="Username" class="alert-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-inner">
-                                        <label asp-for="Password">Password</label>
-                                        <input type="password" asp-for="Password" placeholder="Password" />
+                                        <label asp-for="Password">@localizer["password"]</label>
+                                        <input type="password" asp-for="Password" placeholder="@localizer["password"]" />
                                         <i class="bi bi-eye-slash" id="togglePassword"></i>
                                     </div>
                                     <span asp-validation-for="Password" class="alert-danger"></span>
@@ -46,17 +48,17 @@
                                     <div class="form-agreement form-inner d-flex justify-content-between flex-wrap">
                                         <div class="form-group">
                                             <input type="checkbox" id="html">
-                                            <label for="html">Remember Me</label>
+                                            <label for="html">@localizer["RememberMe"]</label>
                                         </div>
-                                        <a href="#" class="forgot-pass">Forget Password?</a>
+                                        <a href="#" class="forgot-pass">@localizer["ForgetPassword"]?</a>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-inner">
-                                        <button class="primry-btn-2" type="submit">LogIn</button>
+                                        <button class="primry-btn-2" type="submit">@localizer["Login"]</button>
                                     </div>
                                 </div>
-                                <h6>Don’t have an account? <a href="register.html">Sign Up</a></h6>
+                                @*<h6>Don’t have an account? <a href="register.html">Sign Up</a></h6>*@
                             </div>
                         </form>
                     </div>

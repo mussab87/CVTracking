@@ -10,4 +10,8 @@
 @inject Microsoft.Extensions.Configuration.IConfiguration config;
 @inject UserManager<ApplicationUser> _userManager;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer localizer
+@using System.Globalization
+@*@using Microsoft.Extensions.Localization*@
+@*@using App.Web.Resources;*@

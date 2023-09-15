@@ -18,8 +18,10 @@
     {
         logo = HttpContextAccessor.HttpContext.Session.GetObject<LocalAgentDto>("LocalAgent").LocalAgentLogo;
     }
+
+    var isRTL = CultureInfo.CurrentCulture.Name.StartsWith("ar");
 }
-<html lang="en">
+<html lang="@(isRTL ? "ar" : "en")" dir="@(isRTL ? "RTL" : "LTR")">
 <partial name="_HeaderPartial" />
 <body class="bg-wight">
     <div class="eg-preloder">
@@ -46,7 +48,7 @@
 
             @if (signInManager.IsSignedIn(User) && signInManager.Context.User.IsInRole(Roles.LocalAgent))
             {
-                <a asp-controller="ForeignAgent" asp-action="LocalAgentHome"><img alt="image" style="width:100px; height: 90px" src="@logo"></a>
+                <a asp-controller="LocalAgent" asp-action="LocalAgentHome"><img alt="image" style="width:100px; height: 90px" src="@logo"></a>
             }
 
         </div>
@@ -56,11 +58,7 @@
                 <p>Welcome Our Job Portal! <a href="#">CV Tracking</a></p>
                 <div class="top-bar-right">
                     <div class="language-select">
-                        <img src="~/assets/images/icon/flag-eng.svg" alt="image"><span>Language</span>
-                        <ul class="topbar-sublist">
-                            <li><img src="~/assets/images/icon/flag-arabic.png" alt="image"><span>Arabic</span></li>
-
-                        </ul>
+                        <partial name="_SelectLanguage" />
                     </div>
                     <div class="social-area">
                         <ul>
