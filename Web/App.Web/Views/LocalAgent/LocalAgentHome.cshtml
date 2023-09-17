@@ -6,6 +6,8 @@
     {
         HttpContextAccessor.HttpContext.Session.SetObject("CountCancel", Model.CountCancel);
     }
+
+    var isRTL = CultureInfo.CurrentCulture.Name.StartsWith("ar");
 }
 <!-- ========== Inner Banner Start============= -->
 <div class="inner-banner">
@@ -14,13 +16,13 @@
             <div class="col-lg-12">
                 <div class="banner-content text-center">
 
-                    <h1>Welcome to CV Tracking Portal</h1>
+                    <h1>@localizer["LocalWelcome"]</h1>
 
                     <span></span>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/LocalAgent/LocalAgentHome">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Applicants Listing</li>
+                            <li class="breadcrumb-item"><a href="/LocalAgent/LocalAgentHome">@localizer["Home"]</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">@localizer["CVPortal"]</li>
                         </ol>
                     </nav>
                 </div>
@@ -37,8 +39,8 @@
                 <div class="job-sidebar">
                     <div class="job-widget style-1 mb-20">
                         <div class="check-box-item">
-                            <h5 class="job-widget-title">Foreign Agents</h5>
-                            <div class="checkbox-container">
+                            <h5 class="job-widget-title">@localizer["ForeignAgents"]</h5>
+                            <div class="checkbox-container" dir="@(isRTL ? "LTR" : "LTR")">
                                 <ul>
                                     @if (Model.ForegnAgent.Any())
                                     {

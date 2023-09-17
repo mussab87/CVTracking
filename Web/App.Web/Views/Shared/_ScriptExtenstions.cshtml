@@ -43,6 +43,7 @@
 
 
 <script>
+    debugger;
     AlertPopup();
     var table = $('#tbl');
 
@@ -58,11 +59,11 @@
         //],
         buttons: [{
             extend: 'excel',
-            text: 'Excel'
-        },
+            text: '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' ? 'تصدير أكسل' : 'Excel'
+            },
         {
             extend: 'print',
-            text: 'Print',
+            text: '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' ? 'طباعة' : 'Print',
             title: '',
             customize: function (win) {
                 win.document.body.style.direction = "ltr";
@@ -84,14 +85,14 @@
         // Order settings
         language: {
             infoEmpty: "Display Page 0 from 0",
-            search: "Search:",
+            search: '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' ? "بحث: " : "Search:",
             "info": "Display Page _PAGE_ from _PAGES_",
             "lengthMenu": "Display _MENU_ Record",
             "paginate": {
-                "first": "First",
-                "next": "Next",
-                "previous": "Previous",
-                "last": "Last"
+                "first": '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' ? "الاول" : "First",
+                "next": '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' ? "التالي" : "Next",
+                "previous": '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' ? "السابق" : "Previous",
+                "last": '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' ? "الأخير" : "Last"
             }
         }
     });

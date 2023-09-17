@@ -1557,7 +1557,8 @@ function showSponsor(name, visanumber, idnumber, contact, dateofbirthhijri, date
         });
 }
 
-function showCancelReason(cancelby, reason, canceldate, notes) {
+function showCancelReason(cancelby, reason, canceldate, notes, culture) {
+   
     swal({
         title: 'Cancel Reason Details:',
         html: '<label><b>Canceled By:</b></label>' + " " + cancelby
@@ -1574,6 +1575,23 @@ function showCancelReason(cancelby, reason, canceldate, notes) {
             }
             return;
         });
+
+    //swal({
+    //    title: culture.toLowerCase() == 'false' ? 'Cancel Reason Details:' : '”»» «·≈·€«¡',
+    //    html: culture.toLowerCase() == 'false' ? '<label><b>Canceled By:</b></label>' : '<label><b> „ «·«·€«¡ „‰ ﬁ»·:</b></label>' + " " + cancelby
+    //        + culture.toLowerCase() == 'false' ? '<br /><label><b>Canceled Reason:</b></label>' : '<br /><label><b>”»» «·≈·€«¡:</b></label>' + " " + reason
+    //            + culture.toLowerCase() == 'false' ? '<br /><label><b>Canceled Date:</b></label>' : '<br /><label><b> «—ÌŒ «·≈·€«¡:</b></label>' + " " + canceldate
+    //                + culture.toLowerCase() == 'false' ? '<br /><label><b>Notes:</b></label>' : '<br /><label><b>„·«ÕŸ« :</b></label>' + " " + notes,
+    //    input: 'text',
+    //    showCancelButton: true,
+    //    confirmButtonText: 'Close',
+    //    //type: 'warning'
+    //},
+    //    function (resolve) {
+    //        if (resolve) {
+    //        }
+    //        return;
+    //    });
 }
 
 function sharewhatsapp(hrpoolId, cvId, foreignId, sendByWhatsApp) {

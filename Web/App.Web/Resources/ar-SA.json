@@ -4,5 +4,50 @@
   "password": "كلمة المرور",
   "ForgetPassword": "نسيت كلمة المرور",
   "RememberMe": "تذكرني",
-  "Login": "دخول"
+  "Login": "دخول",
+  "Logout": "تسجيل الخروج",
+  "MyProfile": "حسابي",
+  "WelcomeTo": "مرحبا بك",
+
+  "Home": "الصفحة الرئيسية",
+  "CVPortal": "السير الذاتية",
+  "CVTracking": "إدارة السير الذاتية",
+  "Notifications": "الإشعارات",
+  "SeeAllNotifications": "كل الإشعارات",
+  "LocalWelcome": "مرحبا بك في لوحة تتبع السير الذاتية",
+  "ForeignAgents": "المكاتب الأجنبية",
+  "SelectedCVPool": "السير الذاتية التي تم إختيارها",
+  "Applicant": "العامل",
+  "ReferenceNumber": "الرقم التسلسلي",
+  "Name": "الاسم",
+  "PassportNo": "رقم الجواز",
+  "Nationality": "الجنسية",
+  "Contact": "رقم الاتصال",
+  "Status": "الحالة",
+  "Manage": "إدارة",
+  "CancelReason": "السبب",
+  "Sponsor": "الكفيل",
+
+  "PersonalInformation": "المعلومات الشخصية",
+  "FullName": "الاسم بالكامل",
+
+  "MaritalStatus": "الحالة الإجتماعية",
+  "NumberofChildren": "عدد الأولاد",
+  "Height": "الطول",
+  "Weight": "الوزن",
+
+  "DateofBirth": "تاريخ الميلاد",
+  "Age": "العمر",
+  "Religion": "الديانة",
+  "Gender": "الجنس",
+
+  "EducationalQualification": "المؤهلات العلمية",
+  "Education": "التعليم",
+
+  "Language": "اللغات",
+  "yes": "نعم",
+  "no": "لا",
+  "English": "اللغة الانجليزية",
+  "Arabic": "اللغة العربية"
+
 }

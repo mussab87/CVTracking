@@ -28,7 +28,7 @@
         {
             logo = Model.cvHRpool.LocalAgent.LocalAgentLogo;
         }
-    }
+    }    
 }
 
 <!-- ========== Dashboard Area end============= -->
@@ -82,43 +82,46 @@
                     <div class="col-lg-12">
                         <div class="single-information-area">
                             <div class="section-title">
-                                <h6>Personal Information</h6>
+                                <h6>@localizer["PersonalInformation"]</h6>
                                 <div class="dash"></div>
                             </div>
                             <div class="row g-4">
                                 <div class="col-lg-6 devaider1 position-relative">
                                     <div class="informations">
                                         <ul>
-                                            <li><span>Full Name:</span>  @Model.cv.CandidateNameEnglish</li>
+                                            <li>
+                                                <span>@localizer["FullName"]: </span>  
+                                                @Model.cv.CandidateNameEnglish
+                                                </li>
 
 
-                                            <li><span>Marital Status:</span>  @Model.cv.martial</li>
+                                            <li><span>@localizer["MaritalStatus"]:</span>  @Model.cv.martial</li>
                                             @if (Model.cv.MartialStatusId == 2)
                                             {
-                                                <li><span>Number of Children:</span>  @Model.cv.NoOfChildren</li>
+                                                <li><span>@localizer["NumberofChildren"]:</span>  @Model.cv.NoOfChildren</li>
                                             }
-                                            <li><span>Height:</span>  @Model.cv.Height</li>
-                                            <li><span>Weight:</span>  @Model.cv.Weight KG</li>
+                                            <li><span>@localizer["Height"]:</span>  @Model.cv.Height</li>
+                                            <li><span>@localizer["Weight"]:</span>  @Model.cv.Weight KG</li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 pl-40">
                                     <div class="informations">
                                         <ul>
-                                            <li><span>Nationality:</span>  @Model.cv.Nationality</li>
-                                            <li><span>Date of Birth:</span>  @Model.cv.DateOfBirth.Value.ToString("dd/MM/yyyy")</li>
-                                            <li><span>Age:</span>  @Model.cv.Age</li>
+                                            <li><span>@localizer["Nationality"]:</span>  @Model.cv.Nationality</li>
+                                            <li><span>@localizer["DateofBirth"]::</span>  @Model.cv.DateOfBirth.Value.ToString("dd/MM/yyyy")</li>
+                                            <li><span>@localizer["Age"]:</span>  @Model.cv.Age</li>
                                             <li>
-                                                <span>Religion:</span>  @Model.cv.Religion
+                                                <span>@localizer["Religion"]:</span>  @Model.cv.Religion
                                             </li>
                                             <li>
                                                 @if (Model.cv.Gender == 0)
                                                 {
-                                                    <span>Gender:</span> @Gender.Male.ToString()
+                                                    <span>@localizer["Gender"]:</span> @Gender.Male.ToString()
                                                 }
                                                 @if (Model.cv.Gender == 1)
                                                 {
-                                                    <span>Gender:</span> @Gender.Female.ToString()
+                                                    <span>@localizer["Gender"]:</span> @Gender.Female.ToString()
                                                 }
 
                                             </li>
@@ -132,13 +135,13 @@
                     <div class="col-lg-12">
                         <div class="single-information-area">
                             <div class="section-title">
-                                <h6>Educational Qualification</h6>
+                                <h6>@localizer["EducationalQualification"]</h6>
                                 <div class="dash"></div>
                             </div>
 
                             <div class="educational-qualification mb-30">
                                 <div class="passing-year">
-                                    <p><span></span>Education</p>
+                                    <p><span></span>@localizer["Education"]</p>
                                     <span></span>
                                 </div>
                                 <div class="education-dt">
@@ -156,7 +159,7 @@
                     <div class="col-lg-12">
                         <div class="single-information-area">
                             <div class="section-title">
-                                <h6>Language</h6>
+                                <h6>@localizer["Language"]</h6>
                                 <div class="dash"></div>
                             </div>
                             <div class="row g-4 ">
@@ -164,20 +167,20 @@
                                     <div class="informations">
                                         <ul>
                                             @{
-                                                var arabic = "No";
-                                                var english = "No";
+                                                var arabic = localizer["no"];
+                                                var english = localizer["no"];
                                                 if ((bool)Model.cv.ArabicLanguage)
                                                 {
-                                                    arabic = "Yes";
+                                                    arabic = localizer["yes"];
                                                 }
 
                                                 if ((bool)Model.cv.EnglishLanguage)
                                                 {
-                                                    english = "Yes";
+                                                    english = localizer["yes"];
                                                 }
                                             }
-                                            <li><span>Arabic:</span> @arabic</li>
-                                            <li><span>English:</span>  @english</li>
+                                            <li><span>@localizer["Arabic"]:</span> @arabic</li>
+                                            <li><span>@localizer["English"]:</span>  @english</li>
                                         </ul>
                                     </div>
                                 </div>

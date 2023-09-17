@@ -16,5 +16,6 @@ public class CVStatus : EntityBase
     /// </summary>
     public int StatusNo { get; set; }
     public string Status { get; set; }
+    public string StatusArabic { get; set; }
 }
 

@@ -29,7 +29,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-inner mb-25">
                                         <label asp-for="Username">@localizer["username"]</label>
-                                        <div class="input-area">
+                                        <div class="input-area" dir="@(isRTL ? "LTR" : "LTR")">
                                             <img src="~/assets/images/icon/user.svg" alt="">
                                             <input type="text" asp-for="Username" placeholder="@localizer["username"]" />
                                         </div>
@@ -39,7 +39,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-inner">
                                         <label asp-for="Password">@localizer["password"]</label>
-                                        <input type="password" asp-for="Password" placeholder="@localizer["password"]" />
+                                        <input type="password" asp-for="Password" placeholder="@localizer["password"]" dir="@(isRTL ? "LTR" : "LTR")" />
                                         <i class="bi bi-eye-slash" id="togglePassword"></i>
                                     </div>
                                     <span asp-validation-for="Password" class="alert-danger"></span>

@@ -4,5 +4,50 @@
   "password": "Pssword",
   "ForgetPassword": "Forget Password",
   "RememberMe": "Remember Me",
-  "Login": "SignIn"
+  "Login": "SignIn",
+  "Logout": "Logout",
+  "MyProfile": "My Profile",
+  "WelcomeTo": "WelcomeTo",
+
+  "Home": "Home",
+  "CVPortal": "CV Portal",
+  "CVTracking": "CV Tracking",
+  "Notifications": "Notifications",
+  "SeeAllNotifications": "See All Notifications",
+  "LocalWelcome": "Welcome to CV Tracking Portal",
+  "ForeignAgents": "Foreign Agents",
+  "SelectedCVPool": "Selected CV Pool",
+
+  "Applicant": "Applicant",
+  "ReferenceNumber": "Reference Number",
+  "Name": "Name",
+  "PassportNo": "Passport No",
+  "Nationality": "Nationality",
+  "Contact": "Contact",
+  "Status": "Status",
+  "Manage": "Manage",
+  "CancelReason": "Reason",
+  "Sponsor": "Sponsor",
+
+  "PersonalInformation": "Personal Information",
+  "FullName": "Full Name",
+
+  "MaritalStatus": "Marital Status",
+  "NumberofChildren": "Number of Children",
+  "Height": "Height",
+  "Weight": "Weight",
+
+  "DateofBirth": "Date of Birth",
+  "Age": "Age",
+  "Religion": "Religion",
+  "Gender": "Gender",
+
+  "EducationalQualification": "Educational Qualification",
+  "Education": "Education",
+
+  "Language": "Language",
+  "yes": "Yes",
+  "no": "No",
+  "English": "English",
+  "Arabic": "Arabic"
 }
