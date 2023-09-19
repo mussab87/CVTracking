@@ -74,6 +74,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Resources\ar-SA.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Resources\en-US.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\assets\css\animate.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

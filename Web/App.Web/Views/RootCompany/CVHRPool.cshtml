@@ -180,9 +180,18 @@
                                                             if (Model[j].selected.SponsorName is not null)
                                                             {
                                                                 <hr />
-                                                                <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy")', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
-                                                                    Sponsor
-                                                                </button>
+                                                                @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                                {
+                                                                    <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirth.Value', '@Model[j].selected.SponsorDateOfBirth.Value')" class="btn btn-success btn-md">
+                                                                        Sponsor
+                                                                    </button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy")', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
+                                                                        Sponsor
+                                                                    </button>
+                                                                }
                                                             }
                                                         }
                                                     }

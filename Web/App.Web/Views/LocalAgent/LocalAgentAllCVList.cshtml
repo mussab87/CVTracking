@@ -122,7 +122,23 @@
 
                                                 <td>@Model[j].CV.CvReferenceNumber</td>
                                                 <td>
-                                                    @Model[j].CV.CandidateNameEnglish
+                                                    @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                    {
+                                                        if (Model[j].CV.CandidateNameArabic is not null)
+                                                        {
+                                                            @Model[j].CV.CandidateNameArabic
+                                                        }
+                                                        else
+                                                        {
+                                                            @Model[j].CV.CandidateNameEnglish
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        @Model[j].CV.CandidateNameEnglish
+                                                    }
+
                                                 </td>
                                                 <td>
                                                     @Model[j].CV.PassportNumber
@@ -130,7 +146,14 @@
                                                 <td>
                                                     @if (@Model[j].CV.Nationality != null)
                                                     {
-                                                        @Model[j].CV.Nationality.NameEnglish
+                                                        @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                        {
+                                                            @Model[j].CV.Nationality.NameArabic
+                                                        }
+                                                        else
+                                                        {
+                                                            @Model[j].CV.Nationality.NameEnglish
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -150,7 +173,7 @@
                                         }*@
                                                     @if (Model[j].IsCancel == true)
                                                     {
-                                                        @if(CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                        @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
                                                         {
                                                             <label style="background-color:orangered; color:white">@Model[j].CVStatus.StatusArabic</label>
                                                             <hr />
@@ -166,9 +189,9 @@
                                                                 @localizer["CancelReason"]
                                                             </button>
                                                         }
-                                                        
-                                                        
-                                                        
+
+
+
 
                                                         @if (Model[j].selected is not null)
                                                         {
@@ -187,7 +210,7 @@
                                                                         @localizer["Sponsor"]
                                                                     </button>
                                                                 }
-                                                                
+
                                                             }
                                                         }
                                                     }
@@ -197,14 +220,14 @@
                                                         @if ((bool)Model[j].SendByWhatapp && Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
                                                         {
                                                             <button type="button" class="btn btn-outline-secondary">
-                                                                Pending
+                                                                @localizer["Pending"]
                                                             </button>
                                                             <hr />
                                                             @if (AuthorizationService.AuthorizeAsync(User, "LocalAgent-UnSendCVByWhatsApp").Result.Succeeded)
                                                             {
                                                                 <a href="#" onclick="returnbacksharewhatsapp('@Model[j].Id', '@Model[j].CV.Id', '@Model[j].ForeignAgent.Id', '@Model[j].SendByWhatapp')"
                                                                    style="cursor:pointer">
-                                                                    Return to Available
+                                                                    @localizer[" ReturntoAvailable"]
 
                                                                 </a>
                                                             }
@@ -212,25 +235,25 @@
                                                         else if (!(bool)Model[j].SendByWhatapp && Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
                                                         {
                                                             <label style="background-color:lightseagreen">
-                                                                Available
+                                                                @localizer["Available"]
                                                             </label>
                                                         }
                                                     }
                                                     else if (Model[j].CVStatus.StatusNo == (int)cvStatus.SendToLocal)
                                                     {
                                                         <button type="button" class="btn btn-warning">
-                                                            Available
+                                                            @localizer["Available"]
                                                         </button>
                                                     }
 
                                                     @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Selected)
                                                     {
                                                         <label style="background-color:#DFA100">
-                                                            @cvStatus.Processing.ToString()
+                                                            @localizer["Processing"] @* @cvStatus.Processing.ToString() *@
                                                         </label>
                                                         <hr />
                                                         <a href="#" onclick="sponsorData(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)">
-                                                            Sponsor
+                                                            @localizer["Sponsor"]
                                                         </a>
                                                     }
 
@@ -238,7 +261,7 @@
                                                     {
 
                                                         <label style="background-color:#198754;color:white">
-                                                            Employeed
+                                                            @localizer["Employeed"]
                                                         </label>
                                                     }
 
@@ -246,7 +269,7 @@
                                                     {
 
                                                         <label style="background-color:#198754;color:white">
-                                                            @cvStatus.Uploaded
+                                                            @localizer["Uploaded"] @* @cvStatus.Uploaded *@
                                                         </label>
                                                     }
 
@@ -273,8 +296,8 @@
                                                             {
                                                                 <hr>
                                                                 <button type="button" class="btn btn-outline-success"
-                                                                        onclick="confirmSelectedcv(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)">
-                                                                    Select CV
+                                                                        onclick="confirmSelectedcv(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id, '@CultureInfo.CurrentCulture.Name.StartsWith("ar")')">
+                                                                    @localizer["SelectCV"]
                                                                 </button>
                                                             }
                                                             if (Model[j].CVStatus.StatusNo != (int)cvStatus.Selected && Model[j].CVStatus.StatusNo != (int)cvStatus.SendToLocal
@@ -282,8 +305,8 @@
                                                             {
                                                                 <hr>
                                                                 <button type="button" class="btn btn-outline-success"
-                                                                        onclick="confirmSelectedcv(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)">
-                                                                    Select CV
+                                                                        onclick="confirmSelectedcv(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id, '@CultureInfo.CurrentCulture.Name.StartsWith("ar")')">
+                                                                    @localizer["SelectCV"]
                                                                 </button>
                                                             }
                                                             @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Selected)
@@ -291,20 +314,30 @@
                                                                 <hr>
 
                                                                 <label style="color: green">
-                                                                    @cvStatus.Selected.ToString()
+                                                                    @localizer["Selected"] @* @cvStatus.Selected.ToString() *@
                                                                 </label>
                                                                 <hr>
                                                                 <button type="button" class="btn btn-danger"
                                                                         onclick="confirmUnSelectcv(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)">
-                                                                    UnSelect
+                                                                    @localizer["UnSelect"]
                                                                 </button>
                                                             }
                                                             @if (Model[j].CVStatus.StatusNo == (int)cvStatus.Uploaded)
                                                             {
                                                                 <hr />
-                                                                <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy")', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
-                                                                    Sponsor
-                                                                </button>
+                                                                @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                                {
+                                                                    <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirth.Value', '@Model[j].selected.SponsorDateOfBirth.Value')" class="btn btn-success btn-md">
+                                                                        @localizer["Sponsor"]
+                                                                    </button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy")', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
+                                                                        @localizer["Sponsor"]
+                                                                    </button>
+                                                                }
+
                                                             }
                                                         }
 
@@ -330,12 +363,12 @@
                                         }
                                     else
                                     {
-                                        <p><h4 style="text-align:center">No Data to Display</h4></p>
+                                        <p><h4 style="text-align:center">@localizer["NoDatatoDisplay"]</h4></p>
                                     }
                                 }
                                 else
                                 {
-                                    <p><h4 style="text-align:center">No Data to Display</h4></p>
+                                    <p><h4 style="text-align:center">@localizer["NoDatatoDisplay"]</h4></p>
                                 }
 
                             </tbody>

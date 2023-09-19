@@ -31,6 +31,10 @@ namespace JsonBasedLocalization.Web.Middlewares
                         culture = "de-DE";
                         break;
 
+                    case "en":
+                        culture = "en-US";
+                        break;
+
                     default:
                         culture = "en-US";
                         break;

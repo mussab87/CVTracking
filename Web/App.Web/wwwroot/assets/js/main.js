@@ -1357,8 +1357,30 @@ function confirmPostToAdmin(cvid) {
         });
 }
 
-function confirmSelectedcv(hrpoolId, cvId, foreignId) {
+function confirmSelectedcv(hrpoolId, cvId, foreignId, lan) {
     debugger
+    //if (lan.toLowerCase() == 'true') {
+    //    bootbox.confirm({
+    //        message: 'Â· «‰  „ √ﬂœ „‰ «Œ Ì«—ﬂø',
+    //        buttons: {
+    //            confirm: {
+    //                label: '‰⁄„',
+    //                className: 'btn-success'
+    //            },
+    //            cancel: {
+    //                label: '·«',
+    //                className: 'btn-danger'
+    //            }
+    //        },
+    //        callback: function (result) {
+    //            if (result) {
+
+    //            }
+    //        }
+    //    });
+    //}
+
+
     swal({
         title: 'Are you sure want to select this CV?',
         /*html: '<label>Enter Back Forward Comments</label><textarea id="txtcomment" class="form-control input-lg"></textarea>',*/
@@ -1558,7 +1580,7 @@ function showSponsor(name, visanumber, idnumber, contact, dateofbirthhijri, date
 }
 
 function showCancelReason(cancelby, reason, canceldate, notes, culture) {
-   
+
     swal({
         title: 'Cancel Reason Details:',
         html: '<label><b>Canceled By:</b></label>' + " " + cancelby

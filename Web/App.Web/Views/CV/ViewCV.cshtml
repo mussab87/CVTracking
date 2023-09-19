@@ -28,7 +28,7 @@
         {
             logo = Model.cvHRpool.LocalAgent.LocalAgentLogo;
         }
-    }    
+    }
 }
 
 <!-- ========== Dashboard Area end============= -->
@@ -54,7 +54,16 @@
                                     <img src="@personalimg.Path" alt="">
                                 </div>
                                 <div class="name-degination">
-                                    <h4>@Model.cv.CandidateNameEnglish</h4>
+                                    <h4>
+                                        @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                        {
+                                            @Model.cv.CandidateNameArabic
+                                        }
+                                        else
+                                        {
+                                            @Model.cv.CandidateNameEnglish
+                                        }
+                                    </h4>
                                     <span>@Model.cv.Designation</span>
                                 </div>
                             </div>
@@ -90,12 +99,40 @@
                                     <div class="informations">
                                         <ul>
                                             <li>
-                                                <span>@localizer["FullName"]: </span>  
-                                                @Model.cv.CandidateNameEnglish
-                                                </li>
+                                                <span>@localizer["FullName"]: </span>
+                                                @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                {
+                                                    if (Model.cv.CandidateNameArabic is not null)
+                                                    {
+                                                        @Model.cv.CandidateNameArabic
+                                                    }
+                                                    else
+                                                    {
+                                                        @Model.cv.CandidateNameEnglish
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @Model.cv.CandidateNameEnglish
+                                                }
+
+                                            </li>
 
 
-                                            <li><span>@localizer["MaritalStatus"]:</span>  @Model.cv.martial</li>
+                                            <li>
+                                                <span>
+                                                    @localizer["MaritalStatus"]:
+                                                </span>
+                                                @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                {
+                                                    @Model.cv.martialArabic
+                                                }
+                                                else
+                                                {
+                                                    @Model.cv.martial
+                                                }
+
+                                            </li>
                                             @if (Model.cv.MartialStatusId == 2)
                                             {
                                                 <li><span>@localizer["NumberofChildren"]:</span>  @Model.cv.NoOfChildren</li>
@@ -108,20 +145,59 @@
                                 <div class="col-lg-6 pl-40">
                                     <div class="informations">
                                         <ul>
-                                            <li><span>@localizer["Nationality"]:</span>  @Model.cv.Nationality</li>
+                                            <li>
+                                                <span>@localizer["Nationality"]:</span>
+                                                @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                {
+                                                    @Model.cv.NationalityArabic
+                                                }
+                                                else
+                                                {
+                                                    @Model.cv.Nationality
+                                                }
+
+                                            </li>
                                             <li><span>@localizer["DateofBirth"]::</span>  @Model.cv.DateOfBirth.Value.ToString("dd/MM/yyyy")</li>
                                             <li><span>@localizer["Age"]:</span>  @Model.cv.Age</li>
                                             <li>
-                                                <span>@localizer["Religion"]:</span>  @Model.cv.Religion
+                                                <span>@localizer["Religion"]:</span>
+                                                @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                {
+                                                    @Model.cv.ReligionArabic
+                                                }
+                                                else
+                                                {
+                                                    @Model.cv.Religion
+                                                }
+
+
                                             </li>
                                             <li>
                                                 @if (Model.cv.Gender == 0)
                                                 {
-                                                    <span>@localizer["Gender"]:</span> @Gender.Male.ToString()
+                                                    <span>@localizer["Gender"]:</span>
+                                                    @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                    {
+                                                        <text>ذكر</text>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Gender.Male.ToString()
+                                                    }
+
                                                 }
                                                 @if (Model.cv.Gender == 1)
                                                 {
-                                                    <span>@localizer["Gender"]:</span> @Gender.Female.ToString()
+                                                    <span>@localizer["Gender"]:</span>
+
+                                                    @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                    {
+                                                        <text>انثى</text>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Gender.Female.ToString()
+                                                    }
                                                 }
 
                                             </li>
@@ -191,7 +267,7 @@
                     <div class="col-lg-12">
                         <div class="single-information-area">
                             <div class="section-title">
-                                <h6>Previous Employments</h6>
+                                <h6>@localizer["PreviousEmployments"]</h6>
                                 <div class="dash"></div>
                             </div>
                             @if (Model.previousEmployment is not null)
@@ -202,12 +278,34 @@
                                     {
                                         <div class="educational-qualification mb-30">
                                             <div class="passing-year">
-                                                <p><span>01.</span>@prev.CountryOfEmployment.NameEnglish</p>
+                                                <p>
+                                                    <span>01.</span>
+                                                    @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                    {
+                                                        @prev.CountryOfEmployment.NameArabic
+                                                    }
+                                                    else
+                                                    {
+                                                        @prev.CountryOfEmployment.NameEnglish
+                                                    }
+
+                                                </p>
                                                 <span></span>
                                             </div>
                                             <div class="education-dt">
                                                 <h6>Position: @prev.Position</h6>
-                                                <p class="position"><span>Period:</span> @prev.Period /Year</p>
+                                                <p class="position">
+                                                    <span>@localizer["Period"]:</span>
+                                                    @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                    {
+                                                        @prev.Period.ToString()  @localizer["Year"]
+                                                    }
+                                                    else
+                                                    {
+                                                        @prev.Period  @localizer["Year"]
+                                                    }
+
+                                                </p>
                                                 @*<div class="responsibility">
                                     <h6>Responsibility:</h6>
                                     <ul>
@@ -245,7 +343,7 @@
                     <div class="col-lg-12">
                         <div class="single-information-area">
                             <div class="section-title">
-                                <h6>Special Skills</h6>
+                                <h6>@localizer["SpecialSkills"]</h6>
                                 <div class="dash"></div>
                             </div>
                             <div class="social-area">
@@ -256,7 +354,16 @@
                                         {
                                             foreach (var skill in Model.skillList)
                                             {
-                                                <li><a href="#">@skill.Text</a></li>
+                                                <li>
+                                                    @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                    {
+                                                        <a href="#">@skill.TextِArabic</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="#">@skill.Text</a>
+                                                    }
+                                                </li>
                                             }
 
                                         }
@@ -334,12 +441,22 @@
                             <div class="dash"></div>
                         </div>
                         <div class="declaration-area">
-                            <h6>Declaration & Authentication-</h6>
-                            <p>I do hereby declare that the information given above is true of my knowledge.</p>
+                            <h6>@localizer["DeclarationAndAuthentication"]</h6>
+                            <p>@localizer["DeclarationAndAuthentication2"]</p>
                         </div>
                         <div class="gratitude-area">
-                            <span>Yours Faithful,</span>
-                            <h6>@Model.cv.CandidateNameEnglish</h6>
+                            <span>@localizer["YoursFaithful"]</span>
+                            <h6>
+                                @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                {
+                                    @Model.cv.CandidateNameArabic
+                                }
+                                else
+                                {
+                                    @Model.cv.CandidateNameEnglish
+                                }
+
+                            </h6>
                         </div>
                     </div>
                 </div>

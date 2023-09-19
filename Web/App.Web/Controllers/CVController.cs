@@ -43,16 +43,19 @@ namespace App.Web.Controllers
             var queryCountry = new GetCountryListQuery();
             var nationality = await _mediator.Send(queryCountry);
             model2.cv.Nationality = nationality.FirstOrDefault(n => n.Id == model2.cv.NationalityId).NameEnglish;
+            model2.cv.NationalityArabic = nationality.FirstOrDefault(n => n.Id == model2.cv.NationalityId).NameArabic;
 
             //get martial status from martialStatus table
             var queryMartialStatus = new GetMartialStatusListQuery();
             var martialStatus = await _mediator.Send(queryMartialStatus);
             model2.cv.martial = martialStatus.FirstOrDefault(n => n.Id == model2.cv.MartialStatusId).MartialStatusEnglish;
+            model2.cv.martialArabic = martialStatus.FirstOrDefault(n => n.Id == model2.cv.MartialStatusId).MartialStatusArabic;
 
             //get religion from religion table
             var queryreligion = new GetReligionListQuery();
             var religion = await _mediator.Send(queryreligion);
             model2.cv.Religion = religion.FirstOrDefault(n => n.Id == model2.cv.ReligionId).ReligionEnglish;
+            model2.cv.ReligionArabic = religion.FirstOrDefault(n => n.Id == model2.cv.ReligionId).ReligionArabic;
 
             if (model2.cvHRpool.LocalAgentId is not null)
             {

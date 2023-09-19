@@ -16,7 +16,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-inner mb-25">
-                    <label asp-for="cv.Age"></label>
+                    <label asp-for="cv.Age">Age</label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/calender2.svg" alt="">
                         <input type="text" asp-for="cv.Age" readonly="readonly">
@@ -25,7 +25,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-inner mb-25">
-                    <label asp-for="cv.NationalityId"></label>
+                    <label>Nationality</label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/nid.svg" alt="">
                         <select asp-for="cv.NationalityId" class="select2" asp-items="@ViewBag.Countries">
@@ -49,7 +49,7 @@
 
             <div class="col-md-6">
                 <div class="form-inner mb-25">
-                    <label asp-for="cv.MartialStatusId"></label>
+                    <label>Martial Status</label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/marital-2.svg" alt="">
                         <select asp-for="cv.MartialStatusId" class="select2" asp-items="@ViewBag.martialStatus">
@@ -61,7 +61,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-inner mb-25">
-                    <label asp-for="cv.NoOfChildren"></label>
+                    <label asp-for="cv.NoOfChildren">No Of Children</label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/hight.svg" alt="">
                         <input type="text" asp-for="cv.NoOfChildren" placeholder="Enter Number">
@@ -86,7 +86,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-inner mb-25">
-                    <label asp-for="cv.ReligionId"></label>
+                    <label>Religion</label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/religion.svg" alt="">
                         <select asp-for="cv.ReligionId" class="select2" asp-items="@ViewBag.Religion">
@@ -97,7 +97,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-inner mb-25">
-                    <label asp-for="cv.ContractPeriod"></label>
+                    <label asp-for="cv.ContractPeriod">Contract Period </label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/hight.svg" alt="">
                         <input type="text" asp-for="cv.ContractPeriod" placeholder="Enter Number">
@@ -106,7 +106,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-inner mb-25">
-                    <label asp-for="cv.PassportNumber"></label>
+                    <label asp-for="cv.PassportNumber">Passport Number</label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/hight.svg" alt="">
                         <input type="text" asp-for="cv.PassportNumber" placeholder="Enter Number">
@@ -145,7 +145,7 @@
             </div>*@
             <div class="col-md-6">
                 <div class="form-inner mb-25">
-                    <label asp-for="cv.Height"></label>
+                    <label asp-for="cv.Height">Height</label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/hight.svg" alt="">
                         <input type="text" asp-for="cv.Height" placeholder="5.6'">
@@ -155,7 +155,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-inner mb-25">
-                    <label asp-for="cv.Weight"></label>
+                    <label asp-for="cv.Weight">Weight</label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/weight.svg" alt="">
                         <input asp-for="cv.Weight" type="text" placeholder="56">

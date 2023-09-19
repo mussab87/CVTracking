@@ -48,6 +48,7 @@ public class GetForeignCvByIdQueryHandler : IRequestHandler<GetForeignCvByIdQuer
             {
                 var skillobj = new SkillSelectedDto();
                 skillobj.Text = skill.CandidateSkills.SkillEnglish;
+                skillobj.TextِArabic = skill.CandidateSkills.SkillArabic;
                 skillobj.Value = skill.CandidateSkills.SkillArabic;
 
                 allSkills.Add(skillobj);

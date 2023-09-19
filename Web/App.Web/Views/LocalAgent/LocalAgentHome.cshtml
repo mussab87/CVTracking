@@ -53,7 +53,9 @@
 
                                                     <input type="checkbox" data-value="@foreign.Id" id="LocalHomefilterCheckbox" name="LocalHomefilterCheckbox" onclick="checkUncheckLocalHome()">
                                                     <span class="checkmark"></span>
-                                                    <span class="text">@foreign.ForeignAgentName</span>
+                                                    <span class="text">
+                                                        @foreign.ForeignAgentName
+                                                    </span>
                                                     @*<span class="qty">(@foreign.ForeignAgentCountryCity.CountryCity)</span>*@
                                                 </label>
                                             </li>
@@ -66,7 +68,7 @@
                     </div>
 
                     <div class="job-widget-btn">
-                        <a class="primry-btn-2 lg-btn text-center" href="#">Search</a>
+                        <a class="primry-btn-2 lg-btn text-center" href="#">@localizer["Search"]</a>
                     </div>
                 </div>
             </div>
@@ -150,10 +152,43 @@
                                                     </div>
                                                     <div class="company-details">
                                                         <div class="name-location">
-                                                            <h5><a href="job-details.html">@Model.LocalHrPool[j].CV.CandidateNameEnglish</a></h5>
+                                                            <h5>
+                                                                <a href="job-details.html">
+                                                                    @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                                    {
+                                                                        @Model.LocalHrPool[j].CV.CandidateNameArabic
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Model.LocalHrPool[j].CV.CandidateNameEnglish
+                                                                    }
+
+
+                                                                </a>
+                                                            </h5>
                                                             <ul>
-                                                                <li><p><a href="#">@Model.LocalHrPool[j].CV.Nationality.NameEnglish</a></p></li>
-                                                                <li><p><span class="title">DOB:</span> @Model.LocalHrPool[j].CV.DateOfBirth.Value.ToString("dd/MM/yyyy")</p></li>
+                                                                <li>
+                                                                    <p>
+                                                                        <a href="#">
+                                                                            @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                                                            {
+                                                                                @Model.LocalHrPool[j].CV.Nationality.NameArabic
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                @Model.LocalHrPool[j].CV.Nationality.NameEnglish
+                                                                            }
+
+                                                                        </a>
+                                                                    </p>
+                                                                </li>
+                                                                <li>
+                                                                    <p>
+                                                                        <span class="title">
+                                                                            @localizer["DOB"]:
+                                                                        </span> @Model.LocalHrPool[j].CV.DateOfBirth.Value.ToString("dd/MM/yyyy")
+                                                                    </p>
+                                                                </li>
                                                             </ul>
                                                         </div>
 
@@ -162,13 +197,13 @@
                                                 <div class="job-discription">
                                                     <ul>
                                                         <li>
-                                                            <p><span class="title">Salary:</span> @Model.LocalHrPool[j].CV.CandidateSalary @*/ <span class="time">Per Hour</span>*@</p>
+                                                            <p><span class="title">@localizer["Salary"]:</span> @Model.LocalHrPool[j].CV.CandidateSalary @*/ <span class="time">Per Hour</span>*@</p>
                                                         </li>
                                                         <li>
-                                                            <p><span class="title">Age:</span> @Model.LocalHrPool[j].CV.Age Years</p>
+                                                            <p><span class="title">@localizer["Age"]:</span> @Model.LocalHrPool[j].CV.Age Years</p>
                                                         </li>
                                                         <li>
-                                                            <p><span class="title">Foreign:</span> @Model.LocalHrPool[j].ForeignAgent.ForeignAgentName</p>
+                                                            <p><span class="title">@localizer["Foreign"]:</span> @Model.LocalHrPool[j].ForeignAgent.ForeignAgentName</p>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -178,16 +213,16 @@
                                                         {
                                                             @if ((bool)Model.LocalHrPool[j].SendByWhatapp)
                                                             {
-                                                                <span class="light-green">Pending</span>
+                                                                <span class="light-green">@localizer["Pending"]</span>
                                                             }
                                                             else
                                                             {
-                                                                <span class="light-green">Available</span>
+                                                                <span class="light-green">@localizer["Available"]</span>
                                                             }
                                                         }
                                                         else
                                                         {
-                                                            <span class="light-green">Available</span>
+                                                            <span class="light-green">@localizer["Available"]</span>
                                                         }
 
                                                         <a target="_blank" asp-action="OnPostGetPDF" asp-controller="CV"

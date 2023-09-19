@@ -48,6 +48,29 @@
   "yes": "نعم",
   "no": "لا",
   "English": "اللغة الانجليزية",
-  "Arabic": "اللغة العربية"
+  "Arabic": "اللغة العربية",
+  "PreviousEmployments": "الخبرات السابقة",
+  "Period": "المدة",
+  "Year": "سنة",
+  "SpecialSkills": "المهارات العملية",
+  "DeclarationAndAuthentication": "تعهد وإقرار",
+  "DeclarationAndAuthentication2": "أقر بموجب هذا أن المعلومات الواردة أعلاه صحيحة على حد علمي.",
+  "YoursFaithful": "خالص التحية والتقدير،",
+
+  "Pending": "قيد التنفيذ",
+  "ReturntoAvailable": "تغيير الى متاح",
+  "Available": "متاح",
+  "Processing": "تحت المعالجة",
+  "Employeed": "تم التوظيف",
+  "Uploaded": "تم رفع المستندات",
+  "SelectCV": "إختيار",
+  "Selected": "تم الإختيار",
+  "UnSelect": "تراجع عن الاختيار",
+  "NoDatatoDisplay": "لايوجد بيانات لعرضها",
+
+  "Search": "بحث",
+  "DOB": "تاريخ الميلاد",
+  "Salary": "الراتب",
+  "Foreign": "المكتب"
 
 }

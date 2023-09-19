@@ -49,5 +49,28 @@
   "yes": "Yes",
   "no": "No",
   "English": "English",
-  "Arabic": "Arabic"
+  "Arabic": "Arabic",
+  "PreviousEmployments": "Previous Employments",
+  "Period": "Period",
+  "Year": "Year",
+  "SpecialSkills": "Special Skills",
+  "DeclarationAndAuthentication": "Declaration & Authentication -",
+  "DeclarationAndAuthentication2": "I do hereby declare that the information given above is true of my knowledge.",
+  "YoursFaithful": "Yours Faithful,",
+
+  "Pending": "Pending",
+  "ReturntoAvailable": "Return to Available",
+  "Available": "Available",
+  "Processing": "Processing",
+  "Employeed": "Employeed",
+  "Uploaded": "Uploaded",
+  "SelectCV": "Select CV",
+  "Selected": "Selected",
+  "UnSelect": "UnSelect",
+  "NoDatatoDisplay": "No Data to Display",
+
+  "Search": "Search",
+  "DOB": "DOB",
+  "Salary": "Salary",
+  "Foreign": "Foreign"
 }
