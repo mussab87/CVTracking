@@ -90,17 +90,24 @@
                 <div class="table-wrapper2">
                     <div class="table-filter-area mb-30">
                         <form asp-action="ForeignAgentCvList">
+                            <div class="form-wrap style-2 style-3">
+                                <div class="form-inner">
+
+                                    <img src="~/assets/images/icon/search-2.svg" alt="">
+                                    <select asp-items="@ViewBag.RootForeignAgents" class="select2" id="foreignId" name="foreignId">
+                                        <option value="">Select Foreign Agent</option>
+                                    </select>
+                                </div>
+                                <button class="primry-btn-1" type="submit">Search</button>
+                            </div>
+
                             <div class="form-wrap style-3">
                                 <div class="form-inner">
                                     <div class="input-area">
-                                        <img src="~/assets/images/icon/search-2.svg" alt="">
-                                        <select asp-items="@ViewBag.RootForeignAgents" class="select2" id="foreignId" name="foreignId">
-                                            <option value="">Select Foreign Agent</option>
-                                        </select>
+                                        <img src="assets/images/icon/calender2.svg" alt="">
+                                        <input type="text" id="datepicker11" name="datepicker11" placeholder="Search by date">
                                     </div>
-                                    <button class="primry-btn-1" type="submit">Search</button>
                                 </div>
-
                             </div>
                         </form>
                     </div>

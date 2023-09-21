@@ -784,14 +784,26 @@ namespace App.Web.Controllers
 
         [HttpPost]
         [Authorize("RootCompany-ForeignAgentCvList")]
-        public async Task<IActionResult> ForeignAgentCvList(string foreignId)
+        public async Task<IActionResult> ForeignAgentCvList(string foreignId, string datepicker11)
         {
+            List<ForeignAgentHRPoolDto> ForeignAgentCvList;
+
             await getForeignAgentsLookup();
 
             ////get all CV for the ForeignAgent
-            List<ForeignAgentHRPoolDto> ForeignAgentCvList = await GetPostToAdminForeignCVList(Convert.ToInt32(foreignId));
+            ForeignAgentCvList = await GetPostToAdminForeignCVList(Convert.ToInt32(foreignId));
 
-            return View("CVHRPool", ForeignAgentCvList.Where(cv => cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin || cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal || cv.CVStatus.StatusNo == (int)cvStatus.Canceled).ToList());
+            if (datepicker11 is not null)
+            {
+                var selectedDate = Convert.ToDateTime(datepicker11);
+                ForeignAgentCvList = ForeignAgentCvList
+                   .Where(cv => (cv.CVStatus.StatusNo == (int)cvStatus.PostToAdmin
+                   || cv.CVStatus.StatusNo == (int)cvStatus.SendToLocal
+                   || cv.CVStatus.StatusNo == (int)cvStatus.Canceled)
+                   && (cv.CV.CreatedDate.Date == selectedDate.Date)).ToList();
+            }
+
+            return View("CVHRPool", ForeignAgentCvList);
         }
 
         [HttpPost]

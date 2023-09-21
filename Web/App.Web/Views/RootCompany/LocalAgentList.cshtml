@@ -94,185 +94,203 @@
             </div>
 
 
-            <div class="col-lg-12">
-                <div class="table-wrapper">
-                    <div class="title-and-btn">
-                        <div class="title">
-                            <h4>All Local Agents:</h4>
-                        </div>
-                        @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-AddNewLocalAgent").Result.Succeeded)
-                        {
-                            <div class="job-post-btn">
-                                <a asp-controller="RootCompany" asp-action="AddNewLocalAgent" class="primry-btn-2">Add New Local Agent</a>
-                            </div>
-                        }
-
-                    </div>
-
-                    <div id="PlaceLocalHere"></div>
-
-                    <form>
-                        <div class="scroll-table">
-                            @if (Model.Any())
-                            {
-                                <table class="eg-table table category-table mb-0" id="tbl">
-                                    <thead>
-                                        <tr>
-                                            <th hidden>
-                                                Id
-                                            </th>
-                                            <th>#</th>
-                                            <th>
-                                                Local Agent Name English
-                                            </th>
-                                            <th>
-                                                Local Agent Name Arabic
-                                            </th>
-                                            <th>License Number</th>
-                                            <th>
-                                                Country
-                                            </th>
-                                            <th>
-                                                City
-                                            </th>
-                                            <th>Address</th>
-                                            <th>Logo</th>
-                                            <th>
-                                                Contact
-                                            </th>
-                                            <th>Comments</th>
-                                            <th>Users</th>
-                                            <th>Manage</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var local in Model)
-                                        {
-                                            i++;
-                                            <tr>
-                                                <td hidden>@local.Id</td>
-                                                <td>@i</td>
-                                                <td>
-                                                    @local.LocalAgentNameEnglish
-                                                </td>
-                                                <td>
-                                                    @local.LocalAgentNameArabic
-                                                </td>
-                                                <td>
-                                                    @local.LocalAgentNameEnglish
-                                                </td>
-                                                <td>
-                                                    @if (local.LocalAgentCountryCity != null)
-                                                    {
-                                                        @local.LocalAgentCountryCity.CountryCity.NameEnglish
-                                                    }
-                                                    else
-                                                    {
-                                                        <text>None</text>
-                                                    }
-
-                                                </td>
-                                                <td>
-                                                    @if (local.LocalAgentCountryCity != null)
-                                                    {
-                                                        @local.LocalAgentCountryCity.NameEnglish
-                                                    }
-                                                    else
-                                                    {
-                                                        <text>None</text>
-                                                    }
-
-                                                </td>
-                                                <td>@local.LocalAgentAddress</td>
-                                                <td>
-                                                    @if (local.LocalAgentLogo != null)
-                                                    {
-                                                        <img src="@local.LocalAgentLogo" style="width: 60px;height: 70px;">
-                                                    }
-                                                    else
-                                                    {
-                                                        <text>Not Uploaded</text>
-                                                    }
-
-                                                </td>
-                                                <td>@local.LocalAgentContacts</td>
-                                                <td>@local.LocalAgentComments</td>
-                                                <td>
-                                                    @if (local.LocalAgentUsers.Count > 0)
-                                                    {
-                                                        <table class="table-bordered">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th hidden>UserId</th>
-                                                                    <th style="color: black">User</th>
-                                                                    <th style="color: black">Status</th>
-                                                                    <th></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-
-                                                                @foreach (var user in local.LocalAgentUsers)
-                                                                {
-                                                                    <tr>
-                                                                        <td hidden>@user.Id</td>
-                                                                        <td>@user.FirstName @user.LastName</td>
-                                                                        <td>@user.UserStatus</td>
-                                                                        <td>
-                                                                            <a asp-action="EditUser" asp-controller="RootCompany"
-                                                                               asp-route-id="@user.Id"
-                                                                               class="btn btn-info text-white"
-                                                                               style="cursor:pointer">
-                                                                                <i class="bi bi-pencil-square"></i>
-                                                                            </a>
-                                                                        </td>
-                                                                    </tr>
-                                                                }
-                                                            </tbody>
-                                                        </table>
-                                                    }
-                                                    else
-                                                    {
-                                                        <text>No Users</text>
-                                                    }
-                                                </td>
-
-                                                <td>
-                                                    @*<form method="post" asp-controller="RootCompany" asp-action="DeleteRootCompany" asp-route-id="@foreign.Id">*@
-
-                                                    <a asp-action="EditLocalAgent" asp-controller="RootCompany"
-                                                       asp-route-id="@local.Id" class="btn btn-info text-white" style="cursor:pointer">
-                                                        <i class="bi bi-pencil-square"></i>
-                                                    </a>
-                                                    <hr>
-                                                    @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-LocalAgentAddUsers").Result.Succeeded)
-                                                    {
-                                                        <div class="col-md-12 pt-10">
-                                                            <div class="form-inner">
-                                                                <button id="userForeignAgentbtn" class="primry-btn-1 lg-btn w-unset" type="button"
-                                                                        data-toggle="ajax-modal"
-                                                                        data-target="#localaddUser"
-                                                                        data-url="@Url.Action($"LocalAgentAddUsers?localId={local.Id}")">
-                                                                    Add Users
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    }
-
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            }
-                            else
-                            {
-                                <p><h4 style="text-align:center">No Data to Display</h4></p>
-                            }
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
+
+    <!-- ========== Home Four Category Start============= -->
+    <div class="home4-category-area pt-120 mb-120" id="home4-category">
+        <div class="container">
+
+            <div class="table-wrapper2">
+                <div class="title-and-btn">
+                    <div class="section-title1">
+                        <h2>Local <span>Agents</span> List</h2>
+                    </div>
+                    <div class="job-post-btn">
+                        @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-AddNewLocalAgent").Result.Succeeded)
+                        {
+                            <a asp-controller="RootCompany" asp-action="AddNewLocalAgent" class="primry-btn-2">Add New Local Agent</a>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-4 cf justify-content-center">
+                <div id="PlaceLocalHere"></div>
+                @foreach (var local in Model)
+                {
+                    <div class="col">
+                        <div class="job-category-card2">
+                            <div class="job-content-inner">
+                                <div class="cart-front">
+                                    <h5>
+                                        <a asp-action="EditLocalAgent" asp-controller="RootCompany"
+                                           asp-route-id="@local.Id" style="cursor:pointer">@local.LocalAgentNameEnglish</a>
+                                    </h5>
+                                    @if (local.LocalAgentLogo != null)
+                                    {
+                                        <img src="@local.LocalAgentLogo" style="width: 70px;height: 70px;" alt="">
+                                    }
+                                    <p>
+                                        @if (local.LocalAgentCountryCity != null)
+                                        {
+                                            @local.LocalAgentCountryCity.CountryCity.NameEnglish
+                                        }
+                                    </p>
+                                    @local.LocalAgentContacts
+                                    <div class="view-btn1">
+                                        <a href="#" id="usersList" name="usersList" style="cursor:pointer"
+                                           onclick="showUserList('@local.Id')">View Users</a>
+
+                                        @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-LocalAgentAddUsers").Result.Succeeded)
+                                        {
+                                            <button type="button" class="btn" id="userForeignAgentbtn"
+                                                    data-toggle="ajax-modal"
+                                                    data-target="#localaddUser"
+                                                    data-url="@Url.Action($"LocalAgentAddUsers?localId={local.Id}")">
+
+                                                <span class="light-green">Link User </span>
+                                            </button>
+                                        }
+                                    </div>
+
+                                </div>
+                                <div class="card-back">
+                                    <div class="category-img">
+                                        @if (local.LocalAgentLogo != null)
+                                        {
+                                            <img src="@local.LocalAgentLogo" style="width: 150px;height: 80px;" alt="">
+                                        }
+                                        @* <img src="assets/images/bg/home4-category-01.png" alt=""> *@
+                                    </div>
+                                    <div class="category-content">
+                                        <h5>
+                                            <a asp-action="EditLocalAgent" asp-controller="RootCompany"
+                                               asp-route-id="@local.Id" style="cursor:pointer">@local.LocalAgentNameEnglish</a>
+                                        </h5>
+                                        <p>
+                                            @if (local.LocalAgentCountryCity != null)
+                                            {
+                                                @local.LocalAgentCountryCity.CountryCity.NameEnglish
+                                            }
+                                            else
+                                            {
+                                            }
+                                        </p>
+                                        <div class="view-btn1">
+                                            <a href="#" id="usersList" name="usersList" style="cursor:pointer"
+                                               onclick="showUserList('@local.Id')">View Users</a>
+
+                                            @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-LocalAgentAddUsers").Result.Succeeded)
+                                            {
+                                                <button type="button" class="btn" id="userForeignAgentbtn"
+                                                        data-toggle="ajax-modal"
+                                                        data-target="#localaddUser"
+                                                        data-url="@Url.Action($"LocalAgentAddUsers?localId={local.Id}")">
+
+                                                    <span class="light-green">Link User </span>
+                                                </button>
+                                            }
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+            @if (Model.Any())
+            {
+                @foreach (var local in Model)
+                {
+
+                    string userId = "usersModal" + local.Id;
+                    <div class="modal fade" id="@userId" tabindex="-1" data-bs-backdrop="false">
+                        <div class="modal-dialog" style="width:600px;">
+                            <div class="modal-content" style="background-color: lightgoldenrodyellow">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="addRoleLabel">Users for @local.LocalAgentNameEnglish</h4>
+                                    <button type="button" class="close" data-bs-dismiss="modal">
+                                        <span>X</span>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    @if (local.LocalAgentUsers.Count > 0)
+                                    {
+                                        <table class="eg-table table category-table mb-0" style="border:inset">
+                                            <thead>
+                                                <tr>
+                                                    <th hidden>UserId</th>
+                                                    <th style="color: black">User</th>
+                                                    <th style="color: black">Status</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @foreach (var user in local.LocalAgentUsers)
+                                                {
+                                                    <tr>
+                                                        <td hidden>@user.Id</td>
+                                                        <td>@user.FirstName @user.LastName</td>
+                                                        <td>@user.UserStatus</td>
+                                                        <td>
+
+                                                            <a asp-action="EditUser" asp-controller="RootCompany"
+                                                               asp-route-id="@user.Id" class="btn btn-info text-white" style="cursor:pointer">
+                                                                <i class="bi bi-pencil-square"></i>
+                                                            </a>
+                                                            <a class="btn" style="background-color: #00A7AC; color:white"
+                                                               asp-action="ChangeUserPassword" asp-route-id="@user.Id">
+                                                                Change Password
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    }
+                                </div>
+
+                                <div class="modal-footer">
+
+                                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancel</button>
+
+                                    @if (AuthorizationService.AuthorizeAsync(User, "RootCompany-AddNewAccount").Result.Succeeded)
+                                    {
+                                        <a asp-controller="RootCompany" asp-action="AddNewAccount" class="btn btn-primary" data-save="modal" data-url="@Url.Action($"EditUsersInRole")">
+                                            Add New User
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            }
+
+            <script>
+                function showUserList(id) {
+                    debugger;
+                    try {
+                        let modalId = "usersModal" + id;
+                        $('#' + modalId).modal('show');
+                    }
+                    catch {
+
+                    }
+
+                }
+            </script>
+        </div>
+    </div>
+    <!-- ========== Home Four Category End============= -->
 </div>
+
+
+
 <!-- ========== Dashboard Area end============= -->

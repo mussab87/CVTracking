@@ -12,21 +12,21 @@ public class AddLocalAgentRequest : IRequest<int>
     public DateTime LastModifiedDate { get; set; }
 
     [Required(ErrorMessage = "Local Agent Name English Field Required")]
-    [Display(Name = "Local Agent Name English")]
+    //[Display(Name = "Local Agent Name English")]
     public string LocalAgentNameEnglish { get; set; }
-    [Display(Name = "Local Agent Name Arabic")]
+    //[Display(Name = "Local Agent Name Arabic")]
     public string LocalAgentNameArabic { get; set; }
-    [Display(Name = "Local Agent License Number")]
+    //[Display(Name = "Local Agent License Number")]
     public string LocalAgentLicenseNumber { get; set; }
-    [Display(Name = "Local Agent City")]
+    //[Display(Name = "Local Agent City")]
     public int? LocalAgentCountryCityId { get; set; }
-    [Display(Name = "Local Agent Address")]
+    //[Display(Name = "Local Agent Address")]
     public string LocalAgentAddress { get; set; }
-    [Display(Name = "Local Agent Logo")]
+    //[Display(Name = "Local Agent Logo")]
     public string LocalAgentLogo { get; set; }
-    [Display(Name = "Local Agent Contact")]
+    //[Display(Name = "Local Agent Contact")]
     public string LocalAgentContacts { get; set; }
-    [Display(Name = "Local Agent Notes")]
+    //[Display(Name = "Local Agent Notes")]
     public string LocalAgentComments { get; set; }
 
     public int RootCompanyId { get; set; }

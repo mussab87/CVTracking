@@ -85,14 +85,14 @@
         // Order settings
         language: {
             infoEmpty: "Display Page 0 from 0",
-            search: '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' ? "بحث: " : "Search:",
+            search: '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' == 'True' ? "بحث: " : "Search:",
             "info": "Display Page _PAGE_ from _PAGES_",
             "lengthMenu": "Display _MENU_ Record",
             "paginate": {
-                "first": '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' ? "الاول" : "First",
-                "next": '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' ? "التالي" : "Next",
-                "previous": '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' ? "السابق" : "Previous",
-                "last": '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' ? "الأخير" : "Last"
+                "first": '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' == 'True' ? "الاول" : "First",
+                "next": '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' == 'True' ? "التالي" : "Next",
+                "previous": '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' == 'True' ? "السابق" : "Previous",
+                "last": '@CultureInfo.CurrentCulture.Name.StartsWith("ar")' == 'True' ? "الأخير" : "Last"
             }
         }
     });
@@ -191,47 +191,47 @@
         }
     }
 
-                                //var en = "culture=en";
-                                //var ar = "culture=ar";
-                                //var lang;
+                                    //var en = "culture=en";
+                                    //var ar = "culture=ar";
+                                    //var lang;
 
-                                //function switchLang(var2) {
+                                    //function switchLang(var2) {
 
-                                //    if (var2 == 'ar') {
-                                //        var url = location.href.replace(en, ar);
-                                //        document.location = url;
-                                //    }
-                                //    else if (var2 == 'en') {
-                                //        var url = location.href.replace(ar, en);
-                                //        document.location = url;
-                                //    }
-                                //}
+                                    //    if (var2 == 'ar') {
+                                    //        var url = location.href.replace(en, ar);
+                                    //        document.location = url;
+                                    //    }
+                                    //    else if (var2 == 'en') {
+                                    //        var url = location.href.replace(ar, en);
+                                    //        document.location = url;
+                                    //    }
+                                    //}
 
-                                //const params = new Proxy(new URLSearchParams(window.location.search), {
-                                //    get: (searchParams, prop) => searchParams.get(prop),
-                                //});
+                                    //const params = new Proxy(new URLSearchParams(window.location.search), {
+                                    //    get: (searchParams, prop) => searchParams.get(prop),
+                                    //});
 
-                                //let value = params.culture;
-                                //lang = value;
+                                    //let value = params.culture;
+                                    //lang = value;
 
-                                //if (value !== null) {
-                                //    if (value.toLowerCase() == 'ar') {
-                                //        $('body').attr({ 'dir': 'rtl' });
-                                //        $('body').removeClass('eng_v');
-                                //        $('body').addClass('arb_v');
-                                //        $('.btlClose').css('float', 'left');
+                                    //if (value !== null) {
+                                    //    if (value.toLowerCase() == 'ar') {
+                                    //        $('body').attr({ 'dir': 'rtl' });
+                                    //        $('body').removeClass('eng_v');
+                                    //        $('body').addClass('arb_v');
+                                    //        $('.btlClose').css('float', 'left');
 
-                                //    } else {
+                                    //    } else {
 
-                                //        $('body').attr({ 'dir': 'ltr' });
-                                //        $('body').removeClass('arb_v');
-                                //        $('body').addClass('eng_v');
-                                //        $('.btlClose').css('float', 'right');
-                                //    }
-                                //}
-                                //else {
-                                //    var url = location.href + '?culture=en'
-                                //    document.location = url;
-                                //}
+                                    //        $('body').attr({ 'dir': 'ltr' });
+                                    //        $('body').removeClass('arb_v');
+                                    //        $('body').addClass('eng_v');
+                                    //        $('.btlClose').css('float', 'right');
+                                    //    }
+                                    //}
+                                    //else {
+                                    //    var url = location.href + '?culture=en'
+                                    //    document.location = url;
+                                    //}
 
 </script>

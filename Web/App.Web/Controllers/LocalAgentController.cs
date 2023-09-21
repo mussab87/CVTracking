@@ -89,7 +89,7 @@ namespace App.Web.Controllers
                             objCancel.SponsorName = hrcv.selected is not null ? hrcv.selected.SponsorName : null;
                             objCancel.SponsorContact = hrcv.selected is not null ? hrcv.selected.SponsorContact : null;
                             objCancel.SponsorVisaNumber = hrcv.selected is not null ? hrcv.selected.VisaNumber : null;
-                            objCancel.SponsorDateofBirth = hrcv.selected is not null ? hrcv.selected.SponsorDateOfBirthHijri.Value.ToString("dd/MM/yyyy") : null;
+                            objCancel.SponsorDateofBirth = hrcv.selected is not null ? hrcv.selected.SponsorDateOfBirth.ToString() : null;
                             objCancel.SponsorIdNumber = hrcv.selected is not null ? hrcv.selected.SponsorIdNumber : null;
                         }
                     }

@@ -151,7 +151,7 @@ i.bx {
 }
 
 .pt-120 {
-    padding-top: 50px;
+    padding-top: 10px;
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
@@ -8042,7 +8042,7 @@ header.style-7 .main-menu ul li.menu-item-has-children > i {
 =======================================*/
 .footer1 {
     background: #1A1A1A;
-    padding-top: 90px;
+    //padding-top: 0px;
 }
 
     .footer1.bg-dark {
@@ -8148,7 +8148,7 @@ header.style-7 .main-menu ul li.menu-item-has-children > i {
         }
 
 .footer1 .footer-btm {
-    padding-top: 90px;
+    padding-top: 40px;
     position: relative;
 }
 
