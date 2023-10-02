@@ -37,13 +37,13 @@ namespace ReportViewerCore
                     CvReferenceNumber = model.cv.CvReferenceNumber,
                     CandidateNameEnglish = model.cv.CandidateNameEnglish,
                     CandidateNameArabic = model.cv.CandidateNameArabic,
-                    Designation = model.cv.Designation,
+                    //Designation = model.cv.Designation,
                     CandidateSalary = model.cv.CandidateSalary,
                     ContractPeriod = model.cv.ContractPeriod.ToString(),
                     PassportNumber = model.cv.PassportNumber,
                     EnglishLanguage = (bool)model.cv.EnglishLanguage ? "Yes" : "No",
                     ArabicLanguage = (bool)model.cv.ArabicLanguage ? "Yes" : "No",
-                    Education = model.cv.Education,
+                    //Education = model.cv.Education,
                     Nationality = model.cv.Nationality,
                     Religion = model.cv.Religion,
                     DateOfBirth = model.cv.DateOfBirth is not null ?  model.cv.DateOfBirth.Value.ToString("dd/MM/yyyy") : "",
@@ -80,7 +80,7 @@ namespace ReportViewerCore
                 for (int i = 0; i < model.previousEmployment.Count; i++)
                 {
                     var ReportPreviousEmployment = new ReportPreviousEmployment();
-                    ReportPreviousEmployment.Position = model.previousEmployment[i].Position;
+                    //ReportPreviousEmployment.Position = model.previousEmployment[i].Position;
                     ReportPreviousEmployment.Period = model.previousEmployment[i].Period.ToString();
                     ReportPreviousEmployment.CountryOfEmployment = model.previousEmployment[i].CountryOfEmployment.NameEnglish;
                     ReportPreviousEmployment.CountryOfEmploymentArabic = model.previousEmployment[i].CountryOfEmployment.NameArabic;

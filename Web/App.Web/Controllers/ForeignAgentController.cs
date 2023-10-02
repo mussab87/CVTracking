@@ -470,6 +470,21 @@ namespace App.Web.Controllers
             }
 
             ViewData["Skills"] = new SelectList(Skills, "Id", "SkillEnglish");
+
+            //Designation
+            var designationQuery = new GetDesignationListQuery();
+            var designations = await _mediator.Send(designationQuery);
+            ViewData["designations"] = new SelectList(designations, "Id", "DesignationEnglish");
+            ViewBag.designation = JsonSerializer.Serialize(designations.Select(c => new
+            {
+                Id = c.Id,
+                DesignationEnglish = c.DesignationEnglish
+            }).ToList());
+
+            //Education
+            var educationQuery = new GetEducationListQuery();
+            var educations = await _mediator.Send(educationQuery);
+            ViewData["educations"] = new SelectList(educations, "Id", "EducationEnglish");
         }
 
         static async Task<List<Attachment>> SaveAttachments

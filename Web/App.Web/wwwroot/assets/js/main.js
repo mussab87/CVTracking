@@ -1106,7 +1106,9 @@
         newRow += '<label>Position</label>';
         newRow += '<div class="input-area">';
         newRow += '<img src="../../assets/images/icon/designation-2.svg" alt="">';
-        newRow += '<input id="previousEmployment_' + count.toString() + '__Position" name="previousEmployment[' + count.toString() + '].Position" placeholder="Position">';
+        newRow += '<select class="select5" id="previousEmployment_' + count.toString() + '__.PositionId" name="previousEmployment[' + count.toString() + '].PositionId">';
+        newRow += '<option value="0">Select Position</option>';
+        newRow += '</select>';
         newRow += '</div>';
         newRow += '</div>';
         newRow += '</div>';
@@ -1118,8 +1120,9 @@
         $('.experiences-row').append(newRow);
 
 
-
+        debugger;
         var country = JSON.parse($("#countrylist").val());
+        var position = JSON.parse($("#positionlist").val());
 
         var element = 'previousEmployment_' + count.toString() + '__.CountryOfEmploymentId';
 
@@ -1130,7 +1133,17 @@
             select.add(option, undefined);
         });
 
+        var elementPosition = 'previousEmployment_' + count.toString() + '__.PositionId';
+
+        var selectPosion = document.getElementById(elementPosition);
+
+        $.each(position, function (index, i) {
+            const option = new Option(i.DesignationEnglish, i.Id);
+            selectPosion.add(option, undefined);
+        });
+
         $('.select4').niceSelect();
+        $('.select5').niceSelect();
     });
 
     // Experiences Row

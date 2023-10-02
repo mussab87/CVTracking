@@ -9,7 +9,11 @@ public class CV : EntityBase
     public string CandidateNameEnglish { get; set; }
     public string CandidateNameArabic { get; set; }
 
-    public string Designation { get; set; }
+    public int? DesignationId { get; set; }
+    [ForeignKey("DesignationId")]
+    public Designation Designation { get; set; }
+
+    //public string Designation { get; set; }
     public string CandidateSalary { get; set; }
     public int? ContractPeriod { get; set; }
 
@@ -23,7 +27,10 @@ public class CV : EntityBase
     public bool? EnglishLanguage { get; set; }
     public bool? ArabicLanguage { get; set; }
 
-    public string Education { get; set; }
+    //public string Education { get; set; }
+    public int? EducationId { get; set; }
+    [ForeignKey("EducationId")]
+    public Education Education { get; set; }
 
     public int? NationalityId { get; set; }
     [ForeignKey("NationalityId")]
@@ -36,15 +43,15 @@ public class CV : EntityBase
     [ForeignKey("PlaceOfBirthId")]
     public City PlaceOfBirth { get; set; }
     public int? MartialStatusId { get; set; }
-
-    public int Gender { get; set; }
     [ForeignKey("MartialStatusId")]
     public MartialStatus MartialStatus { get; set; }
+    public int Gender { get; set; }
     public string NoOfChildren { get; set; }
     public int? Weight { get; set; }
     public int? Height { get; set; }
     public int? Age { get; set; }
     public string PhoneNumber { get; set; }
     public string EmergencyContact { get; set; }
+
 }
 

@@ -36,6 +36,8 @@ public class AppDbContext : AuditIdentityDbContext
     public DbSet<CVStatus> CVStatuses { get; set; }
     public DbSet<Religion> Religions { get; set; }
     public DbSet<MartialStatus> MartialStatus { get; set; }
+    public DbSet<Designation> Designations { get; set; }
+    public DbSet<Education> Educations { get; set; }
     public DbSet<ForeignAgent> ForeignAgents { get; set; }
     public DbSet<HRPool> HRPools { get; set; }
     public DbSet<LocalAgent> LocalAgents { get; set; }

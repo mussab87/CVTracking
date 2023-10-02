@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231002050227_035")]
+    partial class _035
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1116,8 +1119,8 @@ namespace App.Infrastructure.Migrations
                     b.Property<int>("Period")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PositionId")
-                        .HasColumnType("int");
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -1128,8 +1131,6 @@ namespace App.Infrastructure.Migrations
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("LastModifiedById");
-
-                    b.HasIndex("PositionId");
 
                     b.ToTable("PreviousEmployments", (string)null);
                 });
@@ -1847,10 +1848,6 @@ namespace App.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("LastModifiedById");
 
-                    b.HasOne("Designation", "Position")
-                        .WithMany()
-                        .HasForeignKey("PositionId");
-
                     b.Navigation("CV");
 
                     b.Navigation("CountryOfEmployment");
@@ -1858,8 +1855,6 @@ namespace App.Infrastructure.Migrations
                     b.Navigation("CreatedBy");
 
                     b.Navigation("LastModifiedBy");
-
-                    b.Navigation("Position");
                 });
 
             modelBuilder.Entity("Religion", b =>

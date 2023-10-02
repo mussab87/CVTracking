@@ -69,7 +69,7 @@
                     <ul class="sub-menu">
                         @if (AuthorizationService.AuthorizeAsync(User, "Permission-CountryList").Result.Succeeded)
                         {
-                            <li><a asp-controller="CountryCity" asp-action="CountryList">CountryList</a></li>
+                            <li><a asp-controller="CountryCity" asp-action="CountryList">Countries</a></li>
                         }
                         @if (AuthorizationService.AuthorizeAsync(User, "Permission-CityList").Result.Succeeded)
                         {

@@ -26,6 +26,8 @@
 
   <ItemGroup>
     <Folder Include="Features\CancelReason\Commands\" />
+    <Folder Include="Features\Designation\Commands\" />
+    <Folder Include="Features\Education\Commands\" />
     <Folder Include="Features\MartialStatus\Commands\" />
     <Folder Include="Features\Users\Commands\AddUser\" />
     <Folder Include="Features\Users\Commands\DeleteUser\" />

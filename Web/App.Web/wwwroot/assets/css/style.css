@@ -24679,7 +24679,7 @@ header.style-7 .main-menu ul li.menu-item-has-children > i {
         font-family: var(--font-work-sans);
         font-weight: 400;
         font-size: 1rem;
-        color: var(--title-color1);
+        color: var(--title-color1);        
     }
 
     .select2-dropdown .select2-results__option {

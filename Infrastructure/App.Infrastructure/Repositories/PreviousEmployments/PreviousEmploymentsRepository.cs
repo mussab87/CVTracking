@@ -11,13 +11,13 @@ public class PreviousEmploymentsRepository : RepositoryBase<PreviousEmployment>,
         List<PreviousEmployment> previousEmployments = new();
         foreach (var prev in previous)
         {
-            if (prev.Position is not null && prev.CountryOfEmploymentId != 0 && prev.Period != 0)
+            if (prev.PositionId is not null && prev.CountryOfEmploymentId != 0 && prev.Period != 0)
             {
                 PreviousEmployment cvAttachment = new()
                 {
                     Period = prev.Period,
                     CountryOfEmploymentId = prev.CountryOfEmploymentId,
-                    Position = prev.Position,
+                    PositionId = prev.PositionId,
                     CV = cv,
                     CreatedById = foreignUserId,
                     CreatedDate = DateTime.Now

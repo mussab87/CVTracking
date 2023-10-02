@@ -37,6 +37,7 @@ public class CVRepository : RepositoryBase<CV>, ICVRepository
     {
         var query = await _dbContext.PreviousEmployments
                     .Include(c => c.CV)
+                    .Include(c => c.Position)
                     .Where(p => p.CV.Id == cvId).ToListAsync();
 
         return query;
@@ -52,6 +53,8 @@ public class CVRepository : RepositoryBase<CV>, ICVRepository
                     .Include(c => c.CV.PlaceOfBirth)
                     .Include(c => c.CV.MartialStatus)
                     .Include(c => c.CVStatus)
+                    .Include(c => c.CV.Designation)
+                    .Include(c => c.CV.Education)
                     .Where(c => c.CV.Id == ForeignAgentcvId).FirstOrDefaultAsync();
 
         return query;

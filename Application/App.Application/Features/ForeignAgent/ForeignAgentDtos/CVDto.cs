@@ -26,7 +26,8 @@ public class CVDto
 
     //done
     //[Display(Name = "Designation")]
-    public string Designation { get; set; }
+    public int? DesignationId { get; set; }
+    public Designation? Designation { get; set; }
 
     //done
     //[Display(Name = "Salary")]
@@ -63,7 +64,8 @@ public class CVDto
 
     //done
     //[Display(Name = "Education")]
-    public string Education { get; set; }
+    public int? EducationId { get; set; }
+    public Education? Education { get; set; }
 
     //done
     //[Display(Name = "Nationality")]

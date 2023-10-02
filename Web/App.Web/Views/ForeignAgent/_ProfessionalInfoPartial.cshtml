@@ -30,6 +30,7 @@
                             </div>
                         </div>
                         <input type="hidden" id="countrylist" name="countrylist" value="@ViewBag.Country" />
+                        <input type="hidden" id="positionlist" name="positionlist" value="@ViewBag.designation" />
                         <div class="col-md-6">
                             <div class="form-inner mb-25">
                                 <label>Country Of Employment</label>
@@ -42,13 +43,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        @* <div class="col-md-6">
                             <div class="form-inner mb-25">
                                 <label>Position</label>
                                 <div class="input-area">
                                     <img src="~/assets/images/icon/designation-2.svg" alt="">
                                     <input type="text" asp-for="@Model.previousEmployment[i].Position" placeholder="Position" required title="Please enter your this Field">
 
+                                </div>
+                            </div>
+                        </div> *@
+
+                        <div class="col-md-6">
+                            <div class="form-inner mb-25">
+                                <label>Position</label>
+                                <div class="input-area">
+                                    <img src="~/assets/images/icon/designation-2.svg" tabindex="1" alt="">
+                                    <select asp-for="@Model.previousEmployment[i].PositionId" asp-items="ViewBag.designations" class="select2">
+                                        <option value="">Select Position</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -76,6 +89,7 @@
                         </div>
                     </div>
                     <input type="hidden" id="countrylist" name="countrylist" value="@ViewBag.Country" />
+                    <input type="hidden" id="positionlist" name="positionlist" value="@ViewBag.designation" />
                     <div class="col-md-6">
                         <div class="form-inner mb-25">
                             <label>Country Of Employment</label>
@@ -88,13 +102,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    @* <div class="col-md-6">
                         <div class="form-inner mb-25">
                             <label>Position</label>
                             <div class="input-area">
                                 <img src="~/assets/images/icon/designation-2.svg" alt="">
                                 <input type="text" asp-for="previousEmployment[0].Position" placeholder="Position" required title="Please enter your this Field">
 
+                            </div>
+                        </div>
+                    </div> *@
+
+                    <div class="col-md-6">
+                        <div class="form-inner mb-25">
+                            <label>Position</label>
+                            <div class="input-area">
+                                <img src="~/assets/images/icon/designation-2.svg" tabindex="1" alt="">
+                                <select asp-for="@Model.previousEmployment[0].PositionId" asp-items="ViewBag.designations" class="select2">
+                                    <option value="">Select Position</option>
+                                </select>
                             </div>
                         </div>
                     </div>

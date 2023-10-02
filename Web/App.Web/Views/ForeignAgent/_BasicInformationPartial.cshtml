@@ -61,34 +61,23 @@
             </div>
             <div class="col-md-6">
                 <div class="form-inner mb-25">
-                    <label asp-for="cv.Designation">Designation</label>
+                    <label>Designation</label>
                     <div class="input-area">
-                        <img src="~/assets/images/icon/designation-2.svg" alt="">
-                        <select asp-for="cv.Designation" class="select2">
+                        <img src="~/assets/images/icon/designation-2.svg" tabindex="1" alt="">
+                        <select asp-for="cv.DesignationId" asp-items="ViewBag.designations" class="select2">
                             <option value="">Select Designation</option>
-                            <option value="House Made">House Made</option>
-                            <option value="2">AS</option>
-                            <option value="4">A Level</option>
-                            <option value="5">Matriculated</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-inner mb-25">
-                    <label asp-for="cv.Education">Education</label>
+                    <label>Education</label>
                     <div class="input-area">
                         <img src="~/assets/images/icon/qualification-2.svg" alt="">
-                        <select asp-for=cv.Education class="select2">
+                        <select asp-for=cv.EducationId asp-items="ViewBag.educations" class="select2">
                             <option value="">Select Education</option>
-                            <option value="Grade 8">Grade 8</option>
-                            <option value="Grade 9">Grade 9</option>
-                            <option value="Grade 10">Grade 10</option>
-                            <option value="Grade 11">Grade 11</option>
-                            <option value="Primary School">Primary School</option>
-                            <option value="Secondary School">Secondary School</option>
-                            <option value="Intermediate School">Intermediate School</option>
-                            <option value="Bachelor Degree">Bachelor Degree</option>
+                            
                         </select>
                     </div>
                 </div>
