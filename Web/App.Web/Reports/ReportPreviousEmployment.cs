@@ -12,5 +12,7 @@ namespace ReportViewerCore
         public string CountryOfEmploymentArabic { get; set; }
         public string Position { get; set; }
 
+        public string? PositionAr { get; set; }
+
     }
 }

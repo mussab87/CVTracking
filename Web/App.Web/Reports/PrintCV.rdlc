@@ -155,8 +155,23 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
+          <Image Name="Image3">
+            <Source>External</Source>
+            <Value>=Parameters!passportImg.Value</Value>
+            <Sizing>Fit</Sizing>
+            <Top>5.16344cm</Top>
+            <Left>0.79579cm</Left>
+            <Height>5.57458cm</Height>
+            <Width>14.91728cm</Width>
+            <ZIndex>4</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
         </ReportItems>
-        <Height>2in</Height>
+        <Height>4.51042in</Height>
         <Style />
       </Body>
       <Width>6.5in</Width>

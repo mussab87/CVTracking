@@ -177,7 +177,7 @@
                                                         {
                                                             <label style="background-color:orangered; color:white">@Model[j].CVStatus.StatusArabic</label>
                                                             <hr />
-                                                            <button type="button" style="background-color:lightyellow; color:orangered" onclick="showCancelReason('@Model[j].CanceledBy.FirstName @Model[j].CanceledBy.LastName', '@Model[j].CancelReason.CancelReasonEnglish', '@Model[j].CancelDateTime.Value', '@Model[j].CancelNotes', '@CultureInfo.CurrentCulture.Name.StartsWith("ar")')" class="btn btn-success btn-md">
+                                                            <button type="button" style="background-color:lightyellow; color:orangered" onclick="showCancelReason('@Model[j].CanceledBy.FirstName @Model[j].CanceledBy.LastName', '@Model[j].CancelReason.CancelReasonEnglish', '@Model[j].CancelDateTime.Value.ToString("dd/MM/yyyy hh:mm")', '@Model[j].CancelNotes', '@CultureInfo.CurrentCulture.Name.StartsWith("ar")')" class="btn btn-success btn-md">
                                                                 @localizer["CancelReason"]
                                                             </button>
                                                         }
@@ -200,7 +200,7 @@
                                                                 <hr />
                                                                 if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
                                                                 {
-                                                                    <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirth.Value', '@Model[j].selected.SponsorDateOfBirth.Value')" class="btn btn-success btn-md">
+                                                                    <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
                                                                         @localizer["Sponsor"]
                                                                     </button>
                                                                 }
@@ -318,7 +318,7 @@
                                                                 </label>
                                                                 <hr>
                                                                 <button type="button" class="btn btn-danger"
-                                                                        onclick="confirmUnSelectcv(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id)">
+                                                                        onclick="confirmUnSelectcv(@Model[j].Id,@Model[j].CV.Id,@Model[j].ForeignAgent.Id, '@CultureInfo.CurrentCulture.Name.StartsWith("ar")')">
                                                                     @localizer["UnSelect"]
                                                                 </button>
                                                             }
@@ -327,7 +327,7 @@
                                                                 <hr />
                                                                 @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
                                                                 {
-                                                                    <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirth.Value', '@Model[j].selected.SponsorDateOfBirth.Value')" class="btn btn-success btn-md">
+                                                                    <button type="button" onclick="showSponsor('@Model[j].selected.SponsorName', '@Model[j].selected.VisaNumber', '@Model[j].selected.SponsorIdNumber', '@Model[j].selected.SponsorContact', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")', '@Model[j].selected.SponsorDateOfBirth.Value.ToString("dd/MM/yyyy")')" class="btn btn-success btn-md">
                                                                         @localizer["Sponsor"]
                                                                     </button>
                                                                 }
@@ -388,5 +388,7 @@
         </div>
     </div>
 </div>
+
+
 
 <!-- ========== Dashboard Area end============= -->

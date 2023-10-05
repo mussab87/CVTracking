@@ -1,0 +1,295 @@
+﻿<div class="modal fade" id="rejectReason" tabindex="-1" data-bs-backdrop="false">
+    <div class="modal-dialog" style="width:600px;">
+        <div class="modal-content" style="background-color: lightgoldenrodyellow">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addRoleLabel">                    
+                    @localizer["RejectReasonTitle"]
+                </h4>
+                <button type="button" class="close" data-bs-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <table class="eg-table table category-table mb-0" style="border:inset">
+                    <tbody>
+
+                        <tr>
+                            <td style="color: black">@localizer["CanceledBy"]</td>
+                            <td id="CanceledBy">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">@localizer["CanceledReason"]</td>
+                            <td id="CanceledReason">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">@localizer["CanceledDate"]</td>
+                            <td id="CanceledDate">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">@localizer["CancelationNotes"]</td>
+                            <td id="Notes">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">@localizer["Cancel"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="showSponsor" tabindex="-1" data-bs-backdrop="false">
+    <div class="modal-dialog" style="width:600px;">
+        <div class="modal-content" style="background-color: lightgoldenrodyellow">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addRoleLabel">
+                    @localizer["SponsorInformationTitle"]
+                </h4>
+                <button type="button" class="close" data-bs-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <table class="eg-table table category-table mb-0" style="border:inset">
+                    <tbody>
+
+                        <tr>
+                            <td style="color: black">@localizer["SponsorName"]</td>
+                            <td id="SponsorName">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">@localizer["SponsorId"]</td>
+                            <td id="SponsorId">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">@localizer["SponsorVisaNo"]</td>
+                            <td id="SponsorVisaNo">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">@localizer["SponsorTelephoneNo"]</td>
+                            <td id="SponsorTelephoneNo">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">@localizer["SponsorDOB"]</td>
+                            <td id="SponsorDOB">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">@localizer["Cancel"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmSelectedCv" tabindex="-1" data-bs-backdrop="false">
+    <div class="modal-dialog" style="width:600px;">
+        <div class="modal-content" style="background-color: lightgoldenrodyellow">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addRoleLabel">
+                    @localizer["ConfirmSelectedCvTitle"]
+                </h4>
+                <button type="button" class="close" data-bs-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">@localizer["Cancel"]</button>
+                <button type="button" onclick="saveSelectedCv()" class="btn btn-success" data-bs-dismiss="modal">@localizer["Save"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmUnSelectedCv" tabindex="-1" data-bs-backdrop="false">
+    <div class="modal-dialog" style="width:600px;">
+        <div class="modal-content" style="background-color: lightgoldenrodyellow">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addRoleLabel">
+                    @localizer["ConfirmUnSelectedCvTitle"]
+                </h4>
+                <button type="button" class="close" data-bs-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">@localizer["Cancel"]</button>
+                <button type="button" onclick="saveUnSelectedCv()" class="btn btn-success" data-bs-dismiss="modal">@localizer["Save"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sponsorData" tabindex="-1" data-bs-backdrop="false">
+    <div class="modal-dialog" style="width:600px;">
+        <div class="modal-content" style="background-color: lightgoldenrodyellow">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addRoleLabel">
+                    @localizer["SponsorInformationTitle"]
+                </h4>
+                <button type="button" class="close" data-bs-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <table class="eg-table table category-table mb-0" style="border:inset">
+                    <tbody>
+
+                        <tr>
+                            <td style="color: black">
+                                <label>@localizer["SponsorName"]</label>
+                            </td>
+                            <td>
+                                <input type="text" id="txtsponsorname" class="form-control input-lg" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">
+                                <label>@localizer["SponsorId"]</label>
+                            </td>
+                            <td>
+                                <input type="text" id="txtsponsorId" class="form-control input-lg" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">
+                                <label>@localizer["SponsorVisaNo"]</label>
+                            </td>
+                            <td>
+                                <input type="text" id="txtsponsorvisaNo" class="form-control input-lg" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">
+                                <label>
+                                    @localizer["SponsorTelephoneNo"]
+                                </label>
+                            </td>
+                            <td>
+                                <input type="text" id="txtsponsorContactNo" class="form-control input-lg" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">
+                                    <label>
+                                    @localizer["SponsorDOB"]
+                                    </label>   
+                            </td>
+                            <td>
+                                <input type="text" onclick="getDateHijri()" class="form-control" id="sponsordateofbirth" name="sponsordateofbirth">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">@localizer["Cancel"]</button>
+                <button type="button" onclick="saveSponsorData()" class="btn btn-success" data-bs-dismiss="modal">@localizer["Save"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="LocalCancelDetails" tabindex="-1" data-bs-backdrop="false">
+    <div class="modal-dialog" style="width:600px;">
+        <div class="modal-content" style="background-color: lightgoldenrodyellow">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addRoleLabel">
+                    @localizer["RejectReasonTitle"]
+                </h4>
+                <button type="button" class="close" data-bs-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <table class="eg-table table category-table mb-0" style="border:inset">
+                    <tbody>
+
+                        <tr>
+                            <td style="color: black">@localizer["SponsorName"]</td>
+                            <td id="SponsorName2">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">@localizer["SponsorId"]</td>
+                            <td id="SponsorId2">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">@localizer["SponsorVisaNo"]</td>
+                            <td id="SponsorVisaNo2">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">@localizer["SponsorTelephoneNo"]</td>
+                            <td id="SponsorTelephoneNo2">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">@localizer["SponsorDOB"]</td>
+                            <td id="SponsorDOB2">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="color: black">@localizer["CanceledReason"]</td>
+                            <td id="CanceledReason2">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">@localizer["Cancel"]</button>
+            </div>
+        </div>
+    </div>
+</div>

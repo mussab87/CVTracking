@@ -64,7 +64,17 @@
                                             @Model.cv.CandidateNameEnglish
                                         }
                                     </h4>
-                                    <span>@Model.cv.DesignationId</span>
+                                    <span>
+                                        @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                        {
+                                            @Model.cv.Designation.DesignationArabic
+                                        }
+                                        else
+                                        {
+                                            @Model.cv.Designation.DesignationEnglish
+                                        }
+
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -221,7 +231,17 @@
                                     <span></span>
                                 </div>
                                 <div class="education-dt">
-                                    <h6>@Model.cv.EducationId</h6>
+                                    <h6>
+                                        @if (CultureInfo.CurrentCulture.Name.StartsWith("ar"))
+                                        {
+                                            @Model.cv.Education.EducationArabic
+                                        }
+                                        else
+                                        {
+                                            @Model.cv.Education.EducationEnglish
+                                        }
+
+                                    </h6>
                                     @*<ul>
                                     <li><span>Education Level:</span> Graduation</li>
                                     <li><span>My Major:</span> Bachelor Degree In CSE</li>

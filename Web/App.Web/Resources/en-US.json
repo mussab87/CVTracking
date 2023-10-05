@@ -72,5 +72,25 @@
   "Search": "Search",
   "DOB": "DOB",
   "Salary": "Salary",
-  "Foreign": "Foreign"
+  "Foreign": "Foreign",
+
+
+  "RejectReasonTitle": "Cancelation Details",
+  "CanceledBy": "Canceled By",
+  "CanceledReason": "Cancelation Reason",
+  "CanceledDate": "Cancelation Date",
+  "CancelationNotes": "Notes",
+
+  "SponsorInformationTitle": "Sponsor Information",
+  "SponsorName": "Sponsor Name:",
+  "SponsorId": "Sponsor Id Number:",
+  "SponsorVisaNo": "Sponsor Visa No:",
+  "SponsorTelephoneNo": "Sponsor Telephone No:",
+  "SponsorDOB": "Sponsor Date of Birth:",
+
+  "ConfirmSelectedCvTitle": "Are you sure want to select this CV?",
+  "ConfirmUnSelectedCvTitle": "Are you sure want to UnSelect this CV?",
+  "Save": "Save",
+  "Cancel": "Cancel"
+
 }

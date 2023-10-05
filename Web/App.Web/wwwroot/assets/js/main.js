@@ -1370,77 +1370,110 @@ function confirmPostToAdmin(cvid) {
         });
 }
 
-function confirmSelectedcv(hrpoolId, cvId, foreignId, lan) {
+var hrpoolId;
+var cvId;
+var foreignId;
+var lan;
+function confirmSelectedcv(hrpoolIdd, cvIdd, foreignIdd, lann) {
+    hrpoolId = hrpoolIdd;
+    cvId = cvIdd;
+    foreignId = foreignIdd;
+    lan = lann;
     debugger
-    //if (lan.toLowerCase() == 'true') {
-    //    bootbox.confirm({
-    //        message: 'Â· «‰  „ √ﬂœ „‰ «Œ Ì«—ﬂø',
-    //        buttons: {
-    //            confirm: {
-    //                label: '‰⁄„',
-    //                className: 'btn-success'
-    //            },
-    //            cancel: {
-    //                label: '·«',
-    //                className: 'btn-danger'
-    //            }
-    //        },
-    //        callback: function (result) {
-    //            if (result) {
+    $('#confirmSelectedCv').modal('show');
 
-    //            }
+
+    //swal({
+    //    title: 'Are you sure want to select this CV?',
+    //    /*html: '<label>Enter Back Forward Comments</label><textarea id="txtcomment" class="form-control input-lg"></textarea>',*/
+    //    input: 'text',
+    //    showCancelButton: true,
+    //    confirmButtonText: 'Yes, Select CV',
+    //    type: 'warning'
+    //},
+    //    function (resolve) {
+    //        if (resolve) {
+    //            $.ajax({
+    //                url: "/LocalAgent/LocalAgentSelectCV?id=" + hrpoolId + "&cvId=" + cvId + "&foreignId=" + foreignId,
+    //                method: "GET",
+    //                success: function (data) {
+    //                    //alert(data);
+    //                    alert("CV has been selected successfully");
+    //                    location.reload();
+    //                }
+    //            });
     //        }
+    //        return;
     //    });
-    //}
-
-
-    swal({
-        title: 'Are you sure want to select this CV?',
-        /*html: '<label>Enter Back Forward Comments</label><textarea id="txtcomment" class="form-control input-lg"></textarea>',*/
-        input: 'text',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, Select CV',
-        type: 'warning'
-    },
-        function (resolve) {
-            if (resolve) {
-                $.ajax({
-                    url: "/LocalAgent/LocalAgentSelectCV?id=" + hrpoolId + "&cvId=" + cvId + "&foreignId=" + foreignId,
-                    method: "GET",
-                    success: function (data) {
-                        //alert(data);
-                        alert("CV has been selected successfully");
-                        location.reload();
-                    }
-                });
-            }
-            return;
-        });
 }
 
-function confirmUnSelectcv(hrpoolId, cvId, foreignId) {
-    swal({
-        title: 'Are you sure want to Unselect this CV?',
-        /*html: '<label>Enter Back Forward Comments</label><textarea id="txtcomment" class="form-control input-lg"></textarea>',*/
-        input: 'text',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, UnSelect CV',
-        type: 'warning'
-    },
-        function (resolve) {
-            if (resolve) {
-                $.ajax({
-                    url: "/LocalAgent/LocalAgentUnSelectCV?id=" + hrpoolId + "&cvId=" + cvId + "&foreignId=" + foreignId,
-                    method: "GET",
-                    success: function (data) {
-                        //alert(data);
-                        alert("CV has been selected successfully");
-                        location.reload();
-                    }
-                });
+function saveSelectedCv() {
+    debugger;
+    $.ajax({
+        url: "/LocalAgent/LocalAgentSelectCV?id=" + hrpoolId + "&cvId=" + cvId + "&foreignId=" + foreignId,
+        method: "GET",
+        success: function (data) {
+            //alert(data);
+            if (lan == 'True') {
+                alert(" „ ≈Œ Ì«— «·”Ì—… «·–« Ì… »‰Ã«Õ");
             }
-            return;
-        });
+            else {
+                alert("CV has been selected successfully");
+            }
+            location.reload();
+        }
+    });
+}
+
+function confirmUnSelectcv(hrpoolIdd, cvIdd, foreignIdd, lann) {
+    hrpoolId = hrpoolIdd;
+    cvId = cvIdd;
+    foreignId = foreignIdd;
+    lan = lann;
+    debugger
+    $('#confirmUnSelectedCv').modal('show');
+
+    //swal({
+    //    title: 'Are you sure want to Unselect this CV?',
+    //    /*html: '<label>Enter Back Forward Comments</label><textarea id="txtcomment" class="form-control input-lg"></textarea>',*/
+    //    input: 'text',
+    //    showCancelButton: true,
+    //    confirmButtonText: 'Yes, UnSelect CV',
+    //    type: 'warning'
+    //},
+    //    function (resolve) {
+    //        if (resolve) {
+    //            $.ajax({
+    //                url: "/LocalAgent/LocalAgentUnSelectCV?id=" + hrpoolId + "&cvId=" + cvId + "&foreignId=" + foreignId,
+    //                method: "GET",
+    //                success: function (data) {
+    //                    //alert(data);
+    //                    alert("CV has been selected successfully");
+    //                    location.reload();
+    //                }
+    //            });
+    //        }
+    //        return;
+    //    });
+}
+
+function saveUnSelectedCv() {
+    debugger;
+    $.ajax({
+        url: "/LocalAgent/LocalAgentUnSelectCV?id=" + hrpoolId + "&cvId=" + cvId + "&foreignId=" + foreignId,
+        method: "GET",
+        success: function (data) {
+            //alert(data);
+            if (lan == 'True') {
+                alert(" „ «· —«Ã⁄ ⁄‰ ≈Œ Ì«— «·”Ì—… «·–« Ì… »‰Ã«Õ");
+            }
+            else {
+                alert("CV has been UnSelected successfully");
+            }
+
+            location.reload();
+        }
+    });
 }
 
 //function sponsorData(hrpoolId, cvId, foreignId) {
@@ -1530,93 +1563,96 @@ function getDateHijri() {
     $('#sponsordateofbirth').calendarsPicker({ calendar: calendar });
 }
 
-function sponsorData(hrpoolId, cvId, foreignId) {
-    swal({
-        title: 'Enter Sponsor Information:',
-        html: '<label>Sponsor Name:</label><input type="text" id="txtsponsorname" class="form-control input-lg" />'
-            + '<label>Sponsor ID No:</label><input type="text" id="txtsponsorId" class="form-control input-lg" />'
-            + '<label>Sponsor Visa No:</label><input type="text" id="txtsponsorvisaNo" class="form-control input-lg" />'
-            + '<label>Sponsor Telephone No:</label><input type="text" id="txtsponsorContactNo" class="form-control input-lg" />'
-            + '<label>Sponsor Date of Birth:</label><input type="text" onclick="getDateHijri()" class="form-control" id="sponsordateofbirth" name="sponsordateofbirth" placeholder="Select Date of Birth">',
-        input: 'text',
-        showCancelButton: true,
-        confirmButtonText: 'Save Changes',
-        //type: 'warning'
-    },
-        function (resolve) {
-            if (resolve) {
+function sponsorData(hrpoolIdd, cvIdd, foreignIdd) {
+    debugger;
+    hrpoolId = hrpoolIdd;
+    cvId = cvIdd;
+    foreignId = foreignIdd;
 
-                sponsorname = $('#txtsponsorname').val();
-                idnumber = $('#txtsponsorId').val();
-                visano = $('#txtsponsorvisaNo').val();
-                contact = $('#txtsponsorContactNo').val();
-                sponsordateofbirth = $('#sponsordateofbirth').val();
+    $('#sponsorData').modal('show');
+    getDateHijri();
+    //swal({
+    //    title: 'Enter Sponsor Information:',
+    //    html: '<label>Sponsor Name:</label><input type="text" id="txtsponsorname" class="form-control input-lg" />'
+    //        + '<label>Sponsor ID No:</label><input type="text" id="txtsponsorId" class="form-control input-lg" />'
+    //        + '<label>Sponsor Visa No:</label><input type="text" id="txtsponsorvisaNo" class="form-control input-lg" />'
+    //        + '<label>Sponsor Telephone No:</label><input type="text" id="txtsponsorContactNo" class="form-control input-lg" />'
+    //        + '<label>Sponsor Date of Birth:</label><input type="text" onclick="getDateHijri()" class="form-control" id="sponsordateofbirth" name="sponsordateofbirth" placeholder="Select Date of Birth">',
+    //    input: 'text',
+    //    showCancelButton: true,
+    //    confirmButtonText: 'Save Changes',
+    //    //type: 'warning'
+    //},
+    //    function (resolve) {
+    //        if (resolve) {
 
-                $.ajax({
-                    url: "/LocalAgent/LocalAgentProcessSponsorData?id=" + hrpoolId + "&cvId=" + cvId
-                        + "&sponsorname=" + sponsorname
-                        + "&idnumber=" + idnumber
-                        + "&visano=" + visano
-                        + "&contact=" + contact
-                        + "&sponsordateofbirth=" + sponsordateofbirth,
-                    method: "GET",
-                    success: function (data) {
-                        //alert(data);
-                        alert("CV has been updated successfully");
-                        location.reload();
-                    }
-                });
-            }
-            return;
-        });
+    //            sponsorname = $('#txtsponsorname').val();
+    //            idnumber = $('#txtsponsorId').val();
+    //            visano = $('#txtsponsorvisaNo').val();
+    //            contact = $('#txtsponsorContactNo').val();
+    //            sponsordateofbirth = $('#sponsordateofbirth').val();
+
+    //            $.ajax({
+    //                url: "/LocalAgent/LocalAgentProcessSponsorData?id=" + hrpoolId + "&cvId=" + cvId
+    //                    + "&sponsorname=" + sponsorname
+    //                    + "&idnumber=" + idnumber
+    //                    + "&visano=" + visano
+    //                    + "&contact=" + contact
+    //                    + "&sponsordateofbirth=" + sponsordateofbirth,
+    //                method: "GET",
+    //                success: function (data) {
+    //                    //alert(data);
+    //                    alert("CV has been updated successfully");
+    //                    location.reload();
+    //                }
+    //            });
+    //        }
+    //        return;
+    //    });
+}
+
+function saveSponsorData() {
+    debugger;
+    sponsorname = $('#txtsponsorname').val();
+    idnumber = $('#txtsponsorId').val();
+    visano = $('#txtsponsorvisaNo').val();
+    contact = $('#txtsponsorContactNo').val();
+    sponsordateofbirth = $('#sponsordateofbirth').val();
+
+    $.ajax({
+        url: "/LocalAgent/LocalAgentProcessSponsorData?id=" + hrpoolId + "&cvId=" + cvId
+            + "&sponsorname=" + sponsorname
+            + "&idnumber=" + idnumber
+            + "&visano=" + visano
+            + "&contact=" + contact
+            + "&sponsordateofbirth=" + sponsordateofbirth,
+        method: "GET",
+        success: function (data) {
+            //alert(data);
+            alert("CV has been updated successfully");
+            location.reload();
+        }
+    });
 }
 
 function showSponsor(name, visanumber, idnumber, contact, dateofbirthhijri, dateofbirth) {
-    swal({
-        title: 'Sponsor Information:',
-        html: '<label><b>Sponsor Name:</b></label>' + " " + name
-            + '<br /><label><b>Sponsor ID No:</b></label>' + " " + idnumber
-            + '<br /><label><b>Sponsor Visa No:</b></label>' + " " + visanumber
-            + '<br /><label><b>Sponsor Telephone No:</b></label>' + " " + contact
-            + '<br /><label><b>Date of Birth Hijri:</b></label>' + " " + dateofbirthhijri
-            + '<br /><label><b>Date of Birth:</b></label>' + " " + dateofbirth,
-        input: 'text',
-        showCancelButton: true,
-        confirmButtonText: 'Close',
-        //type: 'warning'
-    },
-        function (resolve) {
-            if (resolve) {
-            }
-            return;
-        });
-}
 
-function showCancelReason(cancelby, reason, canceldate, notes, culture) {
+    debugger;
+    document.getElementById('SponsorName').innerHTML = name;
+    document.getElementById('SponsorId').innerHTML = idnumber;
+    document.getElementById('SponsorVisaNo').innerHTML = visanumber;
+    document.getElementById('SponsorTelephoneNo').innerHTML = contact;
+    document.getElementById('SponsorDOB').innerHTML = dateofbirth;
 
-    swal({
-        title: 'Cancel Reason Details:',
-        html: '<label><b>Canceled By:</b></label>' + " " + cancelby
-            + '<br /><label><b>Canceled Reason:</b></label>' + " " + reason
-            + '<br /><label><b>Canceled Date:</b></label>' + " " + canceldate
-            + '<br /><label><b>Notes:</b></label>' + " " + notes,
-        input: 'text',
-        showCancelButton: true,
-        confirmButtonText: 'Close',
-        //type: 'warning'
-    },
-        function (resolve) {
-            if (resolve) {
-            }
-            return;
-        });
-
+    $('#showSponsor').modal('show');
     //swal({
-    //    title: culture.toLowerCase() == 'false' ? 'Cancel Reason Details:' : '”»» «·≈·€«¡',
-    //    html: culture.toLowerCase() == 'false' ? '<label><b>Canceled By:</b></label>' : '<label><b> „ «·«·€«¡ „‰ ﬁ»·:</b></label>' + " " + cancelby
-    //        + culture.toLowerCase() == 'false' ? '<br /><label><b>Canceled Reason:</b></label>' : '<br /><label><b>”»» «·≈·€«¡:</b></label>' + " " + reason
-    //            + culture.toLowerCase() == 'false' ? '<br /><label><b>Canceled Date:</b></label>' : '<br /><label><b> «—ÌŒ «·≈·€«¡:</b></label>' + " " + canceldate
-    //                + culture.toLowerCase() == 'false' ? '<br /><label><b>Notes:</b></label>' : '<br /><label><b>„·«ÕŸ« :</b></label>' + " " + notes,
+    //    title: 'Sponsor Information:',
+    //    html: '<label><b>Sponsor Name:</b></label>' + " " + name
+    //        + '<br /><label><b>Sponsor ID No:</b></label>' + " " + idnumber
+    //        + '<br /><label><b>Sponsor Visa No:</b></label>' + " " + visanumber
+    //        + '<br /><label><b>Sponsor Telephone No:</b></label>' + " " + contact
+    //        + '<br /><label><b>Date of Birth Hijri:</b></label>' + " " + dateofbirthhijri
+    //        + '<br /><label><b>Date of Birth:</b></label>' + " " + dateofbirth,
     //    input: 'text',
     //    showCancelButton: true,
     //    confirmButtonText: 'Close',
@@ -1627,6 +1663,32 @@ function showCancelReason(cancelby, reason, canceldate, notes, culture) {
     //        }
     //        return;
     //    });
+}
+
+function showCancelReason(cancelby, reason, canceldate, notes, culture) {
+
+    document.getElementById('CanceledBy').innerHTML = cancelby;
+    document.getElementById('CanceledReason').innerHTML = reason;
+    document.getElementById('CanceledDate').innerHTML = canceldate;
+    document.getElementById('Notes').innerHTML = notes;
+
+    $('#rejectReason').modal('show');
+    //swal({
+    //    title: 'Cancel Reason Details:',
+    //    html: '<label><b>Canceled By:</b></label>' + " " + cancelby
+    //        + '<br /><label><b>Canceled Reason:</b></label>' + " " + reason
+    //        + '<br /><label><b>Canceled Date:</b></label>' + " " + canceldate
+    //        + '<br /><label><b>Notes:</b></label>' + " " + notes,
+    //    input: 'text',
+    //    showCancelButton: true,
+    //    confirmButtonText: 'Close',
+    //    //type: 'warning'
+    //},
+    //    function (resolve) {
+    //        if (resolve) {
+    //        }
+    //        return;
+    //    });    
 }
 
 function sharewhatsapp(hrpoolId, cvId, foreignId, sendByWhatsApp) {
@@ -1748,22 +1810,32 @@ function getCancelReason() {
 }
 
 function showLocalCancelDetails(cancelReason, SponsorName, contact, visanumber, dateofbirthhijri, idnumber) {
-    swal({
-        title: 'Sponsor Information:',
-        html: '<label><b>Sponsor Name:</b></label>' + " " + SponsorName
-            + '<br /><label><b>Sponsor ID No:</b></label>' + " " + idnumber
-            + '<br /><label><b>Sponsor Visa No:</b></label>' + " " + visanumber
-            + '<br /><label><b>Sponsor Telephone No:</b></label>' + " " + contact
-            + '<br /><label><b>Date of Birth Hijri:</b></label>' + " " + dateofbirthhijri
-            + '<br /><label><b>Cancellation Reason:</b></label>' + " " + cancelReason,
-        input: 'text',
-        showCancelButton: true,
-        confirmButtonText: 'Close',
-        //type: 'warning'
-    },
-        function (resolve) {
-            if (resolve) {
-            }
-            return;
-        });
+    debugger;
+    document.getElementById('SponsorName2').innerHTML = SponsorName;
+    document.getElementById('SponsorId2').innerHTML = idnumber;
+    document.getElementById('SponsorVisaNo2').innerHTML = visanumber;
+    document.getElementById('SponsorTelephoneNo2').innerHTML = contact;
+    document.getElementById('SponsorDOB2').innerHTML = dateofbirthhijri;
+    document.getElementById('CanceledReason2').innerHTML = cancelReason;
+
+
+    $('#LocalCancelDetails').modal('show');
+    //swal({
+    //    title: 'Sponsor Information:',
+    //    html: '<label><b>Sponsor Name:</b></label>' + " " + SponsorName
+    //        + '<br /><label><b>Sponsor ID No:</b></label>' + " " + idnumber
+    //        + '<br /><label><b>Sponsor Visa No:</b></label>' + " " + visanumber
+    //        + '<br /><label><b>Sponsor Telephone No:</b></label>' + " " + contact
+    //        + '<br /><label><b>Date of Birth Hijri:</b></label>' + " " + dateofbirthhijri
+    //        + '<br /><label><b>Cancellation Reason:</b></label>' + " " + cancelReason,
+    //    input: 'text',
+    //    showCancelButton: true,
+    //    confirmButtonText: 'Close',
+    //    //type: 'warning'
+    //},
+    //    function (resolve) {
+    //        if (resolve) {
+    //        }
+    //        return;
+    //    });
 }

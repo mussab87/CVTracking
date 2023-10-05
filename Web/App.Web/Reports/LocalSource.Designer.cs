@@ -391,6 +391,18 @@ namespace App.Web.Reports {
             
             private global::System.Data.DataColumn columnSkillSelected;
             
+            private global::System.Data.DataColumn columnDesignationAr;
+            
+            private global::System.Data.DataColumn columnEducationAr;
+            
+            private global::System.Data.DataColumn columnNationalityAr;
+            
+            private global::System.Data.DataColumn columnReligionAr;
+            
+            private global::System.Data.DataColumn columnmartialAr;
+            
+            private global::System.Data.DataColumn columnGenderAr;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ReportItemDataTable() {
@@ -594,6 +606,54 @@ namespace App.Web.Reports {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DesignationArColumn {
+                get {
+                    return this.columnDesignationAr;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EducationArColumn {
+                get {
+                    return this.columnEducationAr;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn NationalityArColumn {
+                get {
+                    return this.columnNationalityAr;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ReligionArColumn {
+                get {
+                    return this.columnReligionAr;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn martialArColumn {
+                get {
+                    return this.columnmartialAr;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn GenderArColumn {
+                get {
+                    return this.columnGenderAr;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -650,7 +710,13 @@ namespace App.Web.Reports {
                         string Age, 
                         string PassportPath, 
                         string PersonalImgPath, 
-                        string SkillSelected) {
+                        string SkillSelected, 
+                        string DesignationAr, 
+                        string EducationAr, 
+                        string NationalityAr, 
+                        string ReligionAr, 
+                        string martialAr, 
+                        string GenderAr) {
                 ReportItemRow rowReportItemRow = ((ReportItemRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         CvReferenceNumber,
@@ -673,7 +739,13 @@ namespace App.Web.Reports {
                         Age,
                         PassportPath,
                         PersonalImgPath,
-                        SkillSelected};
+                        SkillSelected,
+                        DesignationAr,
+                        EducationAr,
+                        NationalityAr,
+                        ReligionAr,
+                        martialAr,
+                        GenderAr};
                 rowReportItemRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReportItemRow);
                 return rowReportItemRow;
@@ -717,6 +789,12 @@ namespace App.Web.Reports {
                 this.columnPassportPath = base.Columns["PassportPath"];
                 this.columnPersonalImgPath = base.Columns["PersonalImgPath"];
                 this.columnSkillSelected = base.Columns["SkillSelected"];
+                this.columnDesignationAr = base.Columns["DesignationAr"];
+                this.columnEducationAr = base.Columns["EducationAr"];
+                this.columnNationalityAr = base.Columns["NationalityAr"];
+                this.columnReligionAr = base.Columns["ReligionAr"];
+                this.columnmartialAr = base.Columns["martialAr"];
+                this.columnGenderAr = base.Columns["GenderAr"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -764,6 +842,18 @@ namespace App.Web.Reports {
                 base.Columns.Add(this.columnPersonalImgPath);
                 this.columnSkillSelected = new global::System.Data.DataColumn("SkillSelected", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSkillSelected);
+                this.columnDesignationAr = new global::System.Data.DataColumn("DesignationAr", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDesignationAr);
+                this.columnEducationAr = new global::System.Data.DataColumn("EducationAr", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEducationAr);
+                this.columnNationalityAr = new global::System.Data.DataColumn("NationalityAr", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNationalityAr);
+                this.columnReligionAr = new global::System.Data.DataColumn("ReligionAr", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnReligionAr);
+                this.columnmartialAr = new global::System.Data.DataColumn("martialAr", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnmartialAr);
+                this.columnGenderAr = new global::System.Data.DataColumn("GenderAr", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGenderAr);
                 this.columnCandidateSalary.Caption = "Description";
                 this.columnContractPeriod.Caption = "Price";
                 this.columnPassportNumber.Caption = "Qty";
@@ -922,6 +1012,8 @@ namespace App.Web.Reports {
             
             private global::System.Data.DataColumn columnPosition;
             
+            private global::System.Data.DataColumn columnPositionAr;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ReportPreviousEmploymentDataTable() {
@@ -989,6 +1081,14 @@ namespace App.Web.Reports {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PositionArColumn {
+                get {
+                    return this.columnPositionAr;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1024,13 +1124,14 @@ namespace App.Web.Reports {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ReportPreviousEmploymentRow AddReportPreviousEmploymentRow(string Period, string CountryOfEmployment, string CountryOfEmploymentArabic, string Position) {
+            public ReportPreviousEmploymentRow AddReportPreviousEmploymentRow(string Period, string CountryOfEmployment, string CountryOfEmploymentArabic, string Position, string PositionAr) {
                 ReportPreviousEmploymentRow rowReportPreviousEmploymentRow = ((ReportPreviousEmploymentRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Period,
                         CountryOfEmployment,
                         CountryOfEmploymentArabic,
-                        Position};
+                        Position,
+                        PositionAr};
                 rowReportPreviousEmploymentRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowReportPreviousEmploymentRow);
                 return rowReportPreviousEmploymentRow;
@@ -1057,6 +1158,7 @@ namespace App.Web.Reports {
                 this.columnCountryOfEmployment = base.Columns["CountryOfEmployment"];
                 this.columnCountryOfEmploymentArabic = base.Columns["CountryOfEmploymentArabic"];
                 this.columnPosition = base.Columns["Position"];
+                this.columnPositionAr = base.Columns["PositionAr"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1070,6 +1172,8 @@ namespace App.Web.Reports {
                 base.Columns.Add(this.columnCountryOfEmploymentArabic);
                 this.columnPosition = new global::System.Data.DataColumn("Position", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPosition);
+                this.columnPositionAr = new global::System.Data.DataColumn("PositionAr", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPositionAr);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1811,6 +1915,102 @@ namespace App.Web.Reports {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DesignationAr {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportItem.DesignationArColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DesignationAr\' in table \'ReportItem\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportItem.DesignationArColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string EducationAr {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportItem.EducationArColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EducationAr\' in table \'ReportItem\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportItem.EducationArColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string NationalityAr {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportItem.NationalityArColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NationalityAr\' in table \'ReportItem\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportItem.NationalityArColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ReligionAr {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportItem.ReligionArColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ReligionAr\' in table \'ReportItem\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportItem.ReligionArColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string martialAr {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportItem.martialArColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'martialAr\' in table \'ReportItem\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportItem.martialArColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string GenderAr {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportItem.GenderArColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'GenderAr\' in table \'ReportItem\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportItem.GenderArColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsCvReferenceNumberNull() {
                 return this.IsNull(this.tableReportItem.CvReferenceNumberColumn);
             }
@@ -2060,6 +2260,78 @@ namespace App.Web.Reports {
             public void SetSkillSelectedNull() {
                 this[this.tableReportItem.SkillSelectedColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDesignationArNull() {
+                return this.IsNull(this.tableReportItem.DesignationArColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDesignationArNull() {
+                this[this.tableReportItem.DesignationArColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEducationArNull() {
+                return this.IsNull(this.tableReportItem.EducationArColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEducationArNull() {
+                this[this.tableReportItem.EducationArColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsNationalityArNull() {
+                return this.IsNull(this.tableReportItem.NationalityArColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetNationalityArNull() {
+                this[this.tableReportItem.NationalityArColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsReligionArNull() {
+                return this.IsNull(this.tableReportItem.ReligionArColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetReligionArNull() {
+                this[this.tableReportItem.ReligionArColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsmartialArNull() {
+                return this.IsNull(this.tableReportItem.martialArColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetmartialArNull() {
+                this[this.tableReportItem.martialArColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsGenderArNull() {
+                return this.IsNull(this.tableReportItem.GenderArColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetGenderArNull() {
+                this[this.tableReportItem.GenderArColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -2144,6 +2416,22 @@ namespace App.Web.Reports {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PositionAr {
+                get {
+                    try {
+                        return ((string)(this[this.tableReportPreviousEmployment.PositionArColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PositionAr\' in table \'ReportPreviousEmployment\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReportPreviousEmployment.PositionArColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsPeriodNull() {
                 return this.IsNull(this.tableReportPreviousEmployment.PeriodColumn);
             }
@@ -2188,6 +2476,18 @@ namespace App.Web.Reports {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetPositionNull() {
                 this[this.tableReportPreviousEmployment.PositionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPositionArNull() {
+                return this.IsNull(this.tableReportPreviousEmployment.PositionArColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPositionArNull() {
+                this[this.tableReportPreviousEmployment.PositionArColumn] = global::System.Convert.DBNull;
             }
         }
         
