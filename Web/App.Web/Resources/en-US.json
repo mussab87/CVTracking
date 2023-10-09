@@ -91,6 +91,8 @@
   "ConfirmSelectedCvTitle": "Are you sure want to select this CV?",
   "ConfirmUnSelectedCvTitle": "Are you sure want to UnSelect this CV?",
   "Save": "Save",
-  "Cancel": "Cancel"
+  "Cancel": "Cancel",
 
+  "Country": "Country",
+  "Position": "Position"
 }

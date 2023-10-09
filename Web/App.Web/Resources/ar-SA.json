@@ -89,6 +89,9 @@
   "ConfirmSelectedCvTitle": "هل انت متأكد من اختيار السيرة الذاتية؟",
   "ConfirmUnSelectedCvTitle": "هل انت متأكد من التراجع عن اختيار السيرة الذاتية؟",
   "Save": "حفظ",
-  "Cancel": "الغاء"
+  "Cancel": "الغاء",
+
+  "Country": "الدولة",
+  "Position": "الوظيفة"
 
 }
